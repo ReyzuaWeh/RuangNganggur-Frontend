@@ -1,5 +1,17 @@
 import images_source from "@/assets/get/images";
+import { useState } from "react";
 const NotFound = () => {
+    const [data, setdata] = useState({
+        anjay: "",
+        agus: ""
+    })
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setdata((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
     return (
         <section className="bg-gradient min-h-screen flex items-center justify-center">
             <div className="absolute top-0 left-0 w-full h-1/3">
@@ -20,7 +32,10 @@ const NotFound = () => {
                     <p className="text-sm sm:text-base mt-2">
                         Sorry, page not found.
                     </p>
-
+                    <input type="text" name="agus" value={data.agus}
+                        onChange={handleChange}
+                    ></input>
+                    <p>{data.agus}</p>
                     <a
                         href="/"
                         className="block w-3/4 mx-auto bg-green-600 text-white  py-3 mt-8 rounded-md"

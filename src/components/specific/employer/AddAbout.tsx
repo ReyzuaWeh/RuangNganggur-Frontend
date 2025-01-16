@@ -1,40 +1,31 @@
+import { DataOutUser } from "@/dataType/fetch";
+import { ModalsProfileParams } from "@dataType/khusus";
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
 const AddAbout = (
-    { onClose, updateSkills }: { onClose: () => void, updateSkills: (newDesc: string) => Promise<void> }
+    {
+        onClose,
+        dataProfile,
+        updateSub,
+        saveChange,
+        setNewProfile
+    }: ModalsProfileParams
 ) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [about, setAbout] = useState(""); // State untuk menyimpan input about
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+    const [profile, setProfile] = useState<DataOutUser | null>(dataProfile)
 
     useEffect(() => {
         setIsVisible(true);
     }, []);
-
-    const handleSave = async () => {
-        if (about.trim() === "") {
-            alert("Please write something about yourself.");
-            return;
-        }
-
-        setLoading(true);
-
-        try {
-            await updateSkills(about); // Memanggil fungsi untuk memperbarui skills di server
-            onClose(); // Menutup modal setelah berhasil
-        } catch (error) {
-            console.error("Error saving about:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-right">
             <div
-                className={`bg-white p-6 py-12 rounded-lg w-full max-w-md transform transition-transform duration-300 ${isVisible ? "translate-x-0" : "-translate-x-10"
-                    }`}
+                className={`
+                    bg-white p-6 py-12 rounded-lg w-full max-w-md transform transition-transform duration-300 
+                    ${isVisible ? "translate-x-0" : "-translate-x-10"}`
+                }
             >
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-semibold">Add Your About</h2>
@@ -51,9 +42,15 @@ const AddAbout = (
                 <textarea
                     className="w-full border border-gray-300 p-2 rounded-lg mb-4"
                     rows={5}
+                    name={profile?.role === "employer" ? "company_description" : "skills"}
                     placeholder="Write something about company..."
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)} // Mengupdate state saat input berubah
+                    value={profile?.employer?.company_description || profile?.jobseeker?.skills || ""}
+                    onChange={(e) => updateSub({
+                        value: e.target.value,
+                        role: profile?.role as any,
+                        key: e.target.name,
+                        setProfile: setProfile
+                    })}
                 ></textarea>
                 <div className="text-sm">
                     <p>
@@ -65,10 +62,13 @@ const AddAbout = (
                 <div className="flex justify-start mt-2">
                     <button
                         className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
-                        onClick={handleSave}
-                        disabled={loading} // Nonaktifkan tombol jika sedang memproses
+                        onClick={() => {
+                            setLoading(true)
+                            saveChange(profile as DataOutUser, setNewProfile).finally(() => setLoading(false))
+                        }}
+                        disabled={isLoading} // Nonaktifkan tombol jika sedang memproses
                     >
-                        {loading ? "Saving..." : "Save"}
+                        {isLoading ? "Saving..." : "Save"}
                     </button>
                 </div>
             </div>

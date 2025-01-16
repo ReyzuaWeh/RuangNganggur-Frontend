@@ -1,11 +1,11 @@
-import { ErrorValidation, LoginInterface } from '@/dataType/fetch';
-import fetchUser from '@/utils/fetch/users';
-import swalError from '@/utils/swal/error';
 import AuthSwiper from "@components/AuthSwiper";
+import ValidationComponents from '@components/ValidationError';
+import { ErrorValidation, LoginInterface } from '@dataType/fetch';
+import fetchUser from '@utils/fetch/users';
+import swalError from '@utils/swal/error';
+import swalSuccess from '@utils/swal/success';
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import ValidationComponents from './ValidationError';
 
 const LoginComponent = () => {
     const [formData, setFormData] = useState<LoginInterface>({
@@ -27,11 +27,7 @@ const LoginComponent = () => {
         e.preventDefault();
         fetchUser.login(formData).then((value) => {
             localStorage.setItem("access_token", value.access_token);
-            Swal.fire({
-                icon: "success",
-                title: "Login Successful",
-                text: "Redirecting to your profile...",
-            });
+            swalSuccess({ title: "Login Successful!", message: "Redirecting to your profile..." })
             setTimeout(() => {
                 navigate("/auth/success");
             }, 1000);

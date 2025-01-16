@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 const AddResume = (
     { onClose, setProfile, profile }: {
-        onClose: () => void, setProfile: (profile: DataOutUser | null) => void, profile?: DataOutUser | null
+        onClose: () => void, setProfile: (profile: DataOutUser) => void, profile?: DataOutUser | null
     }
 ) => {
     const [resumeUrl, setResumeUrl] = useState("");

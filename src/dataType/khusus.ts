@@ -1,3 +1,8 @@
+import fetchUser from "@/utils/fetch/users"
+import React from "react"
+import { DataOutUser } from "./fetch"
+import { EmployerFormInterface, JobSeekerFormInterface } from "./form"
+
 enum RoleType {
     admin = "admin",
     employer = "employer",
@@ -19,9 +24,51 @@ enum StatusAplicantType {
     accepted = "accepted",
     rejected = "rejected"
 }
+
 type handleChangeType = (e: React.ChangeEvent<HTMLInputElement>) => void
+type handleChangeObjectType = (e: React.ChangeEvent<HTMLInputElement>, setFormData: useStateObjectAnyType) => void
+type modalFunctionType = (e: React.SetStateAction<boolean>) => void
+type modalFunctionClose = () => void
+
+type useStateObjectAnyType = React.Dispatch<React.SetStateAction<object>>
+type useStateJobSeekerForm = React.Dispatch<React.SetStateAction<JobSeekerFormInterface>>
+type useStateEmployerForm = React.Dispatch<React.SetStateAction<EmployerFormInterface>>
+
+type SaveProfileType = typeof fetchUser.saveChange
+type SetProfileType = React.Dispatch<React.SetStateAction<DataOutUser | null>>
+type UpdateSubProfile = typeof fetchUser.updateSubProfile
+type UpdateSubProfileParams = Parameters<UpdateSubProfile>
+
+interface ModalsProfileParams {
+    onClose: modalFunctionClose,
+    dataProfile: DataOutUser | null,
+    updateSub: UpdateSubProfile,
+    saveChange: SaveProfileType,
+    setNewProfile: SetProfileType
+}
+
 const ValidRequireMSG = "Field required"
 const ValidValueError = "Value error, "
-export { GenderType, JobType, RoleType, StatusAplicantType, ValidRequireMSG, ValidValueError };
-export type { handleChangeType };
+
+export {
+    GenderType,
+    JobType,
+    RoleType,
+    StatusAplicantType,
+    ValidRequireMSG,
+    ValidValueError
+}
+export type {
+    handleChangeObjectType,
+    handleChangeType,
+    modalFunctionType,
+    ModalsProfileParams,
+    SaveProfileType,
+    SetProfileType,
+    UpdateSubProfile,
+    UpdateSubProfileParams,
+    useStateEmployerForm,
+    useStateJobSeekerForm,
+    useStateObjectAnyType
+}
 

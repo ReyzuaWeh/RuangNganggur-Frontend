@@ -16,7 +16,6 @@ import Applicant from "@pages/landing/jobseeker/applicant/Applicant";
 // import Applicant from './pages/employee/applicant/Applicant';
 // import Job from './pages/employee/job/Job';
 
-import EmployeeeRegister from "@pages/auth/RegisterEmployer";
 import EmployeeApplicant from "@pages/employer/applicant/Applicant";
 import EmployeeCompany from "@pages/employer/company/Company";
 import EmployeeJobPosting from "@pages/employer/jobposting/JobPosting";
@@ -32,7 +31,7 @@ function App() {
         <Route path="/auth" element={<Auth />}></Route>
         <Route path="/auth/login" element={<LoginInterface />}></Route>
         <Route path="/auth/register/:wanna_be" element={<Register />}></Route>
-        <Route path="/auth/register/employer" element={<EmployeeeRegister />}></Route>
+        {/* <Route path="/auth/register/employer" element={<EmployeeeRegister />}></Route> */}
         <Route path="/auth/logout" element={<Logout />}></Route>
         <Route path="/auth/success" element={<Success />}></Route>
 

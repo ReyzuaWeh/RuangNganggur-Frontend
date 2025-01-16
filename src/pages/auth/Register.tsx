@@ -1,16 +1,22 @@
-import { EmployerFormInterface, JobSeekerFormInterface } from "@/dataType/form";
 import AuthSwiper from "@components/AuthSwiper";
+import RegisterEmployer from "@components/employer/FormRegister";
 import RegisterJobSeeker from "@components/jobseeker/FormRegister";
-import { DataOutUser } from "@dataType/fetch";
-import { RoleType } from "@dataType/khusus";
+import ValidationComponents from "@components/ValidationError";
+import { DataOutUser, ErrorValidation } from "@dataType/fetch";
+import { EmployerFormInterface, JobSeekerFormInterface } from "@dataType/form";
+import { RoleType, useStateEmployerForm, useStateJobSeekerForm, useStateObjectAnyType } from "@dataType/khusus";
+import fetchUser from "@utils/fetch/users";
+import functionSets from "@utils/function";
+import swalError from "@utils/swal/error";
+import swalSuccess from "@utils/swal/success";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Swal from "sweetalert2";
 
 const Register = () => {
     const { wanna_be } = useParams<{
         wanna_be: RoleType;
     }>();
+    const [error, setError] = useState<ErrorValidation | null>(null);
     const [formData, setFormData] = useState<EmployerFormInterface & JobSeekerFormInterface>({
         email: "",
         username: "",
@@ -22,13 +28,7 @@ const Register = () => {
         company_name: ""
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
+    const handleChange = functionSets.handleChangeFormObject
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -55,56 +55,28 @@ const Register = () => {
                 company_name: formData.company_name
             };
         }
-
-        try {
-            const response = await fetch("http://localhost:8000/users/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formDataSend),
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log("Success:", result);
-                Swal.fire({
-                    icon: "success",
-                    title: "Registration Successful!",
-                    text: "Your account has been created.",
-                });
-            } else {
-                const error = await response.json();
-                console.error("Error:", error);
-                const errorMessage = error.detail
-                    .map((err: { loc: any[]; msg: any; }) => `${err.loc[1]}: ${err.msg}`)
-                    .join("\n");
-                Swal.fire({
-                    icon: "error",
-                    title: "Registration Failed",
-                    text: errorMessage,
-                });
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            Swal.fire({
-                icon: "error",
-                title: "Server Error",
-                text: "Failed to connect to server.",
-            });
-        }
+        fetchUser.register(formDataSend).then(() => {
+            setError(null)
+            swalSuccess({ title: "Registration Successful!", message: "Your account has been created." })
+        }).catch(async (error) => {
+            swalError(error.status, "Wrong Register Input");
+            if (error.status === 500 || !error.status) return setError(null);
+            const errorData = await error.json();
+            console.error(errorData)
+            setError(errorData);
+        });
     };
 
     return (
         <>
-            <section className="bg-gradient flex flex-col lg:flex-row w-full h-screen">
-                <div className="hidden lg:block h-[95vh] w-full lg:w-1/2 p-16">
+            <section className="bg-gradient flex flex-col items-center min-h-screen lg:flex-row w-full h-fit">
+                <div className="hidden lg:flex flex-grow h-full w-full lg:w-1/2 py-10 px-16">
                     <AuthSwiper />
                 </div>
 
-                <div className="w-full lg:w-1/2 h-[85vh] flex flex-col">
+                <div className="w-full lg:w-1/2 flex flex-col">
                     <div className="flex flex-col justify-center items-center flex-grow px-6">
-                        <div className="w-full sm:w-3/4 sm:flex-row gap-4 mt-10 bg-white shadow-md">
+                        <div className="w-full sm:w-3/4 sm:flex-row gap-4 my-3 bg-white shadow-md">
                             <div className="flex flex-col justify-center p-7">
                                 <div className=" flex flex-col mx-auto text-center">
 
@@ -114,6 +86,7 @@ const Register = () => {
                                     onSubmit={handleSubmit}
                                     className="flex flex-col gap-y-4 justify-start mt-6"
                                 >
+                                    {error && <ValidationComponents errorValid={error} />}
                                     <div className="flex flex-col">
                                         <label htmlFor="username" className="font-semibold text-xs">
                                             Username <span className="text-red-600">*</span>
@@ -125,7 +98,7 @@ const Register = () => {
                                             type="text"
                                             className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
                                             value={formData.username}
-                                            onChange={handleChange}
+                                            onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
                                             required
                                         />
                                     </div>
@@ -140,7 +113,7 @@ const Register = () => {
                                             type="password"
                                             className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
                                             value={formData.password}
-                                            onChange={handleChange}
+                                            onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
                                             required
                                         />
                                     </div>
@@ -155,14 +128,21 @@ const Register = () => {
                                             type="email"
                                             className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
                                             value={formData.email as string || ""}
-                                            onChange={handleChange}
+                                            onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
                                         />
                                     </div>
                                     {
                                         (wanna_be === RoleType.jobseeker) ?
-                                            <RegisterJobSeeker handleChange={handleChange}
-                                                formData={formData as JobSeekerFormInterface} /> :
-                                            null
+                                            <RegisterJobSeeker
+                                                handleChange={handleChange}
+                                                formData={formData as JobSeekerFormInterface}
+                                                setFormData={setFormData as useStateJobSeekerForm}
+                                            /> :
+                                            <RegisterEmployer
+                                                handleChange={handleChange}
+                                                formData={formData as EmployerFormInterface}
+                                                setFormData={setFormData as useStateEmployerForm}
+                                            />
                                     }
                                     <button type="submit" className="btn-primary py-2 px-5">
                                         Register

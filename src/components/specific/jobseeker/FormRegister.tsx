@@ -1,9 +1,10 @@
-import { JobSeekerFormInterface } from "@/dataType/form"
-import { handleChangeType } from "@dataType/khusus"
+import { JobSeekerFormInterface } from "@dataType/form"
+import { handleChangeObjectType, useStateJobSeekerForm, useStateObjectAnyType } from "@dataType/khusus"
 
 const RegisterJobSeeker = (
-    { handleChange, formData }: {
-        handleChange: handleChangeType, formData: JobSeekerFormInterface
+    { handleChange, formData, setFormData }: {
+        handleChange: handleChangeObjectType, formData: JobSeekerFormInterface,
+        setFormData: useStateJobSeekerForm
     }
 ) => {
     return (
@@ -19,7 +20,7 @@ const RegisterJobSeeker = (
                     type="text"
                     className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
                     value={formData.nis}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
                 />
             </div>
             <div className="flex flex-col">
@@ -36,7 +37,7 @@ const RegisterJobSeeker = (
                     type="text"
                     className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
                     value={formData.first_name}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
                 />
             </div>
             <div className="flex flex-col">
@@ -49,11 +50,11 @@ const RegisterJobSeeker = (
                 <input
                     name="last_name"
                     id="last_name"
-                    placeholder="Enter First Name"
+                    placeholder="Enter Last Name"
                     type="text"
                     className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
                     value={formData.last_name as string || ""}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
                 />
             </div>
         </>

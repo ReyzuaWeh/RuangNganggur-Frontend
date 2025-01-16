@@ -4,7 +4,7 @@ import AddAbout from "@components/profile/AddAbout";
 import AddCV from "@components/profile/AddCV";
 import AddPosition from "@components/profile/AddPosition";
 import AddResume from "@components/profile/AddResume";
-import EditProfile from "@components/profile/EditProfile";
+import EditMainProfile from "@components/profile/EditProfile";
 import { useEffect, useState } from "react";
 import { CiMail } from "react-icons/ci";
 import { FaArrowLeft, FaRegEdit } from "react-icons/fa";
@@ -290,7 +290,7 @@ const Profile = () => {
                 {isAboutModalOpen && (
                     <AddAbout onClose={closeAboutModal} updateSkills={updateSkills} />
                 )}
-                {isEditModalOpen && <EditProfile onClose={closeEditModal} />}
+                {isEditModalOpen && <EditMainProfile onClose={closeEditModal} />}
                 {isWorkModalOpen && <AddPosition onClose={closeWorkModal} />}
                 {isFileModalOpen && <AddCV onClose={closeFileModal} setProfile={setProfile} profile={profile} />}
                 {isResumeModalOpen && <AddResume onClose={closeResumeModal} setProfile={setProfile} profile={profile} />}

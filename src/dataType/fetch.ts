@@ -76,8 +76,13 @@ interface ErrorValidation {
 }
 
 export type {
-    DataOutApplicant, DataOutEmployer,
-    DataOutJob, DataOutToken, DataOutUser,
-    ErrorValidation, LoginInterface
+    DataOutApplicant,
+    DataOutEmployer,
+    DataOutJob,
+    DataOutJobseeker,
+    DataOutToken,
+    DataOutUser,
+    ErrorValidation,
+    LoginInterface
 };
 

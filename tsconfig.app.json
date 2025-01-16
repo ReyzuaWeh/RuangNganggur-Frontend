@@ -32,6 +32,9 @@
         "src/pages/auth/*",
         "src/pages/landing/*",
         "src/pages/users/*",
+      ],
+      "@utils/*": [
+        "src/utils/*"
       ]
     },
     /* Bundler mode */
