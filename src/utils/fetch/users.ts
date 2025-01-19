@@ -73,14 +73,21 @@ const updateSubProfile = (
 };
 
 
-const saveChange = (updatedProfile: DataOutUser, setProfile: React.Dispatch<React.SetStateAction<DataOutUser | null>>) => {
+const saveChange = (
+    updatedProfile: DataOutUser | null,
+    setProfile: React.Dispatch<React.SetStateAction<DataOutUser | null>>
+) => {
+    if (!updatedProfile) return Promise.reject(new Error("There is no data you send"));
     return fetchUser.updateProfile(updatedProfile).then(value => {
         swalSuccess({ title: "Update Success!", message: "Your profile has been updated." })
         setProfile(value);
     }).catch(async error => {
         console.error("Error updating profile:", error);
-        const errorData = await error.json();
+        const errorData = error instanceof Response && error.json ? await error.json() : error;
         console.error(errorData)
+        if (error.status && error.status !== 401) {
+            swalError(error.status, '<a href="/auth/login">Have to login. Click here!</a>');
+        }
         swalError(error.status, "Cannot update data user");
     });
 }

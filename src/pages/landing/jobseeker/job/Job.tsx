@@ -15,7 +15,7 @@ const Job = () => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/jobs/", {
+                const response = await fetch("http://localhost:8000/jobs/", {
                     headers: {
                         accept: "application/json",
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

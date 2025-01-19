@@ -33,6 +33,8 @@ type modalFunctionClose = () => void
 type useStateObjectAnyType = React.Dispatch<React.SetStateAction<object>>
 type useStateJobSeekerForm = React.Dispatch<React.SetStateAction<JobSeekerFormInterface>>
 type useStateEmployerForm = React.Dispatch<React.SetStateAction<EmployerFormInterface>>
+type setStateProfileType = React.Dispatch<React.SetStateAction<DataOutUser | null>>
+type setStateBoolean = (value: React.SetStateAction<boolean>) => void
 
 type SaveProfileType = typeof fetchUser.saveChange
 type SetProfileType = React.Dispatch<React.SetStateAction<DataOutUser | null>>
@@ -40,11 +42,28 @@ type UpdateSubProfile = typeof fetchUser.updateSubProfile
 type UpdateSubProfileParams = Parameters<UpdateSubProfile>
 
 interface ModalsProfileParams {
-    onClose: modalFunctionClose,
+    onClose?: modalFunctionClose,
     dataProfile: DataOutUser | null,
     updateSub: UpdateSubProfile,
     saveChange: SaveProfileType,
-    setNewProfile: SetProfileType
+    setNewProfile: SetProfileType,
+}
+
+interface ProfileSetParams extends ModalsProfileParams {
+    isOpenMain: boolean,
+    openEditMain: modalFunctionClose,
+    onCloseMain: modalFunctionClose,
+    isOpenMiddle: boolean,
+    openEditMiddle: modalFunctionClose,
+    onCloseMiddle: modalFunctionClose,
+    isOpenDesc: boolean,
+    openEditDesc: modalFunctionClose,
+    onCloseDesc: modalFunctionClose
+}
+
+interface ProfileSubComponentParams {
+    profile: DataOutUser | null;
+    openModals: modalFunctionClose;
 }
 
 const ValidRequireMSG = "Field required"
@@ -61,10 +80,15 @@ export {
 export type {
     handleChangeObjectType,
     handleChangeType,
+    modalFunctionClose,
     modalFunctionType,
     ModalsProfileParams,
+    ProfileSetParams,
+    ProfileSubComponentParams,
     SaveProfileType,
     SetProfileType,
+    setStateBoolean,
+    setStateProfileType,
     UpdateSubProfile,
     UpdateSubProfileParams,
     useStateEmployerForm,

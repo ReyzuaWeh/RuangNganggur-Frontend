@@ -1,42 +1,40 @@
+import fetchJob from "@/utils/fetch/jobs";
 import DashboardLayout from "@components/DashboardLayout";
 import { DataOutApplicant } from "@dataType/fetch";
-import { StatusAplicantType } from "@dataType/khusus";
+import { RoleType, StatusAplicantType } from "@dataType/khusus";
+import fetchUser from "@utils/fetch/users";
+import swalError from "@utils/swal/error";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const Applied = () => {
-    const [applicants, setApplicants] = useState([]);
+    const [applicants, setApplicants] = useState(
+        []
+    );
     const [loading, setLoading] = useState(true);
-
-    const token = "Bearer " + localStorage.getItem("access_token"); // Ganti dengan token Anda
 
     // Fetch data from API
     useEffect(() => {
-        const fetchApplicants = async () => {
+        const getData = async () => {
+            setLoading(true)
             try {
-                const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/applicants", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: token,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to fetch applicants");
+                const getMe = await fetchUser.getProfile()
+                if (getMe.role !== RoleType.jobseeker) {
+                    const error = new Error("You don't have access");
+                    (error as any).status = 403;
+                    throw error
                 }
-
-                const data = await response.json();
-                setApplicants(data);
-            } catch (error) {
-                console.error("Error fetching applicants:", error);
-            } finally {
-                setLoading(false);
+                const getApplicants = await fetchJob.getApplicant({ userId: getMe.jobseeker?.id || null })
+                setApplicants(getApplicants);
+                setLoading(false)
+            } catch (e) {
+                console.log(e)
+                // @ts-ignore
+                swalError(e.status || 500, "Oops")
             }
-        };
-
-        fetchApplicants();
+        }
+        getData()
     }, []);
 
     const getStatusColor = (status: StatusAplicantType) => {
@@ -55,7 +53,9 @@ const Applied = () => {
     };
 
     return (
-        <DashboardLayout>
+        <DashboardLayout
+            role={RoleType.jobseeker}
+        >
             <div className="flex items-center gap-x-4 mb-5 md:mb-10">
                 <NavLink to="/" className="hover:bg-gray-300 rounded-full p-3 md:p-4">
                     <FaArrowLeft size={20} className="cursor-pointer md:size-25" />

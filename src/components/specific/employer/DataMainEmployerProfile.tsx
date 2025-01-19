@@ -1,13 +1,12 @@
 import images_source from "@/assets/get/images"
-import { DataOutJobseeker } from "@dataType/fetch"
+import { DataOutEmployer } from "@dataType/fetch"
 import { ProfileSubComponentParams } from "@dataType/khusus"
-import { CgProfile } from "react-icons/cg"
-import { CiMail } from "react-icons/ci"
+import { CiLocationOn, CiMail } from "react-icons/ci"
 
-const MainProfile = (
+const DataMainEmployerProfile = (
     { profile, openModals }: ProfileSubComponentParams
 ) => {
-    const DataSubJobseeker: DataOutJobseeker | null = profile?.jobseeker || null;
+    const DataSubEmployer: DataOutEmployer | null = profile?.employer || null;
     return (
         <div className="rounded-md bg-primary mt-5 py-5 px-6 md:px-14 text-white">
             <div className="flex flex-col md:flex-row gap-4 md:gap-x-6 items-center md:items-start">
@@ -19,20 +18,19 @@ const MainProfile = (
                         className="w-20 h-20 md:w-auto md:h-auto"
                     />
                 </div>
-                <div className="md:w-full">
-                    <div className="mb-2">
+                <div className="w-100">
+                    <div className="mb-4">
                         <h1 className="font-semibold text-3xl md:text-5xl">
-                            Hi, {
-                                DataSubJobseeker?.first_name +
-                                (DataSubJobseeker?.last_name ? ` ${DataSubJobseeker.last_name}` : "")
-                            }!
+                            Hi, {DataSubEmployer?.company_name}!
                         </h1>
                     </div>
                     <div className="opacity-80 flex flex-col gap-y-2">
-                        <p className="text-xs flex items-center gap-x-2">
-                            <CgProfile />
-                            {profile?.username}
-                        </p>
+                        <div className="flex flex-col md:flex-row items-start md:items-center gap-y-2 md:gap-x-2">
+                            <p className="text-xs flex items-center gap-x-2">
+                                <CiLocationOn />
+                                {DataSubEmployer?.company_address || "Location not provided"}
+                            </p>
+                        </div>
                         <p className="text-xs flex items-center gap-x-2">
                             <CiMail />
                             {profile?.email || "Email not configured"}
@@ -50,4 +48,4 @@ const MainProfile = (
     )
 }
 
-export default MainProfile
+export default DataMainEmployerProfile

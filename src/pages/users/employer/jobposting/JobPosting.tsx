@@ -1,3 +1,5 @@
+import { RoleType } from "@/dataType/khusus";
+import { getSubIDUser } from "@/utils/localsave/getUser";
 import DashboardLayout from "@components/DashboardLayout";
 import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
@@ -38,35 +40,14 @@ const JobPosting = () => {
 
         try {
             // Pertama, ambil data profile pengguna
-            const profileResponse = await fetch(
-                "https://ruang-nganggur-fast-api.vercel.app/users/profile",
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (!profileResponse.ok) {
-                throw new Error("Failed to fetch user profile");
-            }
-
-            const profileData = await profileResponse.json();
-            const employerId = profileData.employer?.id; // Mendapatkan employer_id dari data profil
-
-            if (!employerId) {
-                throw new Error("Employer not found in user profile");
-            }
-
             // Perbarui formData dengan employer_id yang valid
             const updatedFormData = {
                 ...formData,
-                employer_id: employerId, // Menambahkan employer_id ke formData
+                employer_id: await getSubIDUser(), // Menambahkan employer_id ke formData
             };
 
             // Lanjutkan untuk mengirim request posting pekerjaan
-            const jobResponse = await fetch("https://ruang-nganggur-fast-api.vercel.app/jobs/", {
+            const jobResponse = await fetch("http://localhost:8000/jobs/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -86,7 +67,7 @@ const JobPosting = () => {
                 // Reset form
                 setFormData({
                     id: 0,
-                    employer_id: employerId, // Employer ID tetap
+                    employer_id: 0, // Employer ID tetap
                     role: "",
                     location: "",
                     salary: 0,
@@ -111,7 +92,9 @@ const JobPosting = () => {
 
     return (
         <>
-            <DashboardLayout>
+            <DashboardLayout
+                role={RoleType.employer}
+            >
                 <div className="flex items-center gap-x-4 mb-5 md:mb-10">
                     <NavLink to="/" className="hover:bg-gray-300 rounded-full p-3 md:p-4">
                         <FaArrowLeft size={20} className="cursor-pointer md:size-25" />

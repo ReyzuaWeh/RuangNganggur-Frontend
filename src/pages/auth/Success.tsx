@@ -1,39 +1,6 @@
 import images_source from "@/assets/get/images";
-import { useEffect } from "react";
 
 const Success = () => {
-    // const [profile, setProfile] = useState("");
-
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const token = localStorage.getItem("access_token"); // Assuming token is stored in localStorage
-                const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/users/profile", {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.role == "jobseeker") {
-                        window.location.href = "/users/profile";
-                    } else {
-                        window.location.href = "/users/employee/profile";
-                    }
-                    console.log("Profile data:", data); // Log the response data
-                } else {
-                    console.error("Failed to fetch profile");
-                }
-            } catch (error) {
-                console.error("Error fetching profile:", error);
-            }
-        };
-
-        fetchProfile();
-    }, []);
     return (
         <>
             <section className="bg-gradient min-h-screen flex items-center justify-center">

@@ -7,7 +7,7 @@ import NotFound from "@components/NotFound";
 import Logout from "@pages/Logout";
 import Success from "@pages/Success";
 // import Landing from './pages/landing/Layout';
-import Profile from "@pages/employer/profile/Profile";
+import Profile from "@/pages/users/Profile";
 import About from "@pages/jobseeker/about/About";
 import Applied from "@pages/jobseeker/applied/Applied";
 import Job from "@pages/jobseeker/job/Job";
@@ -19,7 +19,6 @@ import Applicant from "@pages/landing/jobseeker/applicant/Applicant";
 import EmployeeApplicant from "@pages/employer/applicant/Applicant";
 import EmployeeCompany from "@pages/employer/company/Company";
 import EmployeeJobPosting from "@pages/employer/jobposting/JobPosting";
-import EmployeeProfile from "@pages/employer/profile/Profile";
 import EmployeeSettings from "@pages/employer/settings/Setting";
 
 function App() {
@@ -42,14 +41,13 @@ function App() {
         <Route path="/" element={<About />}></Route>
         <Route path="/applicant-list" element={<Applicant />}></Route>
         <Route path="/job-listing" element={<Job />}></Route>
-
-        {/* Job Seeker Dashboard */}
+        {/* Dashboard All Role */}
         <Route path="/users/profile" element={<Profile />}></Route>
+        {/* Job Seeker Dashboard */}
         <Route path="/users/job-applied" element={<Applied />}></Route>
         <Route path="/users/settings" element={<Settings />}></Route>
 
         {/* Employee Dashboard */}
-        <Route path="/users/employee/profile" element={<EmployeeProfile />}></Route>
         <Route path="/users/employee/job-posting" element={<EmployeeJobPosting />}></Route>
         <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />}></Route>
         <Route path="/users/employee/company" element={<EmployeeCompany />}></Route>

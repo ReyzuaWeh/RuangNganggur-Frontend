@@ -5,9 +5,9 @@ import React from "react";
 
 const DashboardLayout = ({ children, role }: { children: React.ReactNode, role: RoleType }) => {
     return (
-        <div className="flex">
+        <div className="flex h-fit">
             {role === "jobseeker" ? <Sidebar /> : <SidebarEmployer />}
-            <section className="py-8 px-7 w-full h-screen relative">{children}</section>
+            <section className="py-8 px-7 w-full min-h-screen relative">{children}</section>
         </div>
     );
 };
