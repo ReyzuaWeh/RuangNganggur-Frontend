@@ -1,4 +1,4 @@
-import { RoleType } from "@/dataType/khusus";
+import { useMyProfile } from "@/components/provider/userProvider";
 import { getSubIDUser } from "@/utils/localsave/getUser";
 import DashboardLayout from "@components/DashboardLayout";
 import React, { useState } from "react";
@@ -7,16 +7,17 @@ import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const JobPosting = () => {
+    const { profile } = useMyProfile()
     const [formData, setFormData] = useState({
         id: 0,
-        employer_id: 0,
+        employer_id: profile?.employer?.id,
         role: "",
         location: "",
         salary: 0,
-        type_job: "full_time", // Default value
+        type_job: "full_time",
         min_age: 0,
         max_age: 0,
-        gender: "male", // Default value
+        gender: "male",
         open_date: "",
         close_date: "",
         description: "",
@@ -34,19 +35,12 @@ const JobPosting = () => {
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        // Ambil token dari localStorage
         const token = localStorage.getItem("access_token");
-
         try {
-            // Pertama, ambil data profile pengguna
-            // Perbarui formData dengan employer_id yang valid
             const updatedFormData = {
                 ...formData,
-                employer_id: await getSubIDUser(), // Menambahkan employer_id ke formData
+                employer_id: await getSubIDUser(),
             };
-
-            // Lanjutkan untuk mengirim request posting pekerjaan
             const jobResponse = await fetch("http://localhost:8000/jobs/", {
                 method: "POST",
                 headers: {
@@ -92,9 +86,7 @@ const JobPosting = () => {
 
     return (
         <>
-            <DashboardLayout
-                role={RoleType.employer}
-            >
+            <DashboardLayout>
                 <div className="flex items-center gap-x-4 mb-5 md:mb-10">
                     <NavLink to="/" className="hover:bg-gray-300 rounded-full p-3 md:p-4">
                         <FaArrowLeft size={20} className="cursor-pointer md:size-25" />

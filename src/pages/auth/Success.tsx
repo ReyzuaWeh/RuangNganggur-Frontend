@@ -1,4 +1,5 @@
 import images_source from "@/assets/get/images";
+import OurRoute from "@utils/route";
 
 const Success = () => {
     return (
@@ -24,7 +25,7 @@ const Success = () => {
                         </p>
 
                         <a
-                            href="/users/profile"
+                            href={OurRoute.DataRoute["Profile"]}
                             className="block w-full btn-primary  py-3 mt-8 rounded-full"
                         >
                             Continue

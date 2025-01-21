@@ -1,3 +1,4 @@
+import OurRoute from "@/utils/route";
 import AuthSwiper from "@components/AuthSwiper";
 import ValidationComponents from '@components/ValidationError';
 import { ErrorValidation, LoginInterface } from '@dataType/fetch';
@@ -110,7 +111,7 @@ const LoginComponent = () => {
                                     <div className="flex items-center text-sm gap-x-1 mx-auto">
                                         <p>Don’t have an account?</p>
                                         <a
-                                            href="/auth/register"
+                                            href={OurRoute.DataRoute["Register"]}
                                             className="text-primary underline font-semibold"
                                         >
                                             Register

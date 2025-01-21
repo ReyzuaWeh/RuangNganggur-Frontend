@@ -10,8 +10,29 @@ const DataRoute = {
     "Applied": "/users/job-applied",
     "Setting": "/users/settings",
     "Job Posting": "/users/employee/job-posting",
+    "Profile": "/users/profile",
+    "My Job Post": "/users/my-jobs"
+}
+const DataRouteApp = {
+    "Home": "/",
+    "About": "/",
+    "Job List": "/job-listing",
+    "Login": "/auth/login",
+    "Success Login": "/auth/success",
+    "Register": "/auth",
+    "Register Role": "/auth/register/",
+    "Logout": "/auth/logout",
+    "Auth Require Route Parent": "/users/*",
+    "RequireAuthPath": {
+        "Profile": "/profile",
+        "Job Posting": "/employee/job-posting",
+        "Setting": "/settings",
+        "Applied": "/job-applied",
+        "My Job Post": "/my-jobs"
+    }
 }
 const OurRoute = {
-    DataRoute
+    DataRoute,
+    DataRouteApp
 }
 export default OurRoute

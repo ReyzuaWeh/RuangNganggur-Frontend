@@ -1,5 +1,6 @@
 import images_source from "@/assets/get/images";
 import { deleteAccessToken } from "@/utils/localsave/getUser";
+import OurRoute from "@/utils/route";
 import swalSuccess from "@/utils/swal/success";
 import { DataOutUser } from "@dataType/fetch";
 import fetchUser from "@utils/fetch/users";
@@ -99,7 +100,7 @@ const Navbar = () => {
                     {isLoggedIn ? (
                         <div className="flex items-center gap-x-2">
                             <NavLink
-                                to={"users/profile"}
+                                to={OurRoute.DataRoute["Profile"]}
                                 className="flex group items-center overflow-hidden transition-all
                                 bg-primary text-white hover:bg-slate-700 hover:text-gray-200
                                 border rounded-xl px-2 py-1 gap-x-2"

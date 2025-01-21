@@ -1,3 +1,4 @@
+import OurRoute from "@/utils/route";
 import { IoPersonCircleOutline, IoSettingsOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 
@@ -19,7 +20,7 @@ const SidebarLayout = ({ child }: {
             <ul>
                 <li>
                     <NavLink
-                        to="/users/profile"
+                        to={OurRoute.DataRoute["Profile"]}
                         className={({ isActive }) => getNavLinks(isActive)}
                     >
                         <span className="flex items-center gap-x-2 opacity-75 font-semibold">
@@ -31,7 +32,7 @@ const SidebarLayout = ({ child }: {
                 {child}
                 <li>
                     <NavLink
-                        to="/users/employee/settings"
+                        to={OurRoute.DataRoute["Setting"]}
                         className={({ isActive }) => getNavLinks(isActive)}
                     >
                         <span className="flex items-center gap-x-2 opacity-75 font-semibold">
