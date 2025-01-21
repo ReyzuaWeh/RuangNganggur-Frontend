@@ -43,27 +43,9 @@ type UpdateSubProfileParams = Parameters<UpdateSubProfile>
 
 interface ModalsProfileParams {
     onClose?: modalFunctionClose,
-    dataProfile: DataOutUser | null,
     updateSub: UpdateSubProfile,
     saveChange: SaveProfileType,
     setNewProfile: SetProfileType,
-}
-
-interface ProfileSetParams extends ModalsProfileParams {
-    isOpenMain: boolean,
-    openEditMain: modalFunctionClose,
-    onCloseMain: modalFunctionClose,
-    isOpenMiddle: boolean,
-    openEditMiddle: modalFunctionClose,
-    onCloseMiddle: modalFunctionClose,
-    isOpenDesc: boolean,
-    openEditDesc: modalFunctionClose,
-    onCloseDesc: modalFunctionClose
-}
-
-interface ProfileSubComponentParams {
-    profile: DataOutUser | null;
-    openModals: modalFunctionClose;
 }
 
 const ValidRequireMSG = "Field required"
@@ -83,8 +65,6 @@ export type {
     modalFunctionClose,
     modalFunctionType,
     ModalsProfileParams,
-    ProfileSetParams,
-    ProfileSubComponentParams,
     SaveProfileType,
     SetProfileType,
     setStateBoolean,

@@ -1,9 +1,10 @@
-import { ProfileSubComponentParams } from "@dataType/khusus"
+import { getModalProfileSets } from "@pages/users/Profile"
+import { useMyProfile } from "@provider/userProvider"
 import { FaRegEdit } from "react-icons/fa"
 
-const DataSkills = (
-    { profile, openModals }: ProfileSubComponentParams
-) => {
+const DataSkills = () => {
+    const { openEditDesc: openModals } = getModalProfileSets()
+    const { profile } = useMyProfile()
     return (
         <div className="border w-full p-4 pb-3 mt-5 flex flex-col-reverse md:flex-col rounded-lg bg-white">
             <div className="w-full gap-x-2 border py-5 px-3 my-1 border-primary border-opacity-65 rounded-lg">

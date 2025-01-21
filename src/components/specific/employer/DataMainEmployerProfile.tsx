@@ -1,11 +1,12 @@
 import images_source from "@/assets/get/images"
+import { useMyProfile } from "@components/provider/userProvider"
 import { DataOutEmployer } from "@dataType/fetch"
-import { ProfileSubComponentParams } from "@dataType/khusus"
+import { getModalProfileSets } from "@pages/users/Profile"
 import { CiLocationOn, CiMail } from "react-icons/ci"
 
-const DataMainEmployerProfile = (
-    { profile, openModals }: ProfileSubComponentParams
-) => {
+const DataMainEmployerProfile = () => {
+    const { profile } = useMyProfile()
+    const { openEditMain: openModals } = getModalProfileSets();
     const DataSubEmployer: DataOutEmployer | null = profile?.employer || null;
     return (
         <div className="rounded-md bg-primary mt-5 py-5 px-6 md:px-14 text-white">

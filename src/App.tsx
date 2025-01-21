@@ -16,43 +16,56 @@ import Applicant from "@pages/landing/jobseeker/applicant/Applicant";
 // import Applicant from './pages/employee/applicant/Applicant';
 // import Job from './pages/employee/job/Job';
 
+import Loading from "@components/Loading";
 import EmployeeApplicant from "@pages/employer/applicant/Applicant";
 import EmployeeCompany from "@pages/employer/company/Company";
 import EmployeeJobPosting from "@pages/employer/jobposting/JobPosting";
 import EmployeeSettings from "@pages/employer/settings/Setting";
+import OurRoute from "@utils/route";
+import { ProfileProvider } from "./components/provider/userProvider";
 
 function App() {
   return (
     <Router>
       <Routes>
         {/* Auth Routes */}
-
-        <Route path="/auth" element={<Auth />}></Route>
-        <Route path="/auth/login" element={<LoginInterface />}></Route>
-        <Route path="/auth/register/:wanna_be" element={<Register />}></Route>
+        <Route path={OurRoute.DataRoute["Register"]} element={<Auth />}></Route>
+        <Route path={OurRoute.DataRoute["Login"]} element={<LoginInterface />}></Route>
+        <Route path={`${OurRoute.DataRoute["Register Role"]}:wanna_be`} element={<Register />}></Route>
         {/* <Route path="/auth/register/employer" element={<EmployeeeRegister />}></Route> */}
-        <Route path="/auth/logout" element={<Logout />}></Route>
-        <Route path="/auth/success" element={<Success />}></Route>
+        <Route path={OurRoute.DataRoute["Logout"]} element={<Logout />}></Route>
+        <Route path={OurRoute.DataRoute["Success Login"]} element={<Success />}></Route>
 
-        {/* 404 Not Found */}
-        <Route path="*" element={<NotFound />}></Route>
 
         {/* Landing Job Seeker */}
-        <Route path="/" element={<About />}></Route>
+        <Route path={OurRoute.DataRoute["About"]} element={<About />}></Route>
         <Route path="/applicant-list" element={<Applicant />}></Route>
-        <Route path="/job-listing" element={<Job />}></Route>
-        {/* Dashboard All Role */}
-        <Route path="/users/profile" element={<Profile />}></Route>
+        <Route path={OurRoute.DataRoute["Job List"]} element={<Job />}></Route>
         {/* Job Seeker Dashboard */}
-        <Route path="/users/job-applied" element={<Applied />}></Route>
-        <Route path="/users/settings" element={<Settings />}></Route>
+        <Route path={OurRoute.DataRoute["Applied"]} element={<Applied />}></Route>
+        <Route path={OurRoute.DataRoute["Setting"]} element={<Settings />}></Route>
 
         {/* Employee Dashboard */}
-        <Route path="/users/employee/job-posting" element={<EmployeeJobPosting />}></Route>
+        <Route path={OurRoute.DataRoute["Job Posting"]} element={<EmployeeJobPosting />}></Route>
         <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />}></Route>
         <Route path="/users/employee/company" element={<EmployeeCompany />}></Route>
         <Route path="/users/employee/settings" element={<EmployeeSettings />}></Route>
-
+        <Route path="/loading" element={<Loading />}></Route>
+        <Route
+          path="/users/*"
+          element={
+            <ProfileProvider>
+              <Routes>
+                {/* Dashboard All Role */}
+                <Route path="/profile" element={<Profile />}></Route>
+                {/* 404 Not Found */}
+                <Route path="*" element={<NotFound />}></Route>
+              </Routes>
+            </ProfileProvider>
+          }
+        />
+        {/* 404 Not Found */}
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </Router>
   );

@@ -9,7 +9,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const Applied = () => {
-    const [applicants, setApplicants] = useState(
+    const [applicants, setApplicants] = useState<DataOutApplicant[] | null>(
         []
     );
     const [loading, setLoading] = useState(true);
@@ -31,7 +31,12 @@ const Applied = () => {
             } catch (e) {
                 console.log(e)
                 // @ts-ignore
-                swalError(e.status || 500, "Oops")
+                if (e.status === 404) {
+                    setLoading(false)
+                    return setApplicants(null)
+                }
+                // @ts-ignore
+                swalError(e.status, "Can't get data applicant")
             }
         }
         getData()
@@ -78,7 +83,12 @@ const Applied = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {applicants.map((applicant: DataOutApplicant) => (
+                            {!applicants && (
+                                <tr>
+                                    <td colSpan={5} className="text-center">You don't have apply data</td>
+                                </tr>
+                            )}
+                            {applicants && applicants.map((applicant: DataOutApplicant) => (
                                 <tr key={applicant.id} className="hover:bg-gray-50">
                                     <td className="p-4 border-b text-sm md:text-base">
                                         {applicant.job_id}

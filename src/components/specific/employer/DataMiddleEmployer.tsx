@@ -1,9 +1,11 @@
-import { ProfileSubComponentParams } from "@/dataType/khusus"
+import { useMyProfile } from "@components/provider/userProvider"
+import { getModalProfileSets } from "@pages/users/Profile"
 import { FaRegEdit } from "react-icons/fa"
 
-const DataMiddleEmployer = (
-    { profile, openModals }: ProfileSubComponentParams
-) => {
+const DataMiddleEmployer = () => {
+    const { openEditMiddle: openModals } = getModalProfileSets()
+
+    const { profile } = useMyProfile()
     return (
         <div className="border w-full p-4 pb-3 mt-5 flex flex-col-reverse md:flex-col rounded-lg bg-white">
             <div className="w-full py-5 px-3 border border-primary border-opacity-65 rounded-lg items-center 

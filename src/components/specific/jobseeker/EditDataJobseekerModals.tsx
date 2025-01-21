@@ -1,24 +1,28 @@
 import ModalsLayout from "@components/layouts/ModalsLayout";
 import { DataOutUser } from "@dataType/fetch";
-import { ModalsProfileParams, RoleType } from "@dataType/khusus";
+import { RoleType } from "@dataType/khusus";
+import { getModalProfileSets } from "@pages/users/Profile";
+import { useMyProfile } from "@provider/userProvider";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-const EditDataJobseekerModals = ({
-    onClose,
-    dataProfile,
-    updateSub,
-    saveChange,
-    setNewProfile
-}: ModalsProfileParams) => {
+const EditDataJobseekerModals = () => {
+    const { profile: dataProfile } = useMyProfile();
+    const {
+        setIsLoading,
+        isLoading,
+        onCloseMiddle: onClose,
+        saveChange,
+        setNewProfile,
+        updateSub
+    } = getModalProfileSets()
     const [isVisible, setIsVisible] = useState(false);
-    const [isLoading, setLoading] = useState(false);
     const [profile, setProfile] = useState<DataOutUser | null>(dataProfile || null)
     return (
         <ModalsLayout
             isVisible={isVisible}
             setIsVisible={setIsVisible}
-            setLoading={setLoading}
+            setLoading={setIsLoading}
             saveChange={saveChange}
             setNewProfile={setNewProfile}
             profile={profile as DataOutUser}

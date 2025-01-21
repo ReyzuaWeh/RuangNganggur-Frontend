@@ -4,6 +4,11 @@ import { jwtDecode } from "jwt-decode";
 const getAccessToken = () => {
     return localStorage.getItem("access_token");
 }
+
+const deleteAccessToken = () => {
+    return localStorage.removeItem("access_token");
+};
+
 const getDecryptToken = () => {
     const token = getAccessToken();
     if (!token) return null;
@@ -18,7 +23,9 @@ const getSubIDUser = async () => {
     return Number(sub);
 }
 export {
+    deleteAccessToken,
     getAccessToken,
     getIDUser,
     getSubIDUser
 };
+

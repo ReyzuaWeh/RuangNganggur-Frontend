@@ -1,12 +1,13 @@
 import images_source from "@/assets/get/images"
 import { DataOutJobseeker } from "@dataType/fetch"
-import { ProfileSubComponentParams } from "@dataType/khusus"
+import { getModalProfileSets } from "@pages/users/Profile"
+import { useMyProfile } from "@provider/userProvider"
 import { CgProfile } from "react-icons/cg"
 import { CiMail } from "react-icons/ci"
 
-const MainProfile = (
-    { profile, openModals }: ProfileSubComponentParams
-) => {
+const MainProfile = () => {
+    const { profile } = useMyProfile()
+    const { openEditMain: openModals } = getModalProfileSets()
     const DataSubJobseeker: DataOutJobseeker | null = profile?.jobseeker || null;
     return (
         <div className="rounded-md bg-primary mt-5 py-5 px-6 md:px-14 text-white">

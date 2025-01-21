@@ -35,6 +35,9 @@
       ],
       "@utils/*": [
         "src/utils/*"
+      ],
+      "@provider/*": [
+        "src/components/provider/*"
       ]
     },
     /* Bundler mode */
