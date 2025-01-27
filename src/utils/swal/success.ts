@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 const swalSuccess = ({ title, message }: { title: string, message: string }) => {
-    Swal.fire({
+    return Swal.fire({
         icon: "success",
         title: title,
         text: message,

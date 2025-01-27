@@ -60,12 +60,23 @@ const postJob = async (dataPostJob: DataOutJob) => {
         data: dataPostJob
     })
     if (!response.ok) throw response;
-    const data = await response.json();
+    const data: DataOutJob = await response.json();
     return data;
 }
+const deleteJob = async (id: number) => {
+    const token = functionSets.getToken()
+    const response = await FetchFunction({
+        route: `${api_route.jobs_route}/job/${id}`,
+        method: HttpMethod.DELETE,
+        token: token
+    })
+    if (!response.ok) throw response;
+    return response;
+}
 const fetchJob = {
+    deleteJob,
     getApplicant,
     getJob,
-    postJob
+    postJob,
 }
 export default fetchJob

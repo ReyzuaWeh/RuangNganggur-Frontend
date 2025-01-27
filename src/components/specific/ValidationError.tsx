@@ -1,5 +1,4 @@
 import { ErrorValidation } from "@dataType/fetch";
-import { ValidRequireMSG, ValidValueError } from "@dataType/khusus";
 import functionSets from "@utils/function";
 
 const ValidationComponents = ({ errorValid }: { errorValid: ErrorValidation | null }) => {
@@ -11,11 +10,18 @@ const ValidationComponents = ({ errorValid }: { errorValid: ErrorValidation | nu
                         errorValid.detail.map((item, index) => (
                             <li key={index}>
                                 {
-                                    (item.msg === ValidRequireMSG) ?
-                                        item.msg.replace(ValidRequireMSG, item.loc[1]) :
-                                        item.msg.replace("Field", item.loc[1])
-                                            .replace("value", functionSets.capitalizeFirstLetter(item.loc[1]))
-                                            .split(ValidValueError)
+                                    item.msg
+                                        .replace("Field",
+                                            functionSets.capitalizeFirstLetter(item.loc[1]))
+                                        .replace("Input",
+                                            functionSets.capitalizeFirstLetter(item.loc[1])
+                                        )
+                                        .replace("value",
+                                            functionSets.capitalizeFirstLetter(item.loc[1])
+                                        )
+                                        .replace("Value",
+                                            functionSets.capitalizeFirstLetter(item.loc[1])
+                                        )
                                 }
                             </li>
                         )) :

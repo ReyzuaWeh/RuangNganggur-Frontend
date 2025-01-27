@@ -28,6 +28,7 @@ const LoginComponent = () => {
         e.preventDefault();
         fetchUser.login(formData).then((value) => {
             localStorage.setItem("access_token", value.access_token);
+            localStorage.setItem("refresh_roken", value.refresh_token);
             swalSuccess({ title: "Login Successful!", message: "Redirecting to your profile..." })
             setTimeout(() => {
                 navigate("/auth/success");
@@ -43,12 +44,12 @@ const LoginComponent = () => {
     return (
         <>
 
-            <section className="bg-gradient flex flex-col lg:flex-row w-full h-screen">
-                <div className=" lg:block h-full w-full lg:w-1/2 p-16">
+            <section className="bg-gradient flex items-center lg:flex-row w-full min-h-screen">
+                <div className="lg:flex hidden lg:w-1/2 lg:p-16 h-fit">
                     <AuthSwiper />
                 </div>
 
-                <div className="w-full lg:w-1/2 h-[85vh] flex flex-col">
+                <div className="w-full lg:w-1/2 min-h-screen lg:h-fit flex flex-col">
                     <div className="flex flex-col justify-center items-center flex-grow px-6">
                         <h1 className="font-semibold text-4xl sm:text-5xl md:text-4xl text-accent text-center">
                             <span className="text-accents">Ruang</span>Nganggur.

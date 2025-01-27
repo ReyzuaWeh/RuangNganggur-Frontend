@@ -34,6 +34,8 @@ const handleChangeProfile = (
     }));
 };
 
+const refreshPage = () => window.location.reload()
+
 const getToken = (): JWTType | null => localStorage.getItem('access_token')
 
 const isEmployer = (role: RoleType) => isEqualAndSame(role, RoleType.employer)
@@ -47,6 +49,7 @@ const functionSets = {
     isEmployer,
     isJobSeeker,
     isAdmin,
-    getToken
+    getToken,
+    refreshPage
 };
 export default functionSets;

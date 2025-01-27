@@ -5,13 +5,9 @@ import { RoleType, StatusAplicantType } from "@dataType/khusus";
 import fetchUser from "@utils/fetch/users";
 import swalError from "@utils/swal/error";
 import { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
 
 const Applied = () => {
-    const [applicants, setApplicants] = useState<DataOutApplicant[] | null>(
-        []
-    );
+    const [applicants, setApplicants] = useState<DataOutApplicant[] | null>([]);
     const [loading, setLoading] = useState(true);
 
     // Fetch data from API
@@ -58,14 +54,9 @@ const Applied = () => {
     };
 
     return (
-        <DashboardLayout
-            role={RoleType.jobseeker}
-        >
+        <DashboardLayout>
             <div className="flex items-center gap-x-4 mb-5 md:mb-10">
-                <NavLink to="/" className="hover:bg-gray-300 rounded-full p-3 md:p-4">
-                    <FaArrowLeft size={20} className="cursor-pointer md:size-25" />
-                </NavLink>
-                <h1 className="text-lg md:text-2xl font-semibold">Job Applicants</h1>
+                <h1 className="text-lg md:text-2xl font-semibold">Your Job Applied</h1>
             </div>
 
             <div className="bg-white p-6 md:p-10 rounded-md shadow-md">

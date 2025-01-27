@@ -1,96 +1,57 @@
-import { useMyProfile } from "@/components/provider/userProvider";
-import { getSubIDUser } from "@/utils/localsave/getUser";
 import DashboardLayout from "@components/DashboardLayout";
+import { DataOutJob } from "@dataType/fetch";
+import { JobType } from "@dataType/khusus";
+import { useMyProfile } from "@provider/userProvider";
+import fetchJob from "@utils/fetch/jobs";
+import swalError from "@utils/swal/error";
+import swalSuccess from "@utils/swal/success";
 import React, { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
-import Swal from "sweetalert2";
 
 const JobPosting = () => {
     const { profile } = useMyProfile()
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<DataOutJob>({
         id: 0,
         employer_id: profile?.employer?.id,
         role: "",
         location: "",
         salary: 0,
-        type_job: "full_time",
+        type_job: JobType.full_time,
         min_age: 0,
         max_age: 0,
-        gender: "male",
-        open_date: "",
-        close_date: "",
+        gender: null,
+        open_date: new Date(),
+        close_date: new Date(),
         description: "",
     });
 
     // Handle form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
+        const { name, value, type } = e.target;
         setFormData((prevState) => ({
             ...prevState,
-            [name]: value,
+            [name]: type !== "date" ? value : new Date(value),
         }));
     };
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const token = localStorage.getItem("access_token");
-        try {
-            const updatedFormData = {
-                ...formData,
-                employer_id: await getSubIDUser(),
-            };
-            const jobResponse = await fetch("http://localhost:8000/jobs/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(updatedFormData),
-            });
-
-            if (jobResponse.ok) {
-                const data = await jobResponse.json();
-                Swal.fire({
-                    icon: "success",
-                    title: "Login Successful",
-                    text: "Redirecting to your profile...",
-                });
-                console.log("Job Data:", data);
-                // Reset form
-                setFormData({
-                    id: 0,
-                    employer_id: 0, // Employer ID tetap
-                    role: "",
-                    location: "",
-                    salary: 0,
-                    type_job: "full_time",
-                    min_age: 0,
-                    max_age: 0,
-                    gender: "male",
-                    open_date: "",
-                    close_date: "",
-                    description: "",
-                });
-            } else {
-                const errorData = await jobResponse.json();
-                console.error("Job posting error:", errorData);
-                alert("Failed to create job posting. Please check your input.");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred while processing the job posting.");
-        }
+        fetchJob.postJob(formData).then(() => {
+            swalSuccess({
+                title: "Post Job Success",
+                message: "Your job posting has been successfully submitted"
+            })
+        }).catch(async (err) => {
+            const errorMsg = await err.json()
+            console.error(errorMsg)
+            swalError(err.status, "Can't post job")
+        });
     };
 
     return (
         <>
             <DashboardLayout>
                 <div className="flex items-center gap-x-4 mb-5 md:mb-10">
-                    <NavLink to="/" className="hover:bg-gray-300 rounded-full p-3 md:p-4">
-                        <FaArrowLeft size={20} className="cursor-pointer md:size-25" />
-                    </NavLink>
                     <h1 className="text-lg md:text-2xl font-semibold">
                         Post a Job Listing
                     </h1>
@@ -154,14 +115,15 @@ const JobPosting = () => {
                             <select
                                 id="type_job"
                                 name="type_job"
-                                value={formData.type_job}
+                                value={formData.type_job || ""}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded-lg p-2"
                                 required
                             >
-                                <option value="full_time">Full Time</option>
-                                <option value="part_time">Part Time</option>
-                                <option value="internship">Internship</option>
+                                <option value={JobType.full_time}>Full Time</option>
+                                <option value={JobType.contract}>Contract</option>
+                                <option value={JobType.part_time}>Part Time</option>
+                                <option value={JobType.internship}>Internship</option>
                             </select>
                         </div>
 
@@ -174,7 +136,7 @@ const JobPosting = () => {
                                     type="number"
                                     id="min_age"
                                     name="min_age"
-                                    value={formData.min_age}
+                                    value={formData.min_age || 0}
                                     onChange={handleChange}
                                     min="0"
                                     placeholder="Minimum age"
@@ -191,7 +153,7 @@ const JobPosting = () => {
                                     type="number"
                                     id="max_age"
                                     name="max_age"
-                                    value={formData.max_age}
+                                    value={formData.max_age || 0}
                                     onChange={handleChange}
                                     min="0"
                                     placeholder="Maximum age"
@@ -208,11 +170,12 @@ const JobPosting = () => {
                             <select
                                 id="gender"
                                 name="gender"
-                                value={formData.gender}
+                                value={formData.gender || ""}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded-lg p-2"
                                 required
                             >
+                                <option value="">Undefined</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -226,7 +189,7 @@ const JobPosting = () => {
                                 type="date"
                                 id="open_date"
                                 name="open_date"
-                                value={formData.open_date}
+                                value={formData.open_date.toISOString().split('T')[0]}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded-lg p-2"
                                 required
@@ -241,7 +204,7 @@ const JobPosting = () => {
                                 type="date"
                                 id="close_date"
                                 name="close_date"
-                                value={formData.close_date}
+                                value={formData.close_date?.toISOString().split('T')[0]}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded-lg p-2"
                                 required

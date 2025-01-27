@@ -1,7 +1,7 @@
+import EditMainUser from "@/components/specific/profile/EditMainUser";
 import { DataOutUser } from "@/dataType/fetch";
 import DashboardLayout from "@components/DashboardLayout";
 import ChangePassword from "@components/profile/ChangePassword";
-import EditEmail from "@components/profile/EditEmail";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaRegEdit } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -132,7 +132,7 @@ const Settings = () => {
                     </div>
                 </div>
                 {emailModal && (
-                    <EditEmail
+                    <EditMainUser
                         onClose={closeEmailModal}
                         currentEmail={profile?.email}
                         onUpdateEmail={updateEmail}

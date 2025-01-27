@@ -65,6 +65,7 @@ interface LoginInterface {
 interface DataOutToken {
     access_token: string;
     token_type: string;
+    refresh_token: string;
 }
 interface Validation422 {
     loc: string[],

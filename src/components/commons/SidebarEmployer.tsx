@@ -26,7 +26,7 @@ const Sidebar = () => {
                         >
                             <span className="flex items-center gap-x-2 opacity-75 font-semibold">
                                 <IoDocumentOutline size={25} />
-                                Job Applicant
+                                Job Posts
                             </span>
                         </NavLink>
                     </li>

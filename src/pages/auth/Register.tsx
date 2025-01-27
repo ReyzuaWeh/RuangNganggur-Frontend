@@ -119,7 +119,7 @@ const Register = () => {
                                     </div>
                                     <div className="flex flex-col">
                                         <label htmlFor="email" className="font-semibold text-xs">
-                                            Email
+                                            Email <span className="text-red-600">*</span>
                                         </label>
                                         <input
                                             name="email"
@@ -129,6 +129,7 @@ const Register = () => {
                                             className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
                                             value={formData.email as string || ""}
                                             onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
+                                            required
                                         />
                                     </div>
                                     {
