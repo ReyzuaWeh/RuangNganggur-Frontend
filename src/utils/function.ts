@@ -12,6 +12,18 @@ const handleChangeFormObject = (e: React.ChangeEvent<HTMLInputElement>,
         [name]: value,
     }));
 };
+const DateToString = (date: string | Date) => {
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const parsedDate = typeof date === "string" ? new Date(date) : date
+    const year = parsedDate.getFullYear();
+    const month = months[parsedDate.getMonth()];
+    const day = parsedDate.getDate().toString().padStart(2, "0");
+
+    return `${day} ${month} ${year}`;
+};
 
 const capitalizeFirstLetter = (str: string) => {
     return str
@@ -33,7 +45,36 @@ const handleChangeProfile = (
         },
     }));
 };
-
+const handleProfileNotSub = (
+    key: string,
+    value: any,
+    setState: React.Dispatch<React.SetStateAction<DataOutUser | null>>
+) => {
+    setState(prev => {
+        if (prev) {
+            return {
+                ...prev,
+                [key]: value
+            }
+        }
+        return null
+    })
+}
+const getBase64 = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (typeof reader.result === 'string') {
+                const base64String = reader.result.split(',')[1];
+                resolve(base64String);
+            }
+        };
+        reader.onerror = () => {
+            reject(new Error('Failed to read file'));
+        };
+        reader.readAsDataURL(file);
+    });
+};
 const refreshPage = () => window.location.reload()
 
 const getToken = (): JWTType | null => localStorage.getItem('access_token')
@@ -50,6 +91,9 @@ const functionSets = {
     isJobSeeker,
     isAdmin,
     getToken,
-    refreshPage
+    refreshPage,
+    getBase64,
+    handleProfileNotSub,
+    DateToString
 };
 export default functionSets;

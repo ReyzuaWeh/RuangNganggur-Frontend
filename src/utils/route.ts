@@ -9,7 +9,7 @@ const DataRoute = {
     "Logout": "/auth/logout",
     "Applied": "/users/job-applied",
     "Setting": "/users/settings",
-    "Job Posting": "/users/employee/job-posting",
+    "Job Posting": "/users/employer/job-posting",
     "Profile": "/users/profile",
     "My Job Post": "/users/my-jobs"
 }
@@ -25,7 +25,7 @@ const DataRouteApp = {
     "Auth Require Route Parent": "/users/*",
     "RequireAuthPath": {
         "Profile": "/profile",
-        "Job Posting": "/employee/job-posting",
+        "Job Posting": "/employer/job-posting",
         "Setting": "/settings",
         "Applied": "/job-applied",
         "My Job Post": "/my-jobs"

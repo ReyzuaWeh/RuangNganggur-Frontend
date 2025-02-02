@@ -19,7 +19,7 @@ const getNavLinkClass = (isActive: boolean) => {
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [profile, setProfile] = useState<DataOutUser | undefined>(undefined);
+    const [profile, setProfile] = useState<DataOutUser | null>(null);
     useEffect(() => {
         const token = functionSets.getToken()
         if (!token) return setIsLoggedIn(false)
@@ -38,6 +38,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         deleteAccessToken();
+        setProfile(null)
         setIsLoggedIn(false);
         swalSuccess({ title: "Logout Sucecss", message: "You have been log out" })
     };
@@ -56,8 +57,11 @@ const Navbar = () => {
                 </div>
 
                 <button
-                    className="lg:hidden text-2xl focus:outline-none"
+                    className={`lg:hidden text-2xl focus:outline-none transition-all duration-100 
+                        ${isMenuOpen ? "rotate-180" : "rotate-0"}`
+                    }
                     onClick={toggleMenu}
+                    disabled={isMenuOpen}
                 >
                     {isMenuOpen ? <FaTimes /> : <FaBars />}
                 </button>
@@ -147,7 +151,9 @@ const Navbar = () => {
                     className="absolute top-6 right-6 text-2xl focus:outline-none"
                     onClick={toggleMenu}
                 >
-                    <FaTimes />
+                    <div className={`transition-transform duration-200 ${isMenuOpen ? "rotate-180" : "rotate-0"}`}>
+                        <FaTimes />
+                    </div>
                 </button>
 
                 <ul className="flex flex-col mt-16">

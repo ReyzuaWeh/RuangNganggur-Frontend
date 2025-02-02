@@ -12,15 +12,20 @@ const ValidationComponents = ({ errorValid }: { errorValid: ErrorValidation | nu
                                 {
                                     item.msg
                                         .replace("Field",
-                                            functionSets.capitalizeFirstLetter(item.loc[1]))
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
+                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
+                                        )
                                         .replace("Input",
-                                            functionSets.capitalizeFirstLetter(item.loc[1])
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
+                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
                                         )
                                         .replace("value",
-                                            functionSets.capitalizeFirstLetter(item.loc[1])
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
+                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
                                         )
                                         .replace("Value",
-                                            functionSets.capitalizeFirstLetter(item.loc[1])
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
+                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
                                         )
                                 }
                             </li>

@@ -30,7 +30,7 @@ const ModalsLayout = (
     return (
         <div className="fixed inset-0 z-10 bg-black bg-opacity-50 w-full flex justify-end items-right">
             <div
-                className={`bg-white  min-w-[50%] p-6 py-12 rounded-lg rounded-tr-[0] rounded-br-[0] max-w-md transform transition-transform duration-300 
+                className={`bg-white  min-w-[40%] p-6 py-12 rounded-lg rounded-tr-[0] rounded-br-[0] max-w-md transform transition-transform duration-300 
                     ${isVisible ? "translate-x-0" : "translate-x-full"}`
                 }
             >

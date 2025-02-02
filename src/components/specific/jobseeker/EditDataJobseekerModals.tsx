@@ -3,6 +3,7 @@ import { DataOutUser } from "@dataType/fetch";
 import { RoleType } from "@dataType/khusus";
 import { getModalProfileSets } from "@pages/users/Profile";
 import { useMyProfile } from "@provider/userProvider";
+import functionSets from "@utils/function";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
@@ -18,6 +19,54 @@ const EditDataJobseekerModals = () => {
     } = getModalProfileSets()
     const [isVisible, setIsVisible] = useState(false);
     const [profile, setProfile] = useState<DataOutUser | null>(dataProfile || null)
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files ? e.target.files[0] : null;
+        if (!file) {
+            updateSub({
+                value: null,
+                role: RoleType.jobseeker,
+                key: e.target.id,
+                setProfile: setProfile
+            })
+            updateSub({
+                value: null,
+                role: RoleType.jobseeker,
+                key: e.target.id + "_file",
+                setProfile: setProfile
+            });
+            updateSub({
+                value: null,
+                role: RoleType.jobseeker,
+                key: e.target.id + "_name",
+                setProfile: setProfile
+            });
+            return
+        };
+        try {
+            const base64String = await functionSets.getBase64(file);
+            updateSub({
+                value: file.name,
+                role: RoleType.jobseeker,
+                key: e.target.id,
+                setProfile: setProfile
+            })
+            updateSub({
+                value: base64String,
+                role: RoleType.jobseeker,
+                key: e.target.id + "_file",
+                setProfile: setProfile
+            });
+            updateSub({
+                value: file.name,
+                role: RoleType.jobseeker,
+                key: e.target.id + "_name",
+                setProfile: setProfile
+            });
+            console.log(profile)
+        } catch (error) {
+            console.error('Error reading file:', error);
+        }
+    };
     return (
         <ModalsLayout
             isVisible={isVisible}
@@ -35,8 +84,8 @@ const EditDataJobseekerModals = () => {
                             <IoMdClose size={30} />
                         </button>
                     </div>
-                    <div className="py-2 flex items-center gap-x-2">
-                        <div>
+                    <div className="py-2 flex items-center flex-col md:flex-row gap-x-2">
+                        <div className="flex flex-col w-full md:w-1/2">
                             <label htmlFor="nis" className="font-medium">
                                 NIS
                             </label>
@@ -49,14 +98,14 @@ const EditDataJobseekerModals = () => {
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
                         </div>
-                        <div>
+                        <div className="flex flex-col w-full md:w-1/2">
                             <label htmlFor="graduate_year" className="font-medium">
                                 Graduate Year
                             </label>
                             <input
                                 id="graduate_year"
                                 name="graduate_year"
-                                value={profile?.jobseeker?.graduate_year || "Unknown"}
+                                value={profile?.jobseeker?.graduate_year || "Not Verified"}
                                 disabled={true}
                                 type="text"
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
@@ -95,17 +144,11 @@ const EditDataJobseekerModals = () => {
                             <input
                                 id="resume"
                                 name="resume"
-                                value={profile?.jobseeker?.resume || ""}
                                 onChange={(e) => {
-                                    updateSub({
-                                        value: e.target.value || null,
-                                        role: RoleType.jobseeker,
-                                        key: e.target.id,
-                                        setProfile: setProfile
-                                    })
+                                    handleFileChange(e)
                                 }}
-                                placeholder="e.g. https://...."
-                                type="url"
+                                accept="application/pdf"
+                                type="file"
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
                         </div>
@@ -116,17 +159,11 @@ const EditDataJobseekerModals = () => {
                             <input
                                 id="cv"
                                 name="cv"
-                                value={profile?.jobseeker?.cv || ""}
                                 onChange={(e) => {
-                                    updateSub({
-                                        value: e.target.value,
-                                        role: RoleType.jobseeker,
-                                        key: e.target.id,
-                                        setProfile: setProfile
-                                    })
+                                    handleFileChange(e)
                                 }}
-                                placeholder="e.g. https://...."
-                                type="url"
+                                accept="application/pdf"
+                                type="file"
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
                         </div>
@@ -137,17 +174,11 @@ const EditDataJobseekerModals = () => {
                             <input
                                 id="portfolio"
                                 name="portfolio"
-                                value={profile?.jobseeker?.portfolio || ""}
                                 onChange={(e) => {
-                                    updateSub({
-                                        value: e.target.value,
-                                        role: RoleType.jobseeker,
-                                        key: e.target.id,
-                                        setProfile: setProfile
-                                    })
+                                    handleFileChange(e)
                                 }}
-                                placeholder="e.g. https://...."
-                                type="url"
+                                accept="application/pdf"
+                                type="file"
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
                         </div>

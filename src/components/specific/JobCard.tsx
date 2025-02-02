@@ -15,7 +15,7 @@ const JobCard = (
     }
 
     return (
-        <div className="lg:w-[420px] bg-primary text-white p-6 tracking-widest rounded-[20px]">
+        <div className="lg:w-[325px] w-full bg-primary text-white p-6 tracking-widest rounded-[20px]">
             <div className="mb-2">
                 <h1 className="lg:text-2xl font-medium">{role}</h1>
                 <p className="flex items-center gap-x-2 text-xs">
@@ -27,25 +27,25 @@ const JobCard = (
             <div className="py-2 flex flex-col gap-y-4">
                 <div>
                     <h1 className="flex items-center gap-x-2 text-lg">
-                        <FaMapMarkedAlt className="text-accents" /> Lokasi
+                        <FaMapMarkedAlt className="text-accents" /> Location
                     </h1>
                     <p className="text-xs opacity-65">{location}</p>
                 </div>
                 <div>
                     <h1 className="flex items-center gap-x-2 text-lg">
-                        <AiOutlineDollar className="text-accents" /> Gaji
+                        <AiOutlineDollar className="text-accents" /> Sallary
                     </h1>
                     <p className="text-xs opacity-65">{salary}</p>
                 </div>
                 <div>
                     <h1 className="flex items-center gap-x-2 text-lg">
-                        <IoDocumentTextOutline className="text-accents" /> Deskripsi
+                        <IoDocumentTextOutline className="text-accents" /> Description
                     </h1>
-                    <p className="text-xs opacity-65">{truncateDescription(description, 8)}</p>
+                    <p className="text-xs opacity-65">{truncateDescription(description, 12)}</p>
                 </div>
 
-                <button onClick={() => onDetailClick}
-                    className="btn-accent items-start rounded-md font-semibold w-1/3">
+                <button onClick={() => onDetailClick()}
+                    className="btn-accent items-start rounded-md font-semibold w-1/3 self-end">
                     Detail
                 </button>
             </div>

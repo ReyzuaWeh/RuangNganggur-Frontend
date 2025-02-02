@@ -1,8 +1,10 @@
 import api_route from "@api/api";
 import { HttpMethod } from "@dataType/basic";
 import { DataOutJob } from "@dataType/fetch";
-import functionSets from "../function";
+import functionSets from "@utils/function";
+import { getRefreshToken } from "@utils/localsave/getUser";
 import FetchFunction from "./fetch";
+import fetchUser from "./users";
 
 const getApplicant = async (
     { userId, jobId }: {
@@ -27,27 +29,33 @@ const getApplicant = async (
     const data = await response.json();
     return data;
 }
-const getJob = async (
-    { idEmployer, location, jobRole }: {
+const getJobs = async (
+    { idEmployer, location, role, with_owner }: {
         idEmployer?: number | null,
         location?: string | null,
-        jobRole?: string | null
+        role?: string | null,
+        with_owner?: boolean | null,
     }
 ) => {
+    let tambahan = "/";
+    if (with_owner) tambahan = `/with-owner`
     const paramsObject = {
         ...(idEmployer && { employer_id: String(idEmployer) }),
-        ...(location && { location: location }),
-        ...(jobRole && { role: jobRole })
+        ...(location && { location }),
+        ...(role && { role })
     }
     const params = new URLSearchParams(paramsObject)
     const response = await FetchFunction(
         {
-            route: `${api_route.jobs_route}?${params.toString()}`,
+            route: `${api_route.jobs_route}${tambahan}?${params.toString()}`,
             method: HttpMethod.GET,
             token: functionSets.getToken()
         }
     )
-    if (!response.ok) throw response;
+    if (!response.ok) {
+        if (response.status === 404) return []
+        throw response
+    };
     const data: DataOutJob[] = await response.json();
     return data;
 }
@@ -59,7 +67,11 @@ const postJob = async (dataPostJob: DataOutJob) => {
         token: token,
         data: dataPostJob
     })
-    if (!response.ok) throw response;
+    if (response.status == 401) {
+        await fetchUser.refreshToken(getRefreshToken()).then(() => postJob(dataPostJob))
+    } else if (!response.ok) {
+        throw response
+    };
     const data: DataOutJob = await response.json();
     return data;
 }
@@ -70,13 +82,17 @@ const deleteJob = async (id: number) => {
         method: HttpMethod.DELETE,
         token: token
     })
-    if (!response.ok) throw response;
+    if (response.status == 401) {
+        fetchUser.refreshToken(getRefreshToken()).then(() => deleteJob(id))
+    } else if (!response.ok) {
+        throw response
+    };
     return response;
 }
 const fetchJob = {
     deleteJob,
     getApplicant,
-    getJob,
+    getJobs,
     postJob,
 }
 export default fetchJob

@@ -1,31 +1,23 @@
-import { TokenDecrypt } from "@dataType/localSave";
-import { jwtDecode } from "jwt-decode";
+import { DataOutToken } from "@dataType/fetch";
 
-const getAccessToken = () => {
-    return localStorage.getItem("access_token");
+const setToken = (value: DataOutToken) => {
+    localStorage.setItem("access_token", value.access_token);
+    localStorage.setItem("refresh_token", value.refresh_token);
+    return
 }
+
+const getAccessToken = () => localStorage.getItem("access_token");
 
 const deleteAccessToken = () => {
-    return localStorage.removeItem("access_token");
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("refresh_token")
 };
 
-const getDecryptToken = () => {
-    const token = getAccessToken();
-    if (!token) return null;
-    const decoded: TokenDecrypt = jwtDecode(token);
-    return decoded
-}
-const getIDUser = () => {
-    return getDecryptToken()?.sub;
-}
-const getSubIDUser = async () => {
-    const sub = await getDecryptToken()?.subsubject;
-    return Number(sub);
-}
+const getRefreshToken = () => localStorage.getItem("refresh_token");
 export {
     deleteAccessToken,
     getAccessToken,
-    getIDUser,
-    getSubIDUser
+    getRefreshToken,
+    setToken
 };
 

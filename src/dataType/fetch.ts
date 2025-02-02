@@ -16,10 +16,17 @@ interface DataOutJobseeker {
     graduate_year?: number | null;
     phone_number?: string | null;
     resume?: string | null;
+    resume_file?: string | null;
+    resume_name?: string | null;
     cv?: string | null;
+    cv_file?: string | null;
+    cv_name?: string | null;
     portfolio?: string | null;
+    portfolio_file?: string | null;
+    portfolio_name?: string | null;
     skills?: string | null;
 }
+
 interface DataOutUser {
     id?: number;
     username: string;
@@ -27,6 +34,8 @@ interface DataOutUser {
     email?: string | null;
     role: RoleType;
     image?: string | null;
+    image_file?: string | null;
+    image_name?: string | null;
     registered_at: Date;
     disabled: boolean;
     employer?: DataOutEmployer | null;
@@ -46,6 +55,10 @@ interface DataOutJob {
     open_date: Date;
     close_date?: Date | null;
     description?: string | null;
+    employer?: {
+        id: number
+        company_name: string
+    } | null;
 }
 
 interface DataOutApplicant {
@@ -55,6 +68,14 @@ interface DataOutApplicant {
     jobletter?: string | null;
     status: StatusAplicantType;
     applied_at: Date;
+}
+
+interface ForgetPasswordForm {
+    username: string
+    email: string
+    role: RoleType
+    new_password: string
+    confirm_password: string
 }
 
 interface LoginInterface {
@@ -84,6 +105,7 @@ export type {
     DataOutToken,
     DataOutUser,
     ErrorValidation,
+    ForgetPasswordForm,
     LoginInterface
 };
 

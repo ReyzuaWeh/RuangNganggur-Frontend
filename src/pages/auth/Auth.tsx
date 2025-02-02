@@ -1,14 +1,10 @@
 import AuthSwiper from '@components/AuthSwiper'
+import OurRoute from '@utils/route'
 const Auth = () => {
     return (
         <>
             <section className="bg-gradient flex flex-col lg:flex-row w-full">
-                <div className=" lg:block h-[95vh] w-full lg:w-1/2 p-16">
-                    {/* <img 
-            src="/assets/auth-landing.png" 
-            alt="Auth Landing" 
-            className="h-full w-full" 
-          /> */}
+                <div className=" lg:flex hidden h-[95vh] items-center w-full lg:w-1/2 p-16">
                     <AuthSwiper />
                 </div>
 
@@ -20,17 +16,20 @@ const Auth = () => {
                         </h1>
 
 
-                        <div className="w-full sm:w-3/4 flex justify-between flex-col sm:flex-row gap-6 mt-14">
+                        <div className="w-full sm:w-3/4 justify-between flex flex-col sm:flex-row gap-6 mt-14">
                             <a
-                                href='/auth/register/employer'
-                                className="w-full bg-accents text-center text-white px-10 py-4 rounded-full text-base sm:text-lg">
+                                href={`${OurRoute.DataRoute["Register Role"]}employer`}
+                                className="w-full text-nowrap bg-accents text-center text-white px-10 py-4 rounded-full text-base sm:text-lg">
                                 Employer
                             </a>
                             <a
-                                href='/auth/register/jobseeker'
-                                className="w-full bg-primary text-white text-center px-10 py-4 rounded-full text-base sm:text-lg">
+                                href={`${OurRoute.DataRoute["Register Role"]}jobseeker`}
+                                className="w-full text-nowrap bg-primary text-white text-center px-10 py-4 rounded-full text-base sm:text-lg">
                                 Job Seeker
                             </a>
+                        </div>
+                        <div className="w-full text-center pt-5">
+                            Already have account? <a href={OurRoute.DataRoute["Login"]} className="text-center text-primary underline font-semibold mt-4">Login</a>
                         </div>
                     </div>
                 </div>

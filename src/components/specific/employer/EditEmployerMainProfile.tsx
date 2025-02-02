@@ -1,5 +1,6 @@
 import { getModalProfileSets } from "@/pages/users/Profile";
 import ModalsLayout from "@components/layouts/ModalsLayout";
+import CircularImageInput from "@components/profile/ImageModals";
 import MainDataUserModals from "@components/profile/MainDataUserModals";
 import { DataOutUser } from "@dataType/fetch";
 import { RoleType } from "@dataType/khusus";
@@ -38,6 +39,10 @@ const EditEmployerMainProfile = () => {
                             <IoMdClose size={30} />
                         </button>
                     </div>
+                    <CircularImageInput
+                        currentImage={profile?.image}
+                        setProfile={setProfile}
+                    />
                     <div className="py-2 flex flex-col items-center gap-x-2">
                         <div className="flex w-full md:flex-row flex-col justify-between">
                             <label htmlFor="company_name" className="font-medium pr-1">

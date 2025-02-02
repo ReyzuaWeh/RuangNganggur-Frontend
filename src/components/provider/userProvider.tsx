@@ -1,6 +1,7 @@
 import Loading from "@components/Loading";
 import { DataOutUser } from "@dataType/fetch";
 import fetchUser from "@utils/fetch/users";
+import OurRoute from "@utils/route";
 import swalError from "@utils/swal/error";
 import React, { createContext, useEffect, useState } from "react";
 
@@ -22,11 +23,12 @@ const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
         }).catch(async error => {
             const errorData = error instanceof Response && error.json ? await error.json() : error;
             if (error.status && error.status === 401) {
-                return swalError(error.status, 'Have to Login First!', '<a href="/auth/login">Click here!</a>');
+                return swalError(error.status, 'Have to Login First!', `<a href="${OurRoute.DataRoute["Login"]}">Click here!</a>`);
             }
             swalError(error.status, "Cannot get data user");
             console.error(errorData)
         })
+        console.count("Cek")
     }, []);
     if (loading) return <Loading />
     return (
@@ -45,3 +47,4 @@ const useMyProfile = (): ProfileContextType => {
 };
 
 export { ProfileProvider, useMyProfile };
+

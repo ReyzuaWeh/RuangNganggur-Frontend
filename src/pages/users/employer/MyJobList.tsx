@@ -13,7 +13,7 @@ const MyJobList = () => {
     const [jobs, setJobs] = useState<DataOutJob[]>([])
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        fetchJob.getJob({ idEmployer: profile?.employer?.id || null }).then(v => {
+        fetchJob.getJobs({ idEmployer: profile?.employer?.id || null }).then(v => {
             setJobs(v)
         }).catch((e) => {
             if (e.status === 404) return swalError(e.status, "You don't have any job post")
@@ -69,22 +69,22 @@ const MyJobList = () => {
                         <tbody>
                             {jobs.map((job, index) => (
                                 <tr key={job.id} className="hover:bg-gray-50">
-                                    <td className="p-4 border-b text-sm md:text-base">
+                                    <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         {index + 1}
                                     </td>
-                                    <td className="p-4 border-b text-sm md:text-base">
+                                    <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         {job.role}
                                     </td>
-                                    <td className="p-4 border-b text-sm md:text-base">
+                                    <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         {job.location}
                                     </td>
-                                    <td className="p-4 border-b text-sm md:text-base">
+                                    <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         {job.salary}
                                     </td>
-                                    <td className="p-4 border-b text-sm md:text-base">
+                                    <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         {job.type_job && functionSets.capitalizeFirstLetter(job.type_job.replace("_", " "))}
                                     </td>
-                                    <td className="p-4 border-b text-sm md:text-base">
+                                    <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         <div className="flex w-full justify-between gap-x-0.5">
                                             <button className="btn-primary p-1.5 rounded">Detail</button>
                                             <button onClick={() => deleteJob(job.id as number, job.role)}

@@ -106,6 +106,7 @@ const JobPosting = () => {
                                 className="border border-gray-300 rounded-lg p-2"
                                 required
                             />
+                            <p className="text-xs text-end text-red-500">*In Rupiah (IDR)</p>
                         </div>
 
                         <div className="flex flex-col">
@@ -173,9 +174,8 @@ const JobPosting = () => {
                                 value={formData.gender || ""}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded-lg p-2"
-                                required
                             >
-                                <option value="">Undefined</option>
+                                <option value="">All Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>

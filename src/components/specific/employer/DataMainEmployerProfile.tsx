@@ -11,12 +11,12 @@ const DataMainEmployerProfile = () => {
     return (
         <div className="rounded-md bg-primary mt-5 py-5 px-6 md:px-14 text-white">
             <div className="flex flex-col md:flex-row gap-4 md:gap-x-6 items-center md:items-start">
-                <div>
+                <div className="w-28 bg-white aspect-square rounded-full self-center overflow-hidden border relative border-white ">
                     <img
                         // @ts-ignore
                         src={profile?.image || images_source["../no-profile.png"].default} // Display user image if available
                         alt="Profile"
-                        className="w-20 h-20 md:w-auto md:h-auto"
+                        className="w-full h-full object-cover"
                     />
                 </div>
                 <div className="w-100">

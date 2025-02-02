@@ -8,19 +8,18 @@ import Logout from "@pages/Logout";
 import Success from "@pages/Success";
 // import Landing from './pages/landing/Layout';
 import Profile from "@pages/Profile";
+import Job from "@pages/jobseeker/Job";
 import About from "@pages/jobseeker/about/About";
 import Applied from "@pages/jobseeker/applied/Applied";
-import Job from "@pages/jobseeker/job/Job";
 import Settings from "@pages/users/Setting";
 // import Applicant from './pages/employee/applicant/Applicant';
 // import Job from './pages/employee/job/Job';
 
+import EmployeeJobPosting from "@/pages/users/employer/JobPosting";
 import Loading from "@components/Loading";
 import MyJobList from "@pages/employer/MyJobList";
 import EmployeeApplicant from "@pages/employer/applicant/Applicant";
 import EmployeeCompany from "@pages/employer/company/Company";
-import EmployeeJobPosting from "@pages/employer/jobposting/JobPosting";
-import EmployeeSettings from "@pages/employer/settings/Setting";
 import { ProfileProvider } from "@provider/userProvider";
 import OurRoute from "@utils/route";
 
@@ -45,7 +44,6 @@ function App() {
         {/* Employee Dashboard */}
         <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />} />
         <Route path="/users/employee/company" element={<EmployeeCompany />} />
-        <Route path="/users/employee/settings" element={<EmployeeSettings />} />
         <Route path="/loading" element={<Loading />} />
         {/* Require Login */}
         <Route

@@ -28,7 +28,7 @@ const LoginComponent = () => {
         e.preventDefault();
         fetchUser.login(formData).then((value) => {
             localStorage.setItem("access_token", value.access_token);
-            localStorage.setItem("refresh_roken", value.refresh_token);
+            localStorage.setItem("refresh_token", value.refresh_token);
             swalSuccess({ title: "Login Successful!", message: "Redirecting to your profile..." })
             setTimeout(() => {
                 navigate("/auth/success");

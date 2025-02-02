@@ -1,4 +1,6 @@
+import '@/App.css'
 import '@/css/Loading.css'
+import '@/css/Scrollbar.css'
 import '@/index.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'

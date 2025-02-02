@@ -1,4 +1,5 @@
 import ModalsLayout from "@components/layouts/ModalsLayout";
+import CircularImageInput from "@components/profile/ImageModals";
 import MainDataUserModals from "@components/profile/MainDataUserModals";
 import { DataOutUser } from "@dataType/fetch";
 import { RoleType } from "@dataType/khusus";
@@ -6,7 +7,6 @@ import { getModalProfileSets } from "@pages/users/Profile";
 import { useMyProfile } from "@provider/userProvider";
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-
 
 const EditMainProfile = () => {
     const { profile: dataProfile } = useMyProfile()
@@ -20,7 +20,6 @@ const EditMainProfile = () => {
     } = getModalProfileSets()
     const [isVisible, setIsVisible] = useState(false);
     const [profile, setProfile] = useState<DataOutUser | null>(dataProfile)
-
     useEffect(() => {
         setIsVisible(true);
     }, []);
@@ -42,8 +41,12 @@ const EditMainProfile = () => {
                             <IoMdClose size={30} />
                         </button>
                     </div>
-                    <div className="py-2 flex gap-x-2 md:flex-row flex-col">
-                        <div className="flex flex-col">
+                    <CircularImageInput
+                        currentImage={profile?.image}
+                        setProfile={setProfile}
+                    />
+                    <div className="py-2 flex gap-x-2 w-full md:flex-row flex-col">
+                        <div className="flex flex-col w-full md:w-1/2">
                             <label htmlFor="first_name" className="font-medium">
                                 First Name
                             </label>
@@ -63,7 +66,7 @@ const EditMainProfile = () => {
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col w-full md:w-1/2">
                             <label htmlFor="last_name" className="font-medium">
                                 Last Name
                             </label>
