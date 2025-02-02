@@ -5,9 +5,13 @@ import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
 import swalError from "@utils/swal/error";
 import swalSuccess from "@utils/swal/success";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const JobPosting = () => {
+    const { id } = useParams<{
+        id: string;
+    }>();
     const { profile } = useMyProfile()
     const [formData, setFormData] = useState<DataOutJob>({
         id: 0,
@@ -36,17 +40,39 @@ const JobPosting = () => {
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetchJob.postJob(formData).then(() => {
+        if (!id) {
+            fetchJob.postJob(formData).then(() => {
+                swalSuccess({
+                    title: "Post Job Success",
+                    message: "Your job posting has been successfully submitted"
+                })
+            }).catch(async (err) => {
+                const errorMsg = await err.json()
+                console.error(errorMsg)
+                swalError(err.status, "Can't post job")
+            });
+            return
+        }
+        fetchJob.updateJob({ id: parseInt(id), dataUpdate: formData }).then(() => {
             swalSuccess({
-                title: "Post Job Success",
-                message: "Your job posting has been successfully submitted"
+                title: "Update Job Success",
+                message: "Your job posting has been successfully updated"
             })
         }).catch(async (err) => {
             const errorMsg = await err.json()
             console.error(errorMsg)
-            swalError(err.status, "Can't post job")
+            swalError(err.status, "Can't update job")
         });
+
     };
+    useEffect(() => {
+        if (!id) return;
+        fetchJob.getJob(parseInt(id)).then(e => {
+            setFormData(e)
+        }).catch(err => {
+            swalError(err.status, "Cannot get data job")
+        })
+    }, [id])
 
     return (
         <>
@@ -189,7 +215,7 @@ const JobPosting = () => {
                                 type="date"
                                 id="open_date"
                                 name="open_date"
-                                value={formData.open_date.toISOString().split('T')[0]}
+                                value={formData.open_date ? new Date(formData.open_date).toISOString().split('T')[0] : ""}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded-lg p-2"
                                 required
@@ -204,7 +230,7 @@ const JobPosting = () => {
                                 type="date"
                                 id="close_date"
                                 name="close_date"
-                                value={formData.close_date?.toISOString().split('T')[0]}
+                                value={formData.close_date ? new Date(formData.close_date).toISOString().split('T')[0] : ""}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded-lg p-2"
                                 required

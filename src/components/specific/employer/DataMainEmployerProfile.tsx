@@ -19,7 +19,7 @@ const DataMainEmployerProfile = () => {
                         className="w-full h-full object-cover"
                     />
                 </div>
-                <div className="w-100">
+                <div className="md:w-full">
                     <div className="mb-4">
                         <h1 className="font-semibold text-3xl md:text-5xl">
                             Hi, {DataSubEmployer?.company_name}!

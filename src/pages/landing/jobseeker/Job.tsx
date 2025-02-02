@@ -14,7 +14,7 @@ const Job = () => {
         location: ""
     })
     const [currentPage, setCurrentPage] = useState(1);
-    const jobsPerPage = 8;
+    const jobsPerPage = 12;
 
     // Fungsi untuk mengambil data dari API
     const getJobs = fetchJob.getJobs
@@ -43,7 +43,7 @@ const Job = () => {
     }
     useEffect(() => {
         getJobs({ with_owner: true }).then(e => {
-            setJobs(e)
+            setJobs(e.reverse())
         }).catch((error) => {
             console.error("Error fetching jobs:", error);
         })
@@ -60,7 +60,6 @@ const Job = () => {
                                 ...filter,
                                 with_owner: true
                             }).then(e => {
-                                console.log(e)
                                 setJobs(e)
                             }).catch((error) => {
                                 console.error("Error fetching jobs:", error);
@@ -101,7 +100,7 @@ const Job = () => {
 
                 {/* Tampilkan data job */}
                 <div className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-                    {currentJobs.reverse().map((job: DataOutJob) => (
+                    {currentJobs.map((job: DataOutJob) => (
                         <div className="flex justify-center md:mx-auto mx-0">
                             <JobCard
                                 key={job.id}

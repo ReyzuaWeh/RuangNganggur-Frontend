@@ -60,6 +60,9 @@ const handleProfileNotSub = (
         return null
     })
 }
+const formatNumbertoIDR = (num: number) => {
+    return `Rp. ${num.toLocaleString("id-ID")}`;
+};
 const getBase64 = (file: File) => {
     return new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -94,6 +97,7 @@ const functionSets = {
     refreshPage,
     getBase64,
     handleProfileNotSub,
-    DateToString
+    DateToString,
+    formatNumbertoIDR
 };
 export default functionSets;

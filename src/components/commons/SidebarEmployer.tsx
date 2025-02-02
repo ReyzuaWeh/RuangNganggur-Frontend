@@ -30,7 +30,17 @@ const Sidebar = () => {
                             </span>
                         </NavLink>
                     </li>
-
+                    <li>
+                        <NavLink
+                            to={OurRoute.DataRoute["Applier List"]}
+                            className={({ isActive }) => getNavLinks(isActive)}
+                        >
+                            <span className="flex items-center gap-x-2 opacity-75 font-semibold">
+                                <IoDocumentsOutline size={25} />
+                                Applicant Lists
+                            </span>
+                        </NavLink>
+                    </li>
                 </>
             }
         />

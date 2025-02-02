@@ -33,6 +33,7 @@ const handleRequest = async (params: {
         try {
             const refreshTok = getRefreshToken();
             await refreshToken(refreshTok);
+            params.token = getAccessToken()
             return await handleRequest(params, false);
         } catch (error) {
             throw error;
@@ -144,6 +145,7 @@ export const fetchUser = {
     updateSubProfile,
     saveChange,
     refreshToken,
-    changepass
+    changepass,
+    handleRequest
 };
 export default fetchUser;

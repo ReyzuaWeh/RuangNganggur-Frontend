@@ -6,10 +6,11 @@ const DataRoute = {
     "Success Login": "/auth/success",
     "Register": "/auth",
     "Register Role": "/auth/register/",
-    "Logout": "/auth/logout",
     "Applied": "/users/job-applied",
     "Setting": "/users/settings",
     "Job Posting": "/users/employer/job-posting",
+    "Job Detail Form": "/users/employer/job-detail",
+    "Applier List": "/users/employer/applier-list",
     "Profile": "/users/profile",
     "My Job Post": "/users/my-jobs"
 }
@@ -21,11 +22,12 @@ const DataRouteApp = {
     "Success Login": "/auth/success",
     "Register": "/auth",
     "Register Role": "/auth/register/",
-    "Logout": "/auth/logout",
     "Auth Require Route Parent": "/users/*",
     "RequireAuthPath": {
         "Profile": "/profile",
         "Job Posting": "/employer/job-posting",
+        "Job Detail Form": "/employer/job-detail",
+        "Applier List": "/employer/applier-list",
         "Setting": "/settings",
         "Applied": "/job-applied",
         "My Job Post": "/my-jobs"

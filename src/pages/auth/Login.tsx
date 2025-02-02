@@ -1,11 +1,12 @@
-import OurRoute from "@/utils/route";
 import AuthSwiper from "@components/AuthSwiper";
 import ValidationComponents from '@components/ValidationError';
 import { ErrorValidation, LoginInterface } from '@dataType/fetch';
 import fetchUser from '@utils/fetch/users';
+import OurRoute from "@utils/route";
 import swalError from '@utils/swal/error';
 import swalSuccess from '@utils/swal/success';
 import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const LoginComponent = () => {
@@ -14,6 +15,7 @@ const LoginComponent = () => {
         password: "",
     });
     const [error, setError] = useState<ErrorValidation | null>(null);
+    const [visibility, setVisibility] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,16 +86,26 @@ const LoginComponent = () => {
                                         <label htmlFor="password" className="font-semibold text-xs">
                                             Password
                                         </label>
-                                        <input
-                                            name="password"
-                                            id="password"
-                                            placeholder="Enter Password"
-                                            type="password"
-                                            className="text-sm w-full border outline-none rounded-md px-4 py-2 mt-2"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                            required
-                                        />
+                                        <label htmlFor="password" className="flex flex-nowrap border outline-none rounded-md px-4 py-2 mt-2">
+                                            <input
+                                                name="password"
+                                                id="password"
+                                                placeholder="Enter Password"
+                                                type={visibility ? "text" : "password"}
+                                                className="text-sm w-full"
+                                                value={formData.password}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setVisibility(!visibility)}
+                                                className=" text-gray-600"
+                                            >
+                                                {visibility ? <FaEye /> : <FaEyeSlash />}
+                                            </button>
+                                        </label>
+
                                     </div>
                                     <div className="flex items-center text-sm">
                                         <input type="checkbox" name="remember" id="remember" />

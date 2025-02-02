@@ -66,8 +66,17 @@ interface DataOutApplicant {
     job_id?: number;
     jobseeker_id?: number;
     jobletter?: string | null;
+    jobletter_file?: string | null;
+    jobletter_name?: string | null;
     status: StatusAplicantType;
     applied_at: Date;
+    jobseeker?: {
+        first_name: string
+        last_name: string | null
+    } | null
+    job?: {
+        role: string
+    } | null
 }
 
 interface ForgetPasswordForm {
