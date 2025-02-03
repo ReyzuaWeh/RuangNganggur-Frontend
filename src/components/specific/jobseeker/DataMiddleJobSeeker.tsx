@@ -41,27 +41,27 @@ const DataMiddleJobSeeker = () => {
                         <div className="flex flex-wrap pt-2">
                             <h3 className="font-medium">Resume</h3>
                             <a
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full cursor-pointer"
+                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full cursor-pointer"
                                 href={profile?.jobseeker?.resume || ""}
                                 target={profile?.jobseeker?.resume ? "_blank" : "_self"}
                             >
-                                {profile?.jobseeker?.resume?.split("\\").pop() || "No Resume"}
+                                {profile?.jobseeker?.resume?.split("/").pop() || "No Resume"}
                             </a>
                         </div>
                         <div className="flex flex-wrap pt-2">
                             <h3 className="font-medium">CV</h3>
                             <a
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full cursor-pointer"
+                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full cursor-pointer"
                                 href={profile?.jobseeker?.cv || ""}
                                 target={profile?.jobseeker?.cv ? "_blank" : "_self"}
                             >
-                                {profile?.jobseeker?.cv?.split("\\").pop() || "No CV"}
+                                {profile?.jobseeker?.cv?.split("/").pop() || "No CV"}
                             </a>
                         </div>
                         <div className="flex flex-wrap pt-2">
                             <h3 className="font-medium">Portfolio</h3>
                             <a
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full cursor-pointer"
+                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full cursor-pointer"
                                 href={profile?.jobseeker?.portfolio || ""}
                                 target={profile?.jobseeker?.portfolio ? "_blank" : "_self"}
                             >

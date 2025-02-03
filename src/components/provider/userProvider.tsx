@@ -28,7 +28,6 @@ const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
             swalError(error.status, "Cannot get data user");
             console.error(errorData)
         })
-        console.count("Cek")
     }, []);
     if (loading) return <Loading />
     return (

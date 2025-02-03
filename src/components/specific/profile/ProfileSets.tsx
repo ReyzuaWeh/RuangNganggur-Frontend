@@ -14,6 +14,10 @@ const ProfileSets = () => {
                 dataProfile?.role === RoleType.employer &&
                 <ProfileSetEmployer />
             }
+            {/* {
+                dataProfile?.role === RoleType.admin &&
+                <UserDetailAdmin />
+            } */}
         </>
     )
 }

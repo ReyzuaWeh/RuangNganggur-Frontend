@@ -37,15 +37,13 @@ const ModalsLayout = (
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     setLoading(true)
-                    saveChange(profile, setNewProfile).finally(() => setLoading(false))
+                    saveChange(profile, setNewProfile, profile?.id || null).finally(() => setLoading(false))
                 }}
                 >
-
                     {children}
                     <SaveComponent
                         isLoading={isLoading}
                     />
-
                 </form>
             </div>
         </div>

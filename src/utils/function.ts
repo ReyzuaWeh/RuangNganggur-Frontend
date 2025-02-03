@@ -1,6 +1,9 @@
 import { JWTType } from "@dataType/basic";
 import { DataOutUser } from "@dataType/fetch";
 import { RoleType, useStateObjectAnyType } from "@dataType/khusus";
+import Swal from "sweetalert2";
+import { deleteAccessToken } from "./localsave/getUser";
+import swalSuccess from "./swal/success";
 
 const isEqualAndSame = (data1: any, data2: any) => data1 === data2
 const handleChangeFormObject = (e: React.ChangeEvent<HTMLInputElement>,
@@ -24,7 +27,9 @@ const DateToString = (date: string | Date) => {
 
     return `${day} ${month} ${year}`;
 };
-
+const truncateWord = (desc: string, maxLength: number): string => {
+    return desc.length > maxLength ? desc.slice(0, maxLength) + '...' : desc;
+}
 const capitalizeFirstLetter = (str: string) => {
     return str
         .split(' ')
@@ -60,6 +65,40 @@ const handleProfileNotSub = (
         return null
     })
 }
+
+const handleLogout = ({ setProfile, setIsLoggedIn }: {
+    setProfile?: React.Dispatch<React.SetStateAction<DataOutUser | null>>,
+    setIsLoggedIn?: React.Dispatch<React.SetStateAction<boolean> | null>
+}
+) => {
+    Swal.fire({
+        title: "Logout?",
+        text: "Are you sure you want to logout?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        customClass: {
+            title: "text-center font-bold text-2xl",
+            actions: "w-full flex no-wrap",
+            confirmButton: "my-0 mx-2 rounded-lg py-3 px-3.5",
+            denyButton: "my-0 mx-2 rounded-lg p-1.5 py-3",
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteAccessToken();
+            if (setProfile) setProfile(null);
+            if (setIsLoggedIn) setIsLoggedIn(false);
+            swalSuccess({
+                title: "Logout Success",
+                message: "You have been logged out",
+            });
+            window.location.reload()
+        }
+    });
+};
+
+
 const formatNumbertoIDR = (num: number) => {
     return `Rp. ${num.toLocaleString("id-ID")}`;
 };
@@ -98,6 +137,8 @@ const functionSets = {
     getBase64,
     handleProfileNotSub,
     DateToString,
-    formatNumbertoIDR
+    formatNumbertoIDR,
+    handleLogout,
+    truncateWord
 };
 export default functionSets;

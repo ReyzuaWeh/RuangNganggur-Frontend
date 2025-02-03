@@ -1,4 +1,5 @@
 import images_source from "@/assets/get/images";
+import functionSets from "@/utils/function";
 import DashboardLayout from "@components/DashboardLayout";
 import ChangePassword from "@components/profile/ChangePassword";
 import EditMainUser from "@components/profile/EditMainUser";
@@ -56,8 +57,13 @@ const Settings = () => {
                                 </button>
                             </div>
                             <div className="border-2 px-8 py-4 w-full md:flex-row md:items-center flex-col flex justify-between">
-                                <p className="font-semibold md:text-left">Delete Account</p>
-                                <button className="btn-danger p-1.5 font-semibold rounded">Delete</button>
+                                <p className="font-semibold md:text-left">Logout Account</p>
+                                <button
+                                    className="btn-danger p-1.5 font-semibold rounded"
+                                    onClick={() => {
+                                        functionSets.handleLogout({})
+                                    }}
+                                >Logout</button>
                             </div>
                         </div>
                     </div>

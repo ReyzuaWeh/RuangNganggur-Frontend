@@ -1,4 +1,5 @@
 import SidebarLayout, { getNavLinks } from "@components/layouts/SidebarLayout";
+import OurRoute from "@utils/route";
 import { IoDocumentOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 
@@ -8,7 +9,7 @@ const SidebarJobseeker = () => {
             child={
                 <li>
                     <NavLink
-                        to="/users/job-applied"
+                        to={OurRoute.DataRoute["Applied"]}
                         className={({ isActive }) => getNavLinks(isActive)}
                     >
                         <span className="flex items-center gap-x-2 opacity-75 font-semibold">

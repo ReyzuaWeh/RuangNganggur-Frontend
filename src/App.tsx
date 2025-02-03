@@ -15,13 +15,13 @@ import About from "@pages/jobseeker/about/About";
 // import Job from './pages/employee/job/Job';
 
 import Loading from "@components/Loading";
+import UserDetailAdmin from "@pages/admin/UserDetailAdmin";
 import { default as Applicant, default as EmployeeApplicant } from "@pages/employer/Applicant";
 import EmployeeCompany from "@pages/employer/Company";
 import EmployeeJobPosting from "@pages/employer/JobPosting";
 import MyJobList from "@pages/employer/MyJobList";
 import { ProfileProvider } from "@provider/userProvider";
 import OurRoute from "@utils/route";
-import Test from "./utils/test";
 
 function App() {
   return (
@@ -39,7 +39,6 @@ function App() {
         <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />} />
         <Route path="/users/employee/company" element={<EmployeeCompany />} />
         <Route path="/loading" element={<Loading />} />
-        <Route path="/test" element={<Test />} />
         {/* Require Login */}
         <Route
           path={OurRoute.DataRouteApp["Auth Require Route Parent"]}
@@ -56,6 +55,10 @@ function App() {
                 <Route path={OurRoute.DataRouteApp["RequireAuthPath"]["Job Posting"]} element={<EmployeeJobPosting />} />
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Job Detail Form"]}/:id`} element={<EmployeeJobPosting />} />
                 <Route path={OurRoute.DataRouteApp["RequireAuthPath"]["Applier List"]} element={<Applicant />} />
+                {/* Admin Dashboard */}
+                <Route path={OurRoute.DataRouteApp["RequireAuthPath"]["Admin Create User"]} element={<UserDetailAdmin />} />
+                <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin Detail User"]}`} element={<UserDetailAdmin />} />
+
                 {/* 404 Not Found */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

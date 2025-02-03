@@ -1,7 +1,7 @@
 import DashboardLayout from "@components/DashboardLayout";
-import { useMyProfile } from "@components/provider/userProvider";
-import ProfileSets from "@components/specific/profile/ProfileSets";
+import ProfileSets from "@components/profile/ProfileSets";
 import { RoleType } from "@dataType/khusus";
+import { useMyProfile } from "@provider/userProvider";
 import fetchUser from "@utils/fetch/users";
 import functionSets from "@utils/function";
 import React, { createContext, useContext, useState } from "react";

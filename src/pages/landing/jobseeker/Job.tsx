@@ -101,7 +101,7 @@ const Job = () => {
                 {/* Tampilkan data job */}
                 <div className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
                     {currentJobs.map((job: DataOutJob) => (
-                        <div className="flex justify-center md:mx-auto mx-0">
+                        <div className="flex justify-center md:mx-auto mx-0 min-w-full">
                             <JobCard
                                 key={job.id}
                                 role={job.role} // Gunakan properti dari respons API

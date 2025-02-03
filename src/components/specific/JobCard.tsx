@@ -1,4 +1,5 @@
-import { ParamsJobType } from "@/dataType/params";
+import { ParamsJobType } from "@dataType/params";
+import functionSets from "@utils/function";
 import { AiOutlineDollar } from "react-icons/ai";
 import { FaBuilding, FaMapMarkedAlt } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -6,14 +7,6 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 const JobCard = (
     { role, company, location, salary, description, onDetailClick }: ParamsJobType
 ) => {
-
-    const truncateDescription = (desc: string | null | undefined, maxLength: number): string => {
-        if (desc === null || desc === undefined) {
-            return "";
-        }
-        return desc.length > maxLength ? desc.slice(0, maxLength) + '...' : desc;
-    }
-
     return (
         <div className="lg:w-[325px] w-full bg-primary text-white p-6 tracking-widest rounded-[20px]">
             <div className="mb-2">
@@ -41,7 +34,7 @@ const JobCard = (
                     <h1 className="flex items-center gap-x-2 text-lg">
                         <IoDocumentTextOutline className="text-accents" /> Description
                     </h1>
-                    <p className="text-xs opacity-65">{truncateDescription(description, 12)}</p>
+                    <p className="text-xs opacity-65">{functionSets.truncateWord(description || "", 12)}</p>
                 </div>
 
                 <button onClick={() => onDetailClick()}

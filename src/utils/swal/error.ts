@@ -10,7 +10,7 @@ const swalError = (errorStat: number, errorMessage?: string, confirmButton?: str
     return Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: errorMessage || 'Something went wrong!',
+        text: errorStat === 403 ? "You don't have permission" : errorMessage || 'Something went wrong!',
         confirmButtonText: confirmButton || "Okay"
     })
 }

@@ -9,7 +9,9 @@ import OurRoute from "../route";
 import FetchFunction from "./fetch";
 
 const refreshToken = async (refreshToken: string | null): Promise<DataOutToken> => {
-    if (!refreshToken) return Promise.reject(new Error("Refresh token is required"));
+    let error = new Error("Refresh token is required") as any
+    error.status = 401
+    if (!refreshToken) return Promise.reject(error);
     const response = await FetchFunction({
         route: `${api_route.auth_route}/refresh-token`,
         method: HttpMethod.GET,
@@ -28,7 +30,6 @@ const handleRequest = async (params: {
 }, retry: boolean = true): Promise<Response> => {
     const token = params.token || getAccessToken();
     const response = await FetchFunction({ ...params, token });
-
     if (response.status === 401 && retry) {
         try {
             const refreshTok = getRefreshToken();
@@ -72,7 +73,16 @@ const changepass = async (formChangePassword: ForgetPasswordForm) => {
     const data = await response.json();
     return data;
 }
-
+const getUser = async (id: number) => {
+    const response = await handleRequest({
+        route: `${api_route.users_route}/user/${id}`,
+        method: HttpMethod.GET,
+        token: getAccessToken()
+    });
+    if (!response.ok) throw response;
+    const data: DataOutUser = await response.json();
+    return data;
+}
 const getProfile = async (): Promise<DataOutUser> => {
     const response = await handleRequest({
         route: `${api_route.users_route}/profile`,
@@ -82,9 +92,9 @@ const getProfile = async (): Promise<DataOutUser> => {
     const data: DataOutUser = await response.json();
     return data;
 };
-const updateProfile = async (updatedProfile: DataOutUser): Promise<DataOutUser> => {
+const updateUser = async (updatedProfile: DataOutUser, id: number): Promise<DataOutUser> => {
     const response = await handleRequest({
-        route: `${api_route.users_route}/profile`,
+        route: `${api_route.users_route}/user/${id}`,
         method: HttpMethod.PUT,
         data: updatedProfile,
     });
@@ -120,10 +130,11 @@ const updateSubProfile = (
 const saveChange = (
     updatedProfile: DataOutUser | null,
     setProfile: React.Dispatch<React.SetStateAction<DataOutUser | null>>,
+    id: number | null
 ) => {
     console.log(updatedProfile);
-    if (!updatedProfile) return Promise.reject(new Error("There is no data you send"));
-    return updateProfile(updatedProfile).then(value => {
+    if (!updatedProfile || !id) return Promise.reject(new Error("There is no data/id you send"));
+    return updateUser(updatedProfile, id).then(value => {
         swalSuccess({ title: "Update Success!", message: "Your profile has been updated." })
         setProfile(value);
     }).catch(async error => {
@@ -141,11 +152,12 @@ export const fetchUser = {
     login,
     register,
     getProfile,
-    updateProfile,
     updateSubProfile,
     saveChange,
     refreshToken,
     changepass,
-    handleRequest
+    handleRequest,
+    getUser,
+    updateUser
 };
 export default fetchUser;

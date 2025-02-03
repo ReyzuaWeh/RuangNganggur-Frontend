@@ -6,13 +6,15 @@ const DataRoute = {
     "Success Login": "/auth/success",
     "Register": "/auth",
     "Register Role": "/auth/register/",
-    "Applied": "/users/job-applied",
+    "Applied": "/users/jobseeker/job-applied",
     "Setting": "/users/settings",
     "Job Posting": "/users/employer/job-posting",
     "Job Detail Form": "/users/employer/job-detail",
     "Applier List": "/users/employer/applier-list",
     "Profile": "/users/profile",
-    "My Job Post": "/users/my-jobs"
+    "My Job Post": "/users/employer/my-jobs",
+    "Admin Create User": "/users/admin/create-user",
+    "Admin Detail User": "/users/admin/detail-user/"
 }
 const DataRouteApp = {
     "Home": "/",
@@ -25,12 +27,14 @@ const DataRouteApp = {
     "Auth Require Route Parent": "/users/*",
     "RequireAuthPath": {
         "Profile": "/profile",
+        "Setting": "/settings",
         "Job Posting": "/employer/job-posting",
         "Job Detail Form": "/employer/job-detail",
         "Applier List": "/employer/applier-list",
-        "Setting": "/settings",
-        "Applied": "/job-applied",
-        "My Job Post": "/my-jobs"
+        "Applied": "/jobseeker/job-applied",
+        "My Job Post": "/employer/my-jobs",
+        "Admin Create User": "/admin/create-user",
+        "Admin Detail User": "/admin/detail-user/:id"
     }
 }
 const OurRoute = {

@@ -139,7 +139,8 @@ const Navbar = () => {
                             {profile?.username ? (
                                 <NavLink to={OurRoute.DataRoute["Profile"]} className="flex items-center gap-1">
                                     <img
-                                        src={profile?.image || "/assets/no-profile.png"}
+                                        // @ts-ignore
+                                        src={profile?.image || images_source["../no-profile.png"].default}
                                         alt="Profile"
                                         className="w-10 h-10 rounded-full object-cover"
                                     />
