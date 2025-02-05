@@ -3,7 +3,7 @@ import DataMainAdminProfile from "./DataMainAdminProfile"
 import EditDataMainAdminProfile from "./EditDataMainAdminProfile"
 
 const ProfileSetAdmin = () => {
-    const { isOpenMain, isOpenMiddle, isOpenDesc } = getModalProfileSets()
+    const { isOpenMain } = getModalProfileSets()
     return (
         <>
             <DataMainAdminProfile />
