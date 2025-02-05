@@ -1,27 +1,23 @@
-import Auth from "@pages/Auth";
-import LoginInterface from "@pages/Login";
-import Register from "@pages/Register";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-// import Home from './pages/employee/home/Home';
-import NotFound from "@components/NotFound";
-import Success from "@pages/Success";
-// import Landing from './pages/landing/Layout';
-import Profile from "@pages/Profile";
-import Settings from "@pages/Setting";
-import Applied from "@pages/jobseeker/Applied";
-import Job from "@pages/jobseeker/Job";
-import About from "@pages/jobseeker/about/About";
-// import Applicant from './pages/employee/applicant/Applicant';
-// import Job from './pages/employee/job/Job';
-
 import Loading from "@components/Loading";
+import NotFound from "@components/NotFound";
+import Auth from "@pages/Auth";
+import DetailUser from "@pages/DetailUser";
+import LoginInterface from "@pages/Login";
+import Profile from "@pages/Profile";
+import Register from "@pages/Register";
+import Settings from "@pages/Setting";
+import Success from "@pages/Success";
 import UserDetailAdmin from "@pages/admin/UserDetailAdmin";
 import { default as Applicant, default as EmployeeApplicant } from "@pages/employer/Applicant";
 import EmployeeCompany from "@pages/employer/Company";
 import EmployeeJobPosting from "@pages/employer/JobPosting";
 import MyJobList from "@pages/employer/MyJobList";
+import Applied from "@pages/jobseeker/Applied";
+import Job from "@pages/jobseeker/Job";
+import About from "@pages/jobseeker/about/About";
 import { ProfileProvider } from "@provider/userProvider";
 import OurRoute from "@utils/route";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 function App() {
   return (
@@ -58,7 +54,8 @@ function App() {
                 {/* Admin Dashboard */}
                 <Route path={OurRoute.DataRouteApp["RequireAuthPath"]["Admin Create User"]} element={<UserDetailAdmin />} />
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin Detail User"]}`} element={<UserDetailAdmin />} />
-
+                {/* View User Detail */}
+                <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Detail User"]}`} element={<DetailUser />} />
                 {/* 404 Not Found */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

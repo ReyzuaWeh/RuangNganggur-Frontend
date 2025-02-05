@@ -9,8 +9,6 @@ import functionSets from "@utils/function";
 import swalError from "@utils/swal/error";
 import swalSuccess from "@utils/swal/success";
 import { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
 
 type GroupedApplicants = {
     [role: string]: DataOutApplicant[];
@@ -81,13 +79,14 @@ const Applicant = () => {
     return (
         <DashboardLayout>
             <div className="flex items-center gap-x-4 mb-5 md:mb-10">
-                <NavLink to="/" className="hover:bg-gray-300 rounded-full p-3 md:p-4">
-                    <FaArrowLeft size={20} className="cursor-pointer" />
-                </NavLink>
                 <h1 className="text-lg md:text-2xl font-semibold">Job Applicants</h1>
             </div>
 
-            {Object.entries(groupedApplicants).map(([role, applicantsGroup]) => {
+            {!applicants.length ? (
+                <div className="flex justify-center items-center bg-white rounded h-[80vh]">
+                    <p className="text-center text-gray-500 text-lg">No data</p>
+                </div>
+            ) : Object.entries(groupedApplicants).map(([role, applicantsGroup]) => {
                 // Tentukan current page untuk grup ini; default ke 1 jika belum ada.
                 const totalApplicants = applicantsGroup.length
                 const currentPage = groupPages[role] || 1;

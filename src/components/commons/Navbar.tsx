@@ -106,7 +106,7 @@ const Navbar = () => {
                                     //@ts-ignore
                                     src={profile?.image || images_source["../no-profile.png"].default}
                                     alt={`${profile?.username}'s profile`}
-                                    className="w-9 h-9 rounded-full object-cover transition-all group-hover:opacity-80"
+                                    className="w-9 h-9 rounded-full bg-white border border-black object-cover transition-all group-hover:opacity-80"
                                 />
                             </NavLink>
                             <button
@@ -142,7 +142,7 @@ const Navbar = () => {
                                         // @ts-ignore
                                         src={profile?.image || images_source["../no-profile.png"].default}
                                         alt="Profile"
-                                        className="w-10 h-10 rounded-full object-cover"
+                                        className="w-10 h-10 bg-white border border-black rounded-full object-cover"
                                     />
                                     <p className="text-sm font-medium tracking-widest">{profile.username}</p>
                                 </NavLink>

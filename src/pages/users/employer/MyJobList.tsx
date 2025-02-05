@@ -68,7 +68,13 @@ const MyJobList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {jobs.map((job, index) => (
+                            {!jobs ? (
+                                <tr className="hover:bg-gray-50">
+                                    <td colSpan={6} className="p-4 border-b text-center text-sm md:text-base">
+                                        No data
+                                    </td>
+                                </tr>
+                            ) : jobs.map((job, index) => (
                                 <tr key={job.id} className="hover:bg-gray-50">
                                     <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         {index + 1}

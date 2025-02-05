@@ -1,3 +1,4 @@
+import ProfileSetAdmin from "@components/admin/ProfileSetAdmin";
 import ProfileSetEmployer from "@components/employer/ProfileSetEmployer";
 import ProfileSetJobSeeker from "@components/jobseeker/ProfileSetJobSeeker";
 import { RoleType } from "@dataType/khusus";
@@ -14,10 +15,10 @@ const ProfileSets = () => {
                 dataProfile?.role === RoleType.employer &&
                 <ProfileSetEmployer />
             }
-            {/* {
+            {
                 dataProfile?.role === RoleType.admin &&
-                <UserDetailAdmin />
-            } */}
+                <ProfileSetAdmin />
+            }
         </>
     )
 }

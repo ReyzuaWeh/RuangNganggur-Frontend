@@ -99,7 +99,7 @@ const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => vo
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <AiOutlineDollar className="text-accents" />
-                                Salary : {job?.salary && `Rp. ${job?.salary}` || "No Sallary"}
+                                Salary : {job?.salary && functionSets.formatNumbertoIDR(job?.salary) || "No Sallary"}
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaUserCheck className="text-accents" />

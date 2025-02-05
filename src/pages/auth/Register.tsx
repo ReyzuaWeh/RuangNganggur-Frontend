@@ -65,17 +65,17 @@ const Register = () => {
             formDataSend.employer = {
                 company_name: formData.company_name
             };
-        } else if (role === RoleType.admin)
-            fetchUser.register(formDataSend).then(() => {
-                setError(null)
-                swalSuccess({ title: "Registration Successful!", message: "Your account has been created." })
-            }).catch(async (error) => {
-                swalError(error.status, "Wrong Register Input");
-                if (error.status === 500 || !error.status) return setError(null);
-                const errorData = await error.json();
-                console.error(errorData)
-                setError(errorData);
-            });
+        }
+        fetchUser.register(formDataSend).then(() => {
+            setError(null)
+            swalSuccess({ title: "Registration Successful!", message: "Your account has been created." })
+        }).catch(async (error) => {
+            swalError(error.status, "Wrong Register Input");
+            if (error.status === 500 || !error.status) return setError(null);
+            const errorData = await error.json();
+            console.error(errorData)
+            setError(errorData);
+        });
     };
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {

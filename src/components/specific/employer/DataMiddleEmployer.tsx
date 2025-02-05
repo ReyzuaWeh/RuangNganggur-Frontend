@@ -1,20 +1,28 @@
 import { useMyProfile } from "@components/provider/userProvider"
+import { DataOutUser } from "@dataType/fetch"
 import { getModalProfileSets } from "@pages/users/Profile"
+import { useEffect, useState } from "react"
 import { FaRegEdit } from "react-icons/fa"
 
-const DataMiddleEmployer = () => {
-    const { openEditMiddle: openModals } = getModalProfileSets()
+const DataMiddleEmployer = ({ view_only, user }: { view_only?: boolean, user?: DataOutUser }) => {
+    const { profile: dataProfile } = useMyProfile()
+    const [profile, setProfile] = useState(dataProfile)
+    const openModals = !view_only ? getModalProfileSets().openEditDesc : undefined;
+    useEffect(() => {
+        if (user) {
+            setProfile(user)
+        }
+    }, [user])
 
-    const { profile } = useMyProfile()
     return (
         <div className="border w-full p-4 pb-3 mt-5 flex flex-col-reverse md:flex-col rounded-lg bg-white">
             <div className="w-full py-5 px-3 border border-primary border-opacity-65 rounded-lg items-center 
                 justify-between gap-x-2">
                 <div className="justify-between flex w-full">
                     <h1 className="font-semibold text-xl md:text-2xl px-2">Your Company</h1>
-                    <button className="bg-primary text-white px-3 py-2 rounded-lg text-sm" onClick={() => openModals()}>
+                    {openModals && (<button className="bg-primary text-white px-3 py-2 rounded-lg text-sm" onClick={() => openModals()}>
                         <FaRegEdit size={20} className="cursor-pointer" />
-                    </button>
+                    </button>)}
                 </div>
                 <div className="w-full py-3 opacity-65 flex-wrap flex justify-between">
                     <div className="flex flex-col px-2 pt-1 pb-0 w-1/2">

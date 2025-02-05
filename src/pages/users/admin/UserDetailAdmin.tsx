@@ -1,5 +1,6 @@
 import DashboardLayout from '@components/DashboardLayout';
 import NotFound from '@components/NotFound';
+import ImageModals from '@components/profile/ImageModals';
 import ValidationComponents from '@components/ValidationError';
 import { DataOutUser, ErrorValidation } from '@dataType/fetch';
 import { RoleType } from '@dataType/khusus';
@@ -149,6 +150,10 @@ const UserDetailAdmin = () => {
 					{/* User Section */}
 					<div className="bg-white rounded-lg shadow-md p-6">
 						<h3 className="text-lg font-semibold mb-4">User</h3>
+						<ImageModals
+							currentImage={user.image}
+							setProfile={setUser as React.Dispatch<React.SetStateAction<DataOutUser | null>>}
+						/>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<div className="space-y-2 h-full">
 								<label htmlFor="username" className="block text-sm font-medium text-gray-700">

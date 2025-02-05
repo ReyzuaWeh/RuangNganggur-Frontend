@@ -1,7 +1,7 @@
 import images_source from "@/assets/get/images";
 import { DataOutUser } from "@dataType/fetch";
 import functionSets from "@utils/function";
-import React from "react";
+import React, { useEffect } from "react";
 const handleChangeImage = async (
     e: React.ChangeEvent<HTMLInputElement>,
     setProfile: React.Dispatch<React.SetStateAction<DataOutUser | null>>
@@ -42,6 +42,9 @@ const CircularImageInput = ({ currentImage, setProfile }: {
             setImageInput(null);
         }
     };
+    useEffect(() => {
+        setImageInput(currentImage || null)
+    }, [currentImage])
     return (
         <div className="relative w-32 h-32 mx-auto mb-4 group border border-primary rounded-full">
             <input

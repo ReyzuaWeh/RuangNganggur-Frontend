@@ -14,7 +14,8 @@ const DataRoute = {
     "Profile": "/users/profile",
     "My Job Post": "/users/employer/my-jobs",
     "Admin Create User": "/users/admin/create-user",
-    "Admin Detail User": "/users/admin/detail-user/"
+    "Admin Detail User": "/users/admin/detail-user/",
+    "Detail User": "/users/detail/",
 }
 const DataRouteApp = {
     "Home": "/",
@@ -34,7 +35,8 @@ const DataRouteApp = {
         "Applied": "/jobseeker/job-applied",
         "My Job Post": "/employer/my-jobs",
         "Admin Create User": "/admin/create-user",
-        "Admin Detail User": "/admin/detail-user/:id"
+        "Admin Detail User": "/admin/detail-user/:id",
+        "Detail User": "/detail/:id"
     }
 }
 const OurRoute = {
