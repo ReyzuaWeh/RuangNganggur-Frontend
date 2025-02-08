@@ -7,6 +7,8 @@ import Profile from "@pages/Profile";
 import Register from "@pages/Register";
 import Settings from "@pages/Setting";
 import Success from "@pages/Success";
+import DetailFormJobAdmin from "@pages/admin/DetailFormJobAdmin";
+import ListJobAdmin from "@pages/admin/ListJobAdmin";
 import ListUserAdmin from "@pages/admin/ListUserAdmin";
 import UserDetailAdmin from "@pages/admin/UserDetailAdmin";
 import { default as Applicant, default as EmployeeApplicant } from "@pages/employer/Applicant";
@@ -54,6 +56,9 @@ function App() {
                 <Route path={OurRoute.DataRouteApp["RequireAuthPath"]["Admin List User"]} element={<ListUserAdmin />} />
                 <Route path={OurRoute.DataRouteApp["RequireAuthPath"]["Admin Create User"]} element={<UserDetailAdmin />} />
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin Detail User"]}`} element={<UserDetailAdmin />} />
+                <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin List Job"]}`} element={<ListJobAdmin />} />
+                <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin Create Job"]}`} element={<DetailFormJobAdmin />} />
+                <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin Detail Job"]}`} element={<DetailFormJobAdmin />} />
                 {/* View User Detail */}
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Detail User"]}`} element={<DetailUser />} />
                 {/* 404 Not Found */}

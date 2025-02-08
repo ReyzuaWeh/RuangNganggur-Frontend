@@ -1,3 +1,4 @@
+import { GenderType, JobType } from "@/dataType/khusus";
 import api_route from "@api/api";
 import { HttpMethod } from "@dataType/basic";
 import { DataOutApplicant, DataOutJob } from "@dataType/fetch";
@@ -70,9 +71,9 @@ const deleteApplicant = async (id: number) => {
     if (!response.ok) throw response;
     return;
 }
-const getJob = async (id: number) => {
+const getJob = async (id: number, with_owner?: boolean | null) => {
     const response = await fetchUser.handleRequest({
-        route: `${api_route.jobs_route}/job/${id}`,
+        route: `${api_route.jobs_route}/job/${with_owner ? "with-employer/" : ""}${id}`,
         method: HttpMethod.GET,
         token: functionSets.getToken()
     });
@@ -97,19 +98,25 @@ const updateJob = async (
     return data;
 }
 const getJobs = async (
-    { idEmployer, location, role, with_owner }: {
-        idEmployer?: number | null,
-        location?: string | null,
-        role?: string | null,
+    { roleOrEmployer, roleOrLocation, gender, with_owner, type_job, employer_id, location }: {
+        roleOrEmployer?: string | null,
+        roleOrLocation?: string | null,
+        gender?: GenderType | null,
+        type_job?: JobType | null,
         with_owner?: boolean | null,
+        employer_id?: number | null,
+        location?: string | null
     }
 ) => {
     let tambahan = "/";
     if (with_owner) tambahan = `/with-owner`
     const paramsObject = {
-        ...(idEmployer && { employer_id: String(idEmployer) }),
-        ...(location && { location }),
-        ...(role && { role })
+        ...(roleOrEmployer && { roleOrEmployer }),
+        ...(employer_id && { employer_id: String(employer_id) }),
+        ...(roleOrLocation && { roleOrLocation }),
+        ...(gender && { gender }),
+        ...(type_job && { type_job }),
+        ...(location && { location })
     }
     const params = new URLSearchParams(paramsObject)
     const response = await FetchFunction(

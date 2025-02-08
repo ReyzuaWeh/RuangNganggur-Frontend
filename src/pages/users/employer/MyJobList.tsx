@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 
 const MyJobList = () => {
     const { profile } = useMyProfile()
-    if (profile?.role !== RoleType.employer) return <NotFound />
+    if (profile?.role !== RoleType.employer) return <NotFound is403={true} />
     const [jobs, setJobs] = useState<DataOutJob[]>([])
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1)

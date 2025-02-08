@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom';
 
 const UserDetailAdmin = () => {
 	const { profile } = useMyProfile()
-	if (profile?.role !== RoleType.admin) return <NotFound />;
+	if (profile?.role !== RoleType.admin) return <NotFound is403={true} />;
 	const { id } = useParams();
 	const [validationError, setValidationError] = useState<ErrorValidation | null>(null);
 	const [user, setUser] = useState<DataOutUser>({
@@ -483,8 +483,17 @@ const UserDetailAdmin = () => {
 						</div>
 					</div>)}
 					{validationError && <ValidationComponents errorValid={validationError} />}
-					<div className="w-full text-end">
-						<button type='submit' className='btn-primary p-2 rounded' disabled={saving}>
+					<div className="w-full text-end flex justify-end gap-x-2">
+						<button
+							type='button'
+							onClick={() => {
+								window.history.back()
+							}}
+							className="bg-red-600 md:w-fit w-1/2 hover:bg-red-800 transition-colors text-white px-5 py-3 rounded"
+						>
+							Back
+						</button>
+						<button type='submit' className='btn-primary md:w-fit w-1/2  px-5 py-3 rounded' disabled={saving}>
 							{saving ? "Saving..." : "Save"}
 						</button>
 					</div>

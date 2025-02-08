@@ -1,8 +1,16 @@
-/* App.css */
 .gambar {
   display: flex;
   flex-direction: column;
-  margin: -7rem;
+  margin: 0;
+  /* Hilangkan margin negatif */
+  max-width: 100vw;
+  position: relative;
+  /* Gunakan relative jika tidak perlu memindahkan elemen dari alur normal */
+  top: 0;
+  /* Pastikan menggunakan unit jika diperlukan */
+  z-index: 1;
+  margin-bottom: 20px;
+  /* Atur z-index bila perlu */
 }
 
 .loading {
@@ -11,6 +19,9 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  position: relative;
+  z-index: 2;
+  /* Memastikan elemen loading berada di atas .gambar */
 }
 
 .spinner {
@@ -20,7 +31,7 @@
   border-top: 4px solid #3498db;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-
+  /* Jika spinner hanya untuk loading di dalam .loading, posisi absolute mungkin tidak diperlukan */
 }
 
 @keyframes spin {

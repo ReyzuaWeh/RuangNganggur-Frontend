@@ -47,7 +47,7 @@ interface DataOutJob {
     employer_id?: number;
     role: string;
     location: string;
-    salary: number;
+    salary?: number | null;
     type_job?: JobType | null;
     min_age?: number | null;
     max_age?: number | null;

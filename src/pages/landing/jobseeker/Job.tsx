@@ -10,7 +10,7 @@ const Job = () => {
     const [jobs, setJobs] = useState<DataOutJob[]>([]); // State untuk menyimpan data job dari API
     const [selectedJob, setSelectedJob] = useState<DataOutJob | null>(null);
     const [filter, setFilter] = useState({
-        role: "",
+        roleOrEmployer: "",
         location: ""
     })
     const [currentPage, setCurrentPage] = useState(1);
@@ -59,7 +59,7 @@ const Job = () => {
                             ...filter,
                             with_owner: true
                         }).then(e => {
-                            setJobs(e)
+                            setJobs(e.reverse())
                         }).catch((error) => {
                             console.error("Error fetching jobs:", error);
                         })
@@ -74,8 +74,8 @@ const Job = () => {
                     <div className="flex lg:flex-row flex-col mx-0 lg:mx-auto items-center gap-2 justify-center">
                         <input
                             type="text"
-                            name="role"
-                            value={filter.role}
+                            name="roleOrEmployer"
+                            value={filter.roleOrEmployer}
                             className="bg-white text-primary w-full lg:w-1/2 p-2 rounded outline-none"
                             placeholder="Role or Company Name"
                             onChange={handleFilter}
@@ -106,7 +106,7 @@ const Job = () => {
                             role={job.role} // Gunakan properti dari respons API
                             company={`Company Name : ${job.employer?.company_name || "PT Undefined Indonesia"}`}
                             location={job.location}
-                            salary={`Rp. ${job.salary}`}
+                            salary={job.salary}
                             description={job.description || "...."}
                             onDetailClick={() => setSelectedJob(job)}
                         />

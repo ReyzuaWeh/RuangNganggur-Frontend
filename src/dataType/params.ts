@@ -2,7 +2,7 @@ interface ParamsJobType {
     role: string;
     company: string | number;
     location?: string | null;
-    salary: string;
+    salary?: number | null;
     description?: string | null;
     onDetailClick: () => void;
 }

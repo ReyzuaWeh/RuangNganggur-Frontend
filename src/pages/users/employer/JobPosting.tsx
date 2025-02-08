@@ -32,6 +32,7 @@ const JobPosting = () => {
     // Handle form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
+        if (!/^\d*$/.test(value) && name === "salary") return
         setFormData((prevState) => ({
             ...prevState,
             [name]: type !== "date" ? value : new Date(value),
@@ -137,12 +138,14 @@ const JobPosting = () => {
                         </label>
                         <input
                             type="text"
+                            pattern="[0-9]*"
                             id="salary"
                             name="salary"
-                            value={formData.salary}
+                            value={formData.salary || ""}
                             onChange={handleChange}
                             placeholder="Enter the salary"
                             className="border border-gray-300 rounded-lg p-2"
+                            inputMode="numeric"
                             required
                         />
                         <p className="text-xs text-end text-red-500">*In Rupiah (IDR)</p>

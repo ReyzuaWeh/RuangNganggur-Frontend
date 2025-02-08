@@ -12,21 +12,22 @@ const ValidationComponents = ({ errorValid }: { errorValid: ErrorValidation | nu
                                 {
                                     item.msg
                                         .replace("Field",
-                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
-                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1])} 
+                                        ${functionSets.capitalizeFirstLetter((item.loc[2]) || "")}`
                                         )
                                         .replace("Input",
-                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
-                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1])} 
+                                            ${functionSets.capitalizeFirstLetter((item.loc[2]) || "")}`
                                         )
                                         .replace("value",
-                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
-                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1])} 
+                                            ${functionSets.capitalizeFirstLetter((item.loc[2]) || "")}`
                                         )
                                         .replace("Value",
-                                            `${functionSets.capitalizeFirstLetter(item.loc[1].replace("_", " "))} 
-                                            ${functionSets.capitalizeFirstLetter((item.loc[2] && item.loc[2].replace("_", " ")) || "")}`
+                                            `${functionSets.capitalizeFirstLetter(item.loc[1])} 
+                                            ${functionSets.capitalizeFirstLetter((item.loc[2]) || "")}`
                                         )
+                                        .replace(/_/g, " ")
                                 }
                             </li>
                         )) :

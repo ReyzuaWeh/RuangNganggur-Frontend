@@ -135,11 +135,11 @@ const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose:
                         <div className="flex w-full lg:flex-row flex-col h-fit justify-between">
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaHourglassStart className="text-accents" />
-                                Open Date : {jobActive?.open_date ? functionSets.DateToString(jobActive?.open_date) : "Undefined"}
+                                Open Date : {jobActive?.open_date ? functionSets.DateToString(jobActive?.open_date) : "-"}
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaHourglassEnd className="text-accents" />
-                                Close Date : {jobActive?.close_date ? functionSets.DateToString(jobActive?.close_date) : "Undefined"}
+                                Close Date : {jobActive?.close_date ? functionSets.DateToString(jobActive?.close_date) : "-"}
                             </h2>
                         </div>
                         <div className={`flex flex-col flex-1 h-fit w-full transition-[height] 

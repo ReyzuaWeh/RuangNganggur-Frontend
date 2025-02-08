@@ -18,7 +18,7 @@ type GroupedApplicants = {
 
 const Applicant = () => {
     const { profile } = useMyProfile();
-    if (profile?.role !== RoleType.employer) return <NotFound />
+    if (profile?.role !== RoleType.employer) return <NotFound is403={true} />
     const [applicants, setApplicants] = useState<DataOutApplicant[]>([]);
     const [loading, setLoading] = useState(false)
     // State untuk menyimpan halaman (current page) untuk masing-masing grup role

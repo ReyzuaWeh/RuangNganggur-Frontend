@@ -28,7 +28,7 @@ const JobCard = (
                     <h1 className="flex items-center gap-x-2 text-lg">
                         <AiOutlineDollar className="text-accents" /> Sallary
                     </h1>
-                    <p className="text-xs opacity-65">{salary}</p>
+                    <p className="text-xs opacity-65">{functionSets.formatNumbertoIDR(salary)}</p>
                 </div>
                 <div>
                     <h1 className="flex items-center gap-x-2 text-lg">

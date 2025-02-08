@@ -5,7 +5,7 @@ const Loading = () => {
     <div className="loading">
       <div className='gambar'>
         {/* @ts-ignore */}
-        <img src={images_source["../RuangNganggur-Icon.png"].default} alt=''></img>
+        <img src={images_source["../RuangNganggur-Icon.png"].default} className="w-full" alt=''></img>
       </div>
       <div className="spinner"></div>
     </div>

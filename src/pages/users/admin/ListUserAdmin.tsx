@@ -1,3 +1,4 @@
+import FilterOption from "@/components/commons/FilterOption";
 import DashboardLayout from "@components/DashboardLayout";
 import ListTableLayout from "@components/ListTableLayout";
 import Loading from "@components/Loading";
@@ -11,7 +12,6 @@ import fetchUser from "@utils/fetch/users";
 import functionSets from "@utils/function";
 import OurRoute from "@utils/route";
 import { useEffect, useState } from "react";
-import { MdFilterListAlt } from "react-icons/md";
 
 const ListUserAdmin = () => {
     const { profile } = useMyProfile()
@@ -42,6 +42,12 @@ const ListUserAdmin = () => {
             [name]: value === "" ? undefined : name === "status" ? (value === "true" ? true : false) : value,
         }));
     };
+    const setClearFilter = () => {
+        setFilterSets({})
+    }
+    const setOpenPopUp = () => {
+        setOpenFilter(true)
+    }
     const submitFilter = () => {
         setSaving(true)
         fetchUser.getUsers({ ...filterSets }).then(res => {
@@ -73,68 +79,26 @@ const ListUserAdmin = () => {
                 onClose={() => setOpenFilter(false)}
                 dataFilter={filterSets}
                 setDataFilter={handleChangeFilter}
-                setDataFilterNull={() => setFilterSets({})}
+                setDataFilterNull={setClearFilter}
                 submitFilter={submitFilter}
                 titleName={"Filter User"}
             />
             <div className="flex items-center gap-x-4 mb-5 md:mb-10">
                 <h1 className="text-lg md:text-2xl font-semibold">List Data User</h1>
             </div>
-            <div className="w-full bg-white">
-                <form
-                    className="w-full bg-white p-6 rounded-lg"
-                    onSubmit={e => {
-                        e.preventDefault();
-                        submitFilter();
-                    }}
-                >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {/* Input Search */}
-                        <div className="flex flex-col">
-                            <label htmlFor="search" className="text-sm font-medium text-gray-700">
-                                Search
-                            </label>
-                            <input
-                                type="text"
-                                id="search"
-                                name="search"
-                                value={filterSets?.search || ""}
-                                onChange={handleChangeFilter}
-                                placeholder="Search by username or email"
-                                className="border border-gray-300 rounded-md px-3 py-2 mt-1 focus:ring-2 focus:ring-blue-400 focus:outline-none w-full"
-                            />
-                        </div>
-
-                        {/* Tombol Aksi */}
-                        <div className="flex items-end justify-end gap-2">
-                            <button
-                                type="button"
-                                onClick={() => setOpenFilter(true)}
-                                className="flex items-center text-primary hover:text-blue-500 transition-colors"
-                            >
-                                <MdFilterListAlt size={24} />
-                                <span className="ml-1 hidden sm:inline-block">More Filters</span>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setFilterSets({})}
-                                className="bg-gray-200 text-gray-700 font-medium py-1 px-3 rounded-md hover:bg-gray-300 transition-colors"
-                            >
-                                Clear
-                            </button>
-                            <button
-                                type="submit"
-                                className="btn-primary text-white font-medium py-1 px-3 rounded-md transition duration-200"
-                            >
-                                Find
-                            </button>
-                        </div>
-                    </div>
-                </form>
+            <div className="w-full rounded bg-white">
+                <FilterOption
+                    filterSets={filterSets}
+                    submitFilter={submitFilter}
+                    setOpenPopUp={setOpenPopUp}
+                    setClearFilter={setClearFilter}
+                    handleChangeFilter={handleChangeFilter}
+                    placeholder={"Search by username or email"}
+                />
                 <hr />
                 <div className="flex w-full justify-between py-2 px-5 mx-auto">
                     <h2 className="text-lg font-semibold">Total Users: {users.length}</h2>
-                    <a href={OurRoute.DataRoute["Admin Create User"]} className="btn-primary rounded py-1 px-2">Add User</a>
+                    <a href={OurRoute.DataRoute["Admin Create User"]} className="bg-orange-400 hover:bg-orange-600 transition-colors text-white rounded py-1 px-2">Add User</a>
                 </div>
                 <ListTableLayout>
                     {/* Table */}

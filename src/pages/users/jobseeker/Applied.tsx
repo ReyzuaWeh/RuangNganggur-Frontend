@@ -1,6 +1,7 @@
 import DashboardLayout from "@components/DashboardLayout";
 import JobDetail from "@components/JobDetail";
 import Loading from "@components/Loading";
+import NotFound from "@components/NotFound";
 import { DataOutApplicant } from "@dataType/fetch";
 import { RoleType } from "@dataType/khusus";
 import { getStatusColor } from "@pages/ApplyStatusColor";
@@ -14,6 +15,7 @@ import Swal from "sweetalert2";
 
 const Applied = () => {
     const { profile } = useMyProfile()
+    if (profile?.role !== RoleType.jobseeker) return <NotFound is403={true} />
     const [applicants, setApplicants] = useState<DataOutApplicant[] | null>([]);
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);

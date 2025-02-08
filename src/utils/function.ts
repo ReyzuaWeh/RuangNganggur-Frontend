@@ -15,7 +15,8 @@ const handleChangeFormObject = (e: React.ChangeEvent<HTMLInputElement>,
         [name]: value,
     }));
 };
-const DateToString = (date: string | Date) => {
+const DateToString = (date: string | Date | null | undefined) => {
+    if (!date) return "-";
     const months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -97,11 +98,17 @@ const handleLogout = ({ setProfile, setIsLoggedIn }: {
         }
     });
 };
-
-
-const formatNumbertoIDR = (num: number) => {
-    return `Rp. ${num.toLocaleString("id-ID")}`;
+const formatDatetoString = (number: number | Date) => {
+    const parsedDate = typeof number === 'number' ? new Date(number) : new Date(number)
+    return parsedDate.toISOString().split('T')[0]
+}
+const formatStringtoDate = (number: number | Date | string) => {
+    return typeof number === 'number' ? new Date(number) : number
+}
+const formatNumbertoIDR = (num: number | undefined | null) => {
+    return num ? `Rp. ${num.toLocaleString("id-ID")}` : "No Salary";
 };
+const isBadOrConflictRequest = (status: number) => [400, 422, 409].includes(status)
 const getBase64 = (file: File) => {
     return new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -122,7 +129,7 @@ const refreshPage = () => window.location.reload()
 const getToken = (): JWTType | null => localStorage.getItem('access_token')
 
 const isEmployer = (role: RoleType) => isEqualAndSame(role, RoleType.employer)
-const isJobSeeker = (role: RoleType) => isEqualAndSame(role, RoleType.employer)
+const isJobSeeker = (role: RoleType) => isEqualAndSame(role, RoleType.jobseeker)
 const isAdmin = (role: RoleType) => isEqualAndSame(role, RoleType.admin)
 
 const setDataPagination = ({ itemsPerPage, currentPage, setCurrentPage, dataSlice }: {
@@ -163,6 +170,9 @@ const functionSets = {
     formatNumbertoIDR,
     handleLogout,
     truncateWord,
-    setDataPagination
+    setDataPagination,
+    formatDatetoString,
+    formatStringtoDate,
+    isBadOrConflictRequest
 };
 export default functionSets;

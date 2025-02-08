@@ -16,6 +16,7 @@ const LoginComponent = () => {
     });
     const [error, setError] = useState<ErrorValidation | null>(null);
     const [visibility, setVisibility] = useState(false);
+    const [remember, setRemember] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +31,11 @@ const LoginComponent = () => {
         e.preventDefault();
         fetchUser.login(formData).then((value) => {
             localStorage.setItem("access_token", value.access_token);
-            localStorage.setItem("refresh_token", value.refresh_token);
+            if (remember) {
+                localStorage.setItem("refresh_token", value.refresh_token);
+            } else {
+                localStorage.removeItem("refresh_token");
+            }
             swalSuccess({ title: "Login Successful!", message: "Redirecting to your profile..." })
             setTimeout(() => {
                 navigate("/auth/success");
@@ -108,7 +113,13 @@ const LoginComponent = () => {
 
                                     </div>
                                     <div className="flex items-center text-sm">
-                                        <input type="checkbox" name="remember" id="remember" />
+                                        <input
+                                            onChange={(e) => setRemember(e.target.checked)}
+                                            checked={remember}
+                                            type="checkbox"
+                                            name="remember"
+                                            id="remember"
+                                        />
                                         <label htmlFor="remember" className="ml-1 font-semibold">
                                             Remember Me
                                         </label>
