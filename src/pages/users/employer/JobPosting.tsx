@@ -14,7 +14,7 @@ const JobPosting = () => {
         id: string;
     }>();
     const { profile } = useMyProfile()
-    if (profile?.role !== RoleType.employer) return <NotFound />
+    if (profile?.role !== RoleType.employer) return <NotFound is403={true} />
     const [formData, setFormData] = useState<DataOutJob>({
         employer_id: profile?.employer?.id,
         role: "",

@@ -1,5 +1,5 @@
 import images_source from "@/assets/get/images";
-const NotFound = () => {
+const NotFound = ({ is403 }: { is403?: boolean | null }) => {
     return (
         <section className="bg-gradient min-h-screen flex items-center justify-center">
             <div className="absolute top-0 left-0 w-full h-1/3">
@@ -15,10 +15,10 @@ const NotFound = () => {
                         className="w-30 h-30  mx-auto mb-4"
                     />
                     <h1 className="font-semibold text-lg sm:text-2xl">
-                        404
+                        {is403 ? 'Forbidden' : '404'}
                     </h1>
                     <p className="text-sm sm:text-base mt-2">
-                        Sorry, page not found.
+                        Sorry, {is403 ? "the page you requested cannot be accessed" : "the page you requested was not found."}
                     </p>
                     <a
                         href="/"
