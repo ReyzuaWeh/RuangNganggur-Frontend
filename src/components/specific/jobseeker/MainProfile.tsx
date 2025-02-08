@@ -12,10 +12,13 @@ const MainProfile = ({ view_only, user }: { view_only?: boolean, user?: DataOutU
     const openModals = !view_only ? getModalProfileSets().openEditMain : undefined;
     const DataSubJobseeker: DataOutJobseeker | null = profile?.jobseeker || null;
     useEffect(() => {
+        if (dataProfile && !user) {
+            setProfile(dataProfile)
+        }
         if (user) {
             setProfile(user)
         }
-    }, [user])
+    }, [user, dataProfile])
     return (
         <div className="rounded-md bg-primary mt-5 py-5 px-6 md:px-14 text-white">
             <div className="flex flex-col justify-center md:flex-row gap-4 md:gap-x-6 items-center md:items-start">

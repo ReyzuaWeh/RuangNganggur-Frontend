@@ -125,6 +125,29 @@ const isEmployer = (role: RoleType) => isEqualAndSame(role, RoleType.employer)
 const isJobSeeker = (role: RoleType) => isEqualAndSame(role, RoleType.employer)
 const isAdmin = (role: RoleType) => isEqualAndSame(role, RoleType.admin)
 
+const setDataPagination = ({ itemsPerPage, currentPage, setCurrentPage, dataSlice }: {
+    itemsPerPage: number,
+    currentPage: number,
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
+    dataSlice: any[]
+}) => {
+    const totalDataPerPages = Math.ceil(dataSlice.length / itemsPerPage);
+    const currentData = dataSlice.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+    const handlePageChange = (page: number) => {
+        if (page > 0 && page <= totalDataPerPages) {
+            setCurrentPage(page);
+        }
+    };
+    return {
+        totalDataPerPages,
+        currentData,
+        handlePageChange
+    }
+}
+
 const functionSets = {
     handleChangeFormObject,
     handleChangeProfile,
@@ -139,6 +162,7 @@ const functionSets = {
     DateToString,
     formatNumbertoIDR,
     handleLogout,
-    truncateWord
+    truncateWord,
+    setDataPagination
 };
 export default functionSets;

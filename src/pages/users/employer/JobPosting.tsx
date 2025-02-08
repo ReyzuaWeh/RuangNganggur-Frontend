@@ -1,6 +1,7 @@
 import DashboardLayout from "@components/DashboardLayout";
+import NotFound from "@components/NotFound";
 import { DataOutJob } from "@dataType/fetch";
-import { JobType } from "@dataType/khusus";
+import { JobType, RoleType } from "@dataType/khusus";
 import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
 import swalError from "@utils/swal/error";
@@ -13,8 +14,8 @@ const JobPosting = () => {
         id: string;
     }>();
     const { profile } = useMyProfile()
+    if (profile?.role !== RoleType.employer) return <NotFound />
     const [formData, setFormData] = useState<DataOutJob>({
-        id: 0,
         employer_id: profile?.employer?.id,
         role: "",
         location: "",
@@ -66,7 +67,21 @@ const JobPosting = () => {
 
     };
     useEffect(() => {
-        if (!id) return;
+        if (!id) {
+            return setFormData({
+                employer_id: profile?.employer?.id,
+                role: "",
+                location: "",
+                salary: 0,
+                type_job: JobType.full_time,
+                min_age: 0,
+                max_age: 0,
+                gender: null,
+                open_date: new Date(),
+                close_date: new Date(),
+                description: "",
+            })
+        };
         fetchJob.getJob(parseInt(id)).then(e => {
             setFormData(e)
         }).catch(err => {
@@ -81,7 +96,6 @@ const JobPosting = () => {
                     Post a Job Listing
                 </h1>
             </div>
-
             {/* Job Posting Form */}
             <div className="bg-white max-h-[85vh] overflow-y-auto p-6 md:p-10 rounded-md shadow-md">
                 <form onSubmit={handleSubmit} className="space-y-6">

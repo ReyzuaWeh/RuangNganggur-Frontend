@@ -7,14 +7,17 @@ import { CiLocationOn, CiMail } from "react-icons/ci"
 
 const DataMainEmployerProfile = ({ view_only, user }: { view_only?: boolean, user?: DataOutUser }) => {
     const { profile: dataProfile } = useMyProfile()
-    const [profile, setProfile] = useState(dataProfile)
-    const openModals = !view_only ? getModalProfileSets().openEditDesc : undefined;
+    const [profile, setProfile] = useState(user || dataProfile)
+    const openModals = !view_only ? getModalProfileSets().openEditMain : undefined;
     const DataSubEmployer: DataOutEmployer | null = profile?.employer || null;
     useEffect(() => {
+        if (dataProfile && !user) {
+            setProfile(dataProfile)
+        }
         if (user) {
             setProfile(user)
         }
-    }, [user])
+    }, [user, dataProfile])
     return (
         <div className="rounded-md bg-primary mt-5 py-5 px-6 md:px-14 text-white">
             <div className="flex flex-col md:flex-row gap-4 md:gap-x-6 items-center md:items-start">

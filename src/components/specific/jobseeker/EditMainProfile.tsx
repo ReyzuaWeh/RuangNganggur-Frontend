@@ -45,9 +45,9 @@ const EditMainProfile = () => {
                         currentImage={profile?.image}
                         setProfile={setProfile}
                     />
-                    <div className="py-2 flex gap-x-2 w-full md:flex-row flex-col">
-                        <div className="flex flex-col w-full md:w-1/2">
-                            <label htmlFor="first_name" className="font-medium">
+                    <div className="py-2 flex flex-col items-center gap-x-2">
+                        <div className="flex w-full md:flex-row flex-col justify-between md:items-center">
+                            <label htmlFor="first_name" className="font-medium pr-1 py-2 md:w-1/3">
                                 First Name
                             </label>
                             <input
@@ -63,11 +63,11 @@ const EditMainProfile = () => {
                                     }
                                 )}
                                 type="text"
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
+                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md md:w-2/3"
                             />
                         </div>
-                        <div className="flex flex-col w-full md:w-1/2">
-                            <label htmlFor="last_name" className="font-medium">
+                        <div className="flex w-full md:flex-row flex-col justify-between md:items-center">
+                            <label htmlFor="last_name" className="font-medium pr-1 py-2 md:w-1/3">
                                 Last Name
                             </label>
                             <input
@@ -85,7 +85,7 @@ const EditMainProfile = () => {
                                     )
                                 }}
                                 type="text"
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
+                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md md:w-2/3"
                             />
                         </div>
                     </div>

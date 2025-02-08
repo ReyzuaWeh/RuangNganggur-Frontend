@@ -6,13 +6,16 @@ import { FaRegEdit } from "react-icons/fa"
 
 const DataMiddleEmployer = ({ view_only, user }: { view_only?: boolean, user?: DataOutUser }) => {
     const { profile: dataProfile } = useMyProfile()
-    const [profile, setProfile] = useState(dataProfile)
-    const openModals = !view_only ? getModalProfileSets().openEditDesc : undefined;
+    const [profile, setProfile] = useState(user || dataProfile)
+    const openModals = !view_only ? getModalProfileSets().openEditMiddle : undefined;
     useEffect(() => {
+        if (dataProfile && !user) {
+            setProfile(dataProfile)
+        }
         if (user) {
             setProfile(user)
         }
-    }, [user])
+    }, [user, dataProfile])
 
     return (
         <div className="border w-full p-4 pb-3 mt-5 flex flex-col-reverse md:flex-col rounded-lg bg-white">
@@ -25,29 +28,32 @@ const DataMiddleEmployer = ({ view_only, user }: { view_only?: boolean, user?: D
                     </button>)}
                 </div>
                 <div className="w-full py-3 opacity-65 flex-wrap flex justify-between">
-                    <div className="flex flex-col px-2 pt-1 pb-0 w-1/2">
+                    <div className="flex flex-col px-2 pt-1 pb-0 lg:w-1/2 w-full">
                         <h3 className="font-medium">Company Phone Number</h3>
-                        <p className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full">
-                            {profile?.employer?.company_phone_number || "You don't set contact number yet"}
+                        <p
+                            className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full"
+                        >
+                            {profile?.employer?.company_phone_number || `${view_only ? "Employer" : "You"} don't set contact number yet`}
                         </p>
                     </div>
-                    <div className="flex flex-col px-2 pt-1 w-1/2">
+                    <div className="flex flex-col px-2 pt-1 lg:w-1/2 w-full">
                         <h3 className="font-medium">Company Vision</h3>
-                        <textarea
-                            rows={1}
-                            className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full"
-                            value={profile?.employer?.company_vision || "You don't set company vision yet"}
-                            disabled={true}
-                        />
+                        <div
+                            className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full overflow-auto"
+                            style={{ resize: 'vertical' }}
+                        >
+                            {profile?.employer?.company_vision || `${view_only ? "Employer" : "You"} don't set company vision yet`}
+                        </div>
                     </div>
+
                     <div className="flex flex-col px-2 pt-1 w-full">
                         <h3 className="font-medium">Company Mission</h3>
-                        <textarea
-                            rows={5}
-                            className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full"
-                            value={profile?.employer?.company_mission || "You don't set company mission yet"}
-                            disabled={true}
-                        />
+                        <div
+                            className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full overflow-auto"
+                            style={{ resize: 'vertical', minHeight: '100px' }}
+                        >
+                            {profile?.employer?.company_mission || `${view_only ? "Employer" : "You"} don't set company mission yet`}
+                        </div>
                     </div>
                 </div>
             </div>

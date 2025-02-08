@@ -1,11 +1,13 @@
 import DashboardLayout from "@components/DashboardLayout";
+import NotFound from "@components/NotFound";
 import Pagination from "@components/Paginations";
 import { DataOutApplicant } from "@dataType/fetch";
-import { StatusAplicantType } from "@dataType/khusus";
+import { RoleType, StatusAplicantType } from "@dataType/khusus";
 import { getStatusColor } from "@pages/ApplyStatusColor";
 import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
 import functionSets from "@utils/function";
+import OurRoute from "@utils/route";
 import swalError from "@utils/swal/error";
 import swalSuccess from "@utils/swal/success";
 import { useEffect, useState } from "react";
@@ -16,6 +18,7 @@ type GroupedApplicants = {
 
 const Applicant = () => {
     const { profile } = useMyProfile();
+    if (profile?.role !== RoleType.employer) return <NotFound />
     const [applicants, setApplicants] = useState<DataOutApplicant[]>([]);
     const [loading, setLoading] = useState(false)
     // State untuk menyimpan halaman (current page) untuk masing-masing grup role
@@ -110,8 +113,13 @@ const Applicant = () => {
                                     <div className="mb-2">
                                         <div className="flex justify-between">
                                             <h3 className="font-semibold">
-                                                {`${applicant.jobseeker?.first_name} ${applicant.jobseeker?.last_name || ""
-                                                    }`}
+                                                <a
+                                                    href={`${OurRoute.DataRoute["Detail User"]}${applicant.jobseeker_id}?jobseeker=true`}
+                                                    target="_blank"
+                                                >
+                                                    {`${applicant.jobseeker?.first_name} ${applicant.jobseeker?.last_name || ""
+                                                        }`}
+                                                </a>
                                             </h3>
                                             {/* Tampilkan nomor urut relatif dalam grup */}
                                             <p className="text-orange-400">{(totalApplicants - ((currentPage - 1) * itemsPerPage + index))}</p>

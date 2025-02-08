@@ -44,8 +44,8 @@ const EditEmployerMainProfile = () => {
                         setProfile={setProfile}
                     />
                     <div className="py-2 flex flex-col items-center gap-x-2">
-                        <div className="flex w-full md:flex-row flex-col justify-between">
-                            <label htmlFor="company_name" className="font-medium pr-1">
+                        <div className="flex w-full md:flex-row flex-col justify-between md:items-center">
+                            <label htmlFor="company_name" className="font-medium pr-1 py-2 md:w-1/3">
                                 Company Name
                             </label>
                             <input
@@ -61,11 +61,11 @@ const EditEmployerMainProfile = () => {
                                     }
                                 )}
                                 type="text"
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
+                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md md:w-2/3"
                             />
                         </div>
-                        <div className="flex w-full md:flex-row flex-col justify-between">
-                            <label htmlFor="company_address" className="font-medium pr-1">
+                        <div className="flex w-full md:flex-row flex-col justify-between md:items-center">
+                            <label htmlFor="company_address" className="font-medium pr-1 py-2 md:w-1/3">
                                 Company Location
                             </label>
                             <input
@@ -83,7 +83,7 @@ const EditEmployerMainProfile = () => {
                                     )
                                 }}
                                 type="text"
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
+                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md md:w-2/3"
                             />
                         </div>
                     </div>

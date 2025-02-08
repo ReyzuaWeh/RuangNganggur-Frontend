@@ -28,7 +28,7 @@ const SidebarLayout = ({ child }: {
         };
     }, []);
     return (
-        <div className="lg:w-fit w-full z-10">
+        <div className="lg:w-fit relative w-full z-10">
             <div className="lg:hidden top-0 w-full flex fixed bg- justify-end">
                 <div className="hamburger text-primary">
                     <button onClick={() => {

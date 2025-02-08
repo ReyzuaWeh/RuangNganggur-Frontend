@@ -72,9 +72,9 @@ const EditDataEmployerModals = () => {
                                         setProfile: setProfile
                                     })
                                 }}
-                                rows={1}
+                                rows={2}
                                 placeholder="e.g. Our vision is..."
-                                className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
+                                className="py-1 px-2 text-sm border-2 min-h-fit border-gray-400 rounded-md"
                             />
                         </div>
                         <div className="flex flex-col">

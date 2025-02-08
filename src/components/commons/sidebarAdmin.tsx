@@ -10,7 +10,7 @@ const SidebarAdmin = () => {
             child={
                 <li>
                     <NavLink
-                        to={OurRoute.DataRoute["Admin Create User"]}
+                        to={OurRoute.DataRoute["Admin List User"]}
                         className={({ isActive }) => getNavLinks(isActive)}
                     >
                         <span className="flex items-center gap-x-2 opacity-75 font-semibold">

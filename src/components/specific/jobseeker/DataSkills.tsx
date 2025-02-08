@@ -7,12 +7,15 @@ import { FaRegEdit } from "react-icons/fa"
 const DataSkills = ({ view_only, user }: { view_only?: boolean, user?: DataOutUser }) => {
     const openModals = !view_only ? getModalProfileSets().openEditDesc : undefined;
     const { profile: dataProfile } = useMyProfile()
-    const [profile, setProfile] = useState<DataOutUser | null>(dataProfile)
+    const [profile, setProfile] = useState(user || dataProfile)
     useEffect(() => {
+        if (dataProfile && !user) {
+            setProfile(dataProfile)
+        }
         if (user) {
             setProfile(user)
         }
-    }, [user])
+    }, [user, dataProfile])
     return (
         <div className="border w-full p-4 pb-3 mt-5 flex flex-col-reverse md:flex-col rounded-lg bg-white">
             <div className="w-full gap-x-2 border py-5 px-3 my-1 border-primary border-opacity-65 rounded-lg">

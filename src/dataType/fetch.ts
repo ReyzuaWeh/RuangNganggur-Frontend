@@ -31,7 +31,7 @@ interface DataOutUser {
     id?: number;
     username: string;
     password: string;
-    email?: string | null;
+    email: string | null;
     role: RoleType;
     image?: string | null;
     image_file?: string | null;
@@ -75,6 +75,7 @@ interface DataOutApplicant {
         last_name: string | null
     } | null
     job?: {
+        id: number
         role: string
     } | null
 }

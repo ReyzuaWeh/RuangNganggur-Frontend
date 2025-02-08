@@ -6,13 +6,16 @@ import { FaRegEdit } from "react-icons/fa"
 
 const DataMiddleJobSeeker = ({ view_only, user }: { view_only?: boolean, user?: DataOutUser }) => {
     const { profile: dataProfile } = useMyProfile()
-    const [profile, setProfile] = useState(dataProfile)
+    const [profile, setProfile] = useState(user || dataProfile)
     const openModals = !view_only ? getModalProfileSets().openEditMiddle : undefined;
     useEffect(() => {
+        if (dataProfile && !user) {
+            setProfile(dataProfile)
+        }
         if (user) {
             setProfile(user)
         }
-    }, [user])
+    }, [user, dataProfile])
     return (
         <div className="border w-full p-4 pb-3 mt-5 flex flex-col-reverse md:flex-col rounded-lg bg-white">
             <div className="md:flex items-center 
@@ -48,33 +51,42 @@ const DataMiddleJobSeeker = ({ view_only, user }: { view_only?: boolean, user?: 
                     <div className="opacity-65 w-full">
                         <div className="flex flex-wrap pt-2">
                             <h3 className="font-medium">Resume</h3>
-                            <a
-                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full cursor-pointer"
-                                href={profile?.jobseeker?.resume || ""}
-                                target={profile?.jobseeker?.resume ? "_blank" : "_self"}
+                            <p
+                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full"
                             >
-                                {profile?.jobseeker?.resume?.split("/").pop() || "No Resume"}
-                            </a>
+                                {!profile?.jobseeker?.resume ? "No Resume" : (<a
+                                    href={profile.jobseeker.resume}
+                                    target={"_blank"}
+                                >
+                                    {profile.jobseeker.resume.split("/").pop()}
+                                </a>)}
+                            </p>
                         </div>
                         <div className="flex flex-wrap pt-2">
                             <h3 className="font-medium">CV</h3>
-                            <a
-                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full cursor-pointer"
-                                href={profile?.jobseeker?.cv || ""}
-                                target={profile?.jobseeker?.cv ? "_blank" : "_self"}
+                            <p
+                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full"
                             >
-                                {profile?.jobseeker?.cv?.split("/").pop() || "No CV"}
-                            </a>
+                                {!profile?.jobseeker?.cv ? "No CV" : (<a
+                                    href={profile.jobseeker.cv}
+                                    target={"_blank"}
+                                >
+                                    {profile.jobseeker.cv.split("/").pop()}
+                                </a>)}
+                            </p>
                         </div>
                         <div className="flex flex-wrap pt-2">
                             <h3 className="font-medium">Portfolio</h3>
-                            <a
-                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full cursor-pointer"
-                                href={profile?.jobseeker?.portfolio || ""}
-                                target={profile?.jobseeker?.portfolio ? "_blank" : "_self"}
+                            <p
+                                className="py-1 px-2 text-sm text-nowrap overflow-x-hidden border-2 border-gray-400 rounded-md w-full"
                             >
-                                {profile?.jobseeker?.portfolio?.split("/").pop() || "No Portfolio"}
-                            </a>
+                                {!profile?.jobseeker?.portfolio ? "No Portfolio" : (<a
+                                    href={profile.jobseeker.portfolio}
+                                    target={"_blank"}
+                                >
+                                    {profile.jobseeker.portfolio.split("/").pop()}
+                                </a>)}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +96,6 @@ const DataMiddleJobSeeker = ({ view_only, user }: { view_only?: boolean, user?: 
                     <FaRegEdit size={20} className="cursor-pointer" />
                 </button>
             </div>)}
-
         </div>
     )
 }

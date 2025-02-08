@@ -7,12 +7,15 @@ import { FaRegEdit } from "react-icons/fa"
 const DataAbout = ({ view_only, user }: { view_only?: boolean, user?: DataOutUser }) => {
     const openModals = !view_only ? getModalProfileSets().openEditDesc : undefined;
     const { profile: dataProfile } = useMyProfile()
-    const [profile, setProfile] = useState(dataProfile)
+    const [profile, setProfile] = useState(user || dataProfile)
     useEffect(() => {
+        if (dataProfile && !user) {
+            setProfile(dataProfile)
+        }
         if (user) {
             setProfile(user)
         }
-    }, [user])
+    }, [user, dataProfile])
     return (
         <div className="border w-full p-4 pb-3 mt-5 flex flex-col-reverse md:flex-col rounded-lg bg-white">
             <div className="w-full gap-x-2 border py-5 px-3 my-1 border-primary border-opacity-65 rounded-lg">
@@ -22,16 +25,14 @@ const DataAbout = ({ view_only, user }: { view_only?: boolean, user?: DataOutUse
                         <FaRegEdit size={20} className="cursor-pointer" />
                     </button>)}
                 </div>
-                <div className="opacity-65 w-full">
-                    <textarea
-                        rows={5}
-                        className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full"
-                        value={profile?.employer?.company_description || "You haven't shared about your company"}
-                        disabled={true}
-                    />
+                <div
+                    className="py-1 px-2 text-sm border-2 opacity-65 border-gray-400 rounded-md w-full overflow-auto"
+                    style={{ resize: 'vertical', minHeight: '100px' }}
+                >
+                    {profile?.employer?.company_description || `${view_only ? "Employer" : "You"} haven't shared about ${view_only ? "their" : "your"} company`}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 export default DataAbout

@@ -51,9 +51,6 @@ const updateApplicant = async (
         dataUpdate: DataOutApplicant
     }
 ) => {
-    console.log("")
-    console.log("")
-    console.log(dataUpdate)
     const response = await fetchUser.handleRequest({
         route: `${api_route.applicants_route}/applicant/${id}`,
         method: HttpMethod.PUT,
@@ -63,6 +60,15 @@ const updateApplicant = async (
     if (!response.ok) throw response;
     const data = await response.json();
     return data;
+}
+const deleteApplicant = async (id: number) => {
+    const response = await fetchUser.handleRequest({
+        route: `${api_route.applicants_route}/applicant/${id}`,
+        method: HttpMethod.DELETE,
+        token: functionSets.getToken()
+    });
+    if (!response.ok) throw response;
+    return;
 }
 const getJob = async (id: number) => {
     const response = await fetchUser.handleRequest({
@@ -154,6 +160,7 @@ const fetchJob = {
     applyJob,
     updateApplicant,
     getJob,
-    updateJob
+    updateJob,
+    deleteApplicant
 }
 export default fetchJob

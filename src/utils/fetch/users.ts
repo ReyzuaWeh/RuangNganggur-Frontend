@@ -73,9 +73,17 @@ const changepass = async (formChangePassword: ForgetPasswordForm) => {
     const data = await response.json();
     return data;
 }
-const getUser = async (id: number) => {
+const getUser = async (id: number, find_jobseeker?: boolean | null, find_employer?: boolean | null) => {
+    const paramsObject: Record<string, string> = {};
+    if (find_jobseeker) {
+        paramsObject["find_jobseeker"] = String(find_jobseeker);
+    }
+    if (find_employer) {
+        paramsObject["find_jobseeker"] = String(find_jobseeker);
+    }
+    const params = new URLSearchParams(paramsObject);
     const response = await handleRequest({
-        route: `${api_route.users_route}/user/${id}`,
+        route: `${api_route.users_route}/user/${id}?${params.toString()}`,
         method: HttpMethod.GET,
         token: getAccessToken()
     });
@@ -83,6 +91,29 @@ const getUser = async (id: number) => {
     const data: DataOutUser = await response.json();
     return data;
 }
+const getUsers = async (
+    { role, search, status }: {
+        role?: RoleType | null,
+        search?: string | null,
+        status?: boolean,
+    }
+) => {
+    const paramsObject: Record<any, any> = {
+        ...(role && { role }),
+        ...(search && { search }),
+        ...(Boolean(status !== undefined) && { status })
+    }
+    const params = new URLSearchParams(paramsObject)
+    const response = await handleRequest({
+        route: `${api_route.users_route}?${params.toString()}`,
+        method: HttpMethod.GET,
+        token: getAccessToken()
+    }, true);
+    if (!response.ok) throw response;
+    const data: DataOutUser[] = await response.json();
+    return data;
+}
+
 const getProfile = async (): Promise<DataOutUser> => {
     const response = await handleRequest({
         route: `${api_route.users_route}/profile`,
@@ -158,6 +189,7 @@ export const fetchUser = {
     changepass,
     handleRequest,
     getUser,
-    updateUser
+    updateUser,
+    getUsers
 };
 export default fetchUser;

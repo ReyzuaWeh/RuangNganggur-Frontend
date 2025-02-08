@@ -1,4 +1,5 @@
 import DashboardLayout from '@components/DashboardLayout';
+import Loading from '@components/Loading';
 import NotFound from '@components/NotFound';
 import ImageModals from '@components/profile/ImageModals';
 import ValidationComponents from '@components/ValidationError';
@@ -25,33 +26,11 @@ const UserDetailAdmin = () => {
 		role: RoleType.jobseeker,
 		registered_at: new Date(),
 		disabled: false,
-		jobseeker: {
-			first_name: "",
-			last_name: null,
-			nis: "",
-			graduate_year: null,
-			phone_number: null,
-			resume: null,
-			resume_file: null,
-			resume_name: null,
-			cv: null,
-			cv_file: null,
-			cv_name: null,
-			portfolio: null,
-			portfolio_file: null,
-			portfolio_name: null,
-			skills: null,
-		},
-		employer: {
-			company_name: "",
-			company_address: null,
-			company_phone_number: null,
-			company_description: null,
-			company_vision: null,
-			company_mission: null,
-		},
-	}
-	);
+		jobseeker: null,
+		employer: null,
+	});
+	const [loading, setLoading] = useState(false);
+	const [saving, setSaving] = useState(false);
 	const [isShowPassword, setIsShowPassword] = useState(false);
 
 	const handleField = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -90,6 +69,7 @@ const UserDetailAdmin = () => {
 	};
 	const handleSubmit = () => {
 		if (id) {
+			setSaving(true)
 			return fetchUser.updateUser(user, parseInt(id)).then(() => {
 				setValidationError(null)
 				swalSuccess({ title: "Update User Success", message: `User ${user.username} has been updated` })
@@ -101,7 +81,7 @@ const UserDetailAdmin = () => {
 					return swalError(error, "Wrong Update Input");
 				}
 				swalError(error.status, `Cannot Update User ${user.username}`);
-			})
+			}).finally(() => setSaving(false))
 		}
 		return fetchUser.register(user).then(() => {
 			setValidationError(null)
@@ -118,14 +98,26 @@ const UserDetailAdmin = () => {
 	}
 	useEffect(() => {
 		if (id) {
+			setLoading(true)
 			fetchUser.getUser(parseInt(id)).then(e => {
 				setUser(e)
 			}).catch(err => {
 				swalError(err.status, "Cannot get data user")
+			}).finally(() => setLoading(false))
+		} else {
+			setUser({
+				username: "",
+				email: "",
+				password: "",
+				role: RoleType.jobseeker,
+				registered_at: new Date(),
+				disabled: false,
+				jobseeker: null,
+				employer: null,
 			})
 		}
 	}, [id]);
-	return (
+	return loading ? <Loading /> : (
 		<DashboardLayout>
 			<div className="flex items-center gap-x-4 mb-5 md:mb-10">
 				<h1 className="text-lg md:text-2xl font-semibold">
@@ -205,7 +197,6 @@ const UserDetailAdmin = () => {
 									>
 										{isShowPassword ? <FaEye /> : <FaEyeSlash />}
 									</button>
-
 								</label>
 							</div>
 							<div className="space-y-2 h-full">
@@ -493,8 +484,8 @@ const UserDetailAdmin = () => {
 					</div>)}
 					{validationError && <ValidationComponents errorValid={validationError} />}
 					<div className="w-full text-end">
-						<button type='submit' className='btn-primary p-2 rounded'>
-							Save
+						<button type='submit' className='btn-primary p-2 rounded' disabled={saving}>
+							{saving ? "Saving..." : "Save"}
 						</button>
 					</div>
 				</form>

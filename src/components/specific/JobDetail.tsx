@@ -19,12 +19,13 @@ import {
 import { IoMdClose } from "react-icons/io";
 import { IoDocumentTextOutline } from "react-icons/io5";
 
-const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => void }) => {
+const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose: () => void, job_id?: number | null }) => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [profile, setProfile] = useState<DataOutUser | null>(null);
+    const [jobActive, setJobActive] = useState<DataOutJob | null>(job || null);
     const [formData, setFormData] = useState<DataOutApplicant>({
-        job_id: job?.id,
+        job_id: jobActive?.id,
         jobseeker_id: 0,
         jobletter: "",
         jobletter_file: "",
@@ -32,7 +33,6 @@ const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => vo
         status: StatusAplicantType.process,
         applied_at: new Date(),
     });
-
     const handlFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
         const { name } = e.target;
@@ -58,7 +58,15 @@ const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => vo
         }).catch((error) => {
             console.error("Error fetching Profile:", error);
         })
-    }, []);
+        if (job_id) {
+            fetchJob.getJob(job_id).then(e => {
+                setJobActive(e)
+                setFormData((prev) => ({ ...prev, job_id: e.id }))
+            }).catch(err => {
+                swalError(err.status, "Cannot get data job")
+            })
+        }
+    }, [job_id]);
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4 sm:p-6">
@@ -70,10 +78,10 @@ const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => vo
                 {/* Header Modal */}
                 <div className="bg-[#2c3b63] h-[15%] p-4 rounded-xl flex justify-between items-center">
                     <div>
-                        <h1 className="text-2xl lg:text-4xl font-medium mb-2">{job?.role}</h1>
+                        <h1 className="text-2xl lg:text-4xl font-medium mb-2">{jobActive?.role}</h1>
                         <p className="flex items-center gap-x-2 text-lg lg:text-xl">
                             <FaBuilding className="text-accents" />
-                            {job?.employer?.company_name || "PT Undefined Indonesia"}
+                            {jobActive?.employer?.company_name || "PT Undefined Indonesia"}
                         </p>
                     </div>
                     <button
@@ -95,29 +103,29 @@ const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => vo
                         <div className="flex flex-col gap-y-2 h-full">
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaMapMarkedAlt className="text-accents" />
-                                Location : {job?.location || "Remote"}
+                                Location : {jobActive?.location || "Remote"}
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <AiOutlineDollar className="text-accents" />
-                                Salary : {job?.salary && functionSets.formatNumbertoIDR(job?.salary) || "No Sallary"}
+                                Salary : {jobActive?.salary && functionSets.formatNumbertoIDR(jobActive?.salary) || "No Sallary"}
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaUserCheck className="text-accents" />
-                                Age : {job?.min_age && job?.max_age
-                                    ? `${job.min_age} - ${job.max_age} Years Old`
-                                    : job?.min_age
-                                        ? `> ${job.min_age} Years Old`
-                                        : job?.max_age
-                                            ? `< ${job.max_age} Years Old`
+                                Age : {jobActive?.min_age && jobActive?.max_age
+                                    ? `${jobActive.min_age} - ${jobActive.max_age} Years Old`
+                                    : jobActive?.min_age
+                                        ? `> ${jobActive.min_age} Years Old`
+                                        : jobActive?.max_age
+                                            ? `< ${jobActive.max_age} Years Old`
                                             : "Not specified"}
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaGenderless className="text-accents" />
-                                Gender : {job?.gender && functionSets.capitalizeFirstLetter(job?.gender) || "All Gender"}
+                                Gender : {jobActive?.gender && functionSets.capitalizeFirstLetter(jobActive?.gender) || "All Gender"}
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaFileContract className="text-accents" />
-                                Type Job : {job?.type_job && functionSets.capitalizeFirstLetter(job?.type_job.replace("_", " "))}
+                                Type Job : {jobActive?.type_job && functionSets.capitalizeFirstLetter(jobActive?.type_job.replace("_", " "))}
                             </h2>
                         </div>
                     </div>
@@ -127,11 +135,11 @@ const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => vo
                         <div className="flex w-full lg:flex-row flex-col h-fit justify-between">
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaHourglassStart className="text-accents" />
-                                Open Date : {job?.open_date ? functionSets.DateToString(job?.open_date) : "Undefined"}
+                                Open Date : {jobActive?.open_date ? functionSets.DateToString(jobActive?.open_date) : "Undefined"}
                             </h2>
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaHourglassEnd className="text-accents" />
-                                Close Date : {job?.close_date ? functionSets.DateToString(job?.close_date) : "Undefined"}
+                                Close Date : {jobActive?.close_date ? functionSets.DateToString(jobActive?.close_date) : "Undefined"}
                             </h2>
                         </div>
                         <div className={`flex flex-col flex-1 h-fit w-full transition-[height] 
@@ -146,7 +154,7 @@ const JobDetail = ({ job, onClose }: { job: DataOutJob | null; onClose: () => vo
                                 ${profile && profile.role === RoleType.jobseeker ? " " : " flex-1 "}
                                 bg-[#E1ECFF] text-primary p-4 rounded-md whitespace-pre-wrap break-words`}
                             >
-                                {job?.description || "No description for this job"}
+                                {jobActive?.description || "No description for this job"}
                             </div>
                         </div>
                         {profile && profile.role === RoleType.jobseeker && (

@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             {profile?.role === RoleType.jobseeker && <SidebarJobseeker />}
             {profile?.role === RoleType.employer && <SidebarEmployer />}
             {profile?.role === RoleType.admin && <SidebarAdmin />}
-            <section className="py-8 px-7 w-full min-h-screen">{children}</section>
+            <section className="py-8 px-7 flex-1 min-h-screen overflow-x-auto">{children}</section>
         </div>
     );
 };

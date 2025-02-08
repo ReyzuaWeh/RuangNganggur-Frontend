@@ -1,27 +1,31 @@
-import OurRoute from "@/utils/route";
 import DashboardLayout from "@components/DashboardLayout";
+import ListTableLayout from "@components/ListTableLayout";
 import Loading from "@components/Loading";
+import NotFound from "@components/NotFound";
+import Pagination from "@components/Paginations";
 import { DataOutJob } from "@dataType/fetch";
+import { RoleType } from "@dataType/khusus";
 import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
 import functionSets from "@utils/function";
+import OurRoute from "@utils/route";
 import swalError from "@utils/swal/error";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 const MyJobList = () => {
     const { profile } = useMyProfile()
+    if (profile?.role !== RoleType.employer) return <NotFound />
     const [jobs, setJobs] = useState<DataOutJob[]>([])
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        fetchJob.getJobs({ idEmployer: profile?.employer?.id || null }).then(v => {
-            setJobs(v.reverse())
-        }).catch((e) => {
-            if (e.status === 404) return swalError(e.status, "You don't have any job post")
-            return swalError(e.status, "Cannot get data job")
-        }).finally(() => setLoading(false))
-    }, [])
-
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 10
+    const dataPagination = functionSets.setDataPagination({
+        itemsPerPage,
+        currentPage,
+        setCurrentPage,
+        dataSlice: jobs
+    })
     const deleteJob = (id: number, jobname: string) => {
         Swal.fire({
             title: `Do you want to delete ${jobname} post?`,
@@ -47,15 +51,22 @@ const MyJobList = () => {
             }
         })
     }
-
+    useEffect(() => {
+        fetchJob.getJobs({ idEmployer: profile?.employer?.id || null }).then(v => {
+            setJobs(v.reverse())
+        }).catch((e) => {
+            if (e.status === 404) return swalError(e.status, "You don't have any job post")
+            return swalError(e.status, "Cannot get data job")
+        }).finally(() => setLoading(false))
+    }, [])
     if (loading) return <Loading />
     return (
         <DashboardLayout>
             <div className="flex items-center gap-x-4 mb-5 md:mb-10">
                 <h1 className="text-lg md:text-2xl font-semibold">{profile?.employer?.company_name}'s Job Posts</h1>
             </div>
-            <div className="overflow-x-auto w-full bg-white ">
-                <div className="p-6 md:p-10 rounded-md shadow-md w-fit min-w-full">
+            <div className="bg-white rounded">
+                <ListTableLayout>
                     <table className="w-full border-collapse">
                         <thead>
                             <tr className="bg-gray-100 text-center text-sm md:text-base">
@@ -74,10 +85,10 @@ const MyJobList = () => {
                                         No data
                                     </td>
                                 </tr>
-                            ) : jobs.map((job, index) => (
+                            ) : dataPagination.currentData.map((job, index) => (
                                 <tr key={job.id} className="hover:bg-gray-50">
                                     <td className="p-4 border-b text-sm text-nowrap md:text-base">
-                                        {index + 1}
+                                        {(currentPage - 1) * dataPagination.totalDataPerPages + index + 1}
                                     </td>
                                     <td className="p-4 border-b text-sm text-nowrap md:text-base">
                                         {job.role}
@@ -104,7 +115,14 @@ const MyJobList = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </ListTableLayout>
+                {dataPagination.totalDataPerPages > 1 && (
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={dataPagination.totalDataPerPages}
+                        onPageChange={dataPagination.handlePageChange}
+                    />
+                )}
             </div>
         </DashboardLayout>
     );
