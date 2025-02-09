@@ -30,20 +30,16 @@ const JobForm = () => {
 		salary: 0,
 		type_job: null,
 		open_date: new Date(),
+		close_date: null,
 		description: ""
 	})
 	const [listCompany, setListCompany] = useState<Record<number, string> | undefined>()
 	const [error_validation, setError_validation] = useState<ErrorValidation | undefined>(undefined);
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
 		const { name, value, type } = e.target;
+		if (!/^\d*$/.test(value) && name === "salary") return
 		let parsedValue
-		if (type === 'date') {
-			if (value) {
-				parsedValue = functionSets.formatStringtoDate(value)
-			}
-			setDataForm({ ...dataForm, [name as keyof DataOutJob]: parsedValue || null });
-			return
-		}
+		if (type === 'date' && value) parsedValue = functionSets.formatStringtoDate(value)
 		parsedValue = type === 'number' ? parseInt(value) : value;
 		setDataForm({ ...dataForm, [name as keyof DataOutJob]: parsedValue || null });
 	}
@@ -212,7 +208,7 @@ const JobForm = () => {
 								onChange={handleChange}
 								className="border p-3 rounded bg-gray-200 text-black w-full md:w-full"
 							>
-								<option value="">Select Gender</option>
+								<option value="">All Gender</option>
 								{Object.entries(GenderType).map(([key, value]) => (
 									<option key={key} value={value}>{functionSets.capitalizeFirstLetter(value)}</option>
 								))}
@@ -259,7 +255,6 @@ const JobForm = () => {
 							/>
 						</div>
 					</div>
-
 					<div className="mt-6">
 						<label htmlFor="" className="block text-black mb-1 w-full md:w-32">Description</label>
 						<textarea
@@ -285,7 +280,6 @@ const JobForm = () => {
 							type='submit'
 							className="bg-orange-400 md:w-fit w-1/2 hover:bg-orange-600 transition-colors text-white px-5 py-3 rounded"
 							disabled={saving}
-
 						>
 							{saving ? "Saving..." : "Save"}
 						</button>

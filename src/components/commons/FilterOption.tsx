@@ -33,7 +33,7 @@ const FilterOption = ({ filterSets, submitFilter, setOpenPopUp, setClearFilter, 
         </div>
 
         {/* Tombol Aksi */}
-        <div className="flex items-end justify-end gap-2">
+        <div className="flex items-end  md:flex-row flex-col  justify-end gap-2">
             <button
                 type="button"
                 onClick={setOpenPopUp}
@@ -42,19 +42,21 @@ const FilterOption = ({ filterSets, submitFilter, setOpenPopUp, setClearFilter, 
                 <MdFilterListAlt size={24} />
                 <span className="ml-1 hidden sm:inline-block">More Filters</span>
             </button>
-            <button
-                type="button"
-                onClick={setClearFilter}
-                className="bg-gray-200 text-gray-700 font-medium py-1 px-3 rounded-md hover:bg-gray-300 transition-colors"
-            >
-                Clear
-            </button>
-            <button
-                type="submit"
-                className="btn-primary text-white font-medium py-1 px-3 rounded-md transition duration-200"
-            >
-                Find
-            </button>
+            <div className="flex gap-x-2">
+                <button
+                    type="button"
+                    onClick={setClearFilter}
+                    className="bg-gray-200 text-gray-700 font-medium py-1 px-3 rounded-md hover:bg-gray-300 transition-colors"
+                >
+                    Clear
+                </button>
+                <button
+                    type="submit"
+                    className="btn-primary text-white font-medium py-1 px-3 rounded-md transition duration-200"
+                >
+                    Find
+                </button>
+            </div>
         </div>
     </div>
 </form>

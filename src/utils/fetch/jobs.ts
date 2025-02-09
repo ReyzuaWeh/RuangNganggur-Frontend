@@ -8,17 +8,19 @@ import FetchFunction from "./fetch";
 import fetchUser from "./users";
 
 const getApplicant = async (
-    { jobseeker_id, jobId, employer_id, with_detail }: {
+    { jobseeker_id, jobId, employer_id, with_detail, search_applier_or_job }: {
         jobseeker_id?: number | null,
         jobId?: number | null,
         employer_id?: number | null,
-        with_detail?: boolean | null
+        with_detail?: boolean | null,
+        search_applier_or_job?: string | null
     }
 ) => {
     const paramsObject = {
         ...(jobseeker_id && { jobseeker_id: String(jobseeker_id) }),
         ...(jobId && { job_id: String(jobId) }),
-        ...(employer_id && { employer_id: String(employer_id) })
+        ...(employer_id && { employer_id: String(employer_id) }),
+        ...(search_applier_or_job && { search_applier_or_job })
     }
     const params = new URLSearchParams(paramsObject)
     const tambahan = with_detail ? `/with-detail/` : `/`
@@ -156,8 +158,7 @@ const deleteJob = async (id: number) => {
         token: functionSets.getToken()
     }, true)
     if (!response.ok) throw response;
-    const data = await response.json();
-    return data;
+    return true;
 }
 const fetchJob = {
     deleteJob,

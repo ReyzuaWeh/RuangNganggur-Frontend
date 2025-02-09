@@ -28,7 +28,7 @@ const SidebarAdmin = () => {
                         </span>
                     </NavLink>
                     <NavLink
-                        to={OurRoute.DataRoute["Applied"]}
+                        to={OurRoute.DataRoute["Admin List Applicant"]}
                         className={({ isActive }) => getNavLinks(isActive)}
                     >
                         <span className="flex items-center gap-x-2 opacity-75 font-semibold">

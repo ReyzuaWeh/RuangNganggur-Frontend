@@ -68,8 +68,8 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="flex justify-between items-center px-8 py-7 shadow-lg bg-gray-200">
-                <h1 className="font-semibold text-md sm:text-lg md:text-2xl text-center">
+            <div className="flex justify-end md:justify-between items-center px-8 py-7 shadow-lg bg-gray-200">
+                <h1 className="font-semibold text-md hidden md:block sm:text-lg md:text-2xl text-center">
                     <span className="text-accents">Ruang</span>Nganggur
                 </h1>
                 <button

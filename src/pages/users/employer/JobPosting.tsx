@@ -1,9 +1,11 @@
 import DashboardLayout from "@components/DashboardLayout";
 import NotFound from "@components/NotFound";
-import { DataOutJob } from "@dataType/fetch";
-import { JobType, RoleType } from "@dataType/khusus";
+import ValidationComponents from "@components/ValidationError";
+import { DataOutJob, ErrorValidation } from "@dataType/fetch";
+import { GenderType, JobType, RoleType } from "@dataType/khusus";
 import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
+import functionSets from "@utils/function";
 import swalError from "@utils/swal/error";
 import swalSuccess from "@utils/swal/success";
 import React, { useEffect, useState } from "react";
@@ -15,6 +17,7 @@ const JobPosting = () => {
     }>();
     const { profile } = useMyProfile()
     if (profile?.role !== RoleType.employer) return <NotFound is403={true} />
+    const [saving, setSaving] = useState(false);
     const [formData, setFormData] = useState<DataOutJob>({
         employer_id: profile?.employer?.id,
         role: "",
@@ -25,34 +28,41 @@ const JobPosting = () => {
         max_age: 0,
         gender: null,
         open_date: new Date(),
-        close_date: new Date(),
+        close_date: null,
         description: "",
     });
-
+    const [error_validation, setError_validation] = useState<ErrorValidation | undefined>(undefined);
     // Handle form input changes
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
         if (!/^\d*$/.test(value) && name === "salary") return
-        setFormData((prevState) => ({
-            ...prevState,
-            [name]: type !== "date" ? value : new Date(value),
-        }));
+        let parsedValue
+        if (type === 'date' && value) parsedValue = functionSets.formatStringtoDate(value)
+        parsedValue = type === 'number' ? parseInt(value) : value;
+        setFormData({ ...formData, [name as keyof DataOutJob]: parsedValue || null });
     };
-
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setSaving(true)
         if (!id) {
             fetchJob.postJob(formData).then(() => {
                 swalSuccess({
                     title: "Post Job Success",
                     message: "Your job posting has been successfully submitted"
                 })
-            }).catch(async (err) => {
-                const errorMsg = await err.json()
-                console.error(errorMsg)
-                swalError(err.status, "Can't post job")
-            });
+            }).catch(async (error) => {
+                if (error.status) {
+                    if (functionSets.isBadOrConflictRequest(error.status) || error.status === 404) {
+                        const data = await error.json()
+                        swalError(error.status, "Input not valid!")
+                        setError_validation(data);
+                    } else {
+                        swalError(error.status, "Can't update job")
+                    }
+                }
+                console.error("Error updating job:", error);
+            }).finally(() => setSaving(false));
             return
         }
         fetchJob.updateJob({ id: parseInt(id), dataUpdate: formData }).then(() => {
@@ -60,12 +70,18 @@ const JobPosting = () => {
                 title: "Update Job Success",
                 message: "Your job posting has been successfully updated"
             })
-        }).catch(async (err) => {
-            const errorMsg = await err.json()
-            console.error(errorMsg)
-            swalError(err.status, "Can't update job")
-        });
-
+        }).catch(async (error) => {
+            if (error.status) {
+                if (functionSets.isBadOrConflictRequest(error.status) || error.status === 404) {
+                    const data = await error.json()
+                    swalError(error.status, "Input not valid!")
+                    setError_validation(data);
+                } else {
+                    swalError(error.status, "Can't update job")
+                }
+            }
+            console.error("Error updating job:", error);
+        }).finally(() => setSaving(false));
     };
     useEffect(() => {
         if (!id) {
@@ -79,7 +95,7 @@ const JobPosting = () => {
                 max_age: 0,
                 gender: null,
                 open_date: new Date(),
-                close_date: new Date(),
+                close_date: null,
                 description: "",
             })
         };
@@ -98,7 +114,7 @@ const JobPosting = () => {
                 </h1>
             </div>
             {/* Job Posting Form */}
-            <div className="bg-white max-h-[85vh] overflow-y-auto p-6 md:p-10 rounded-md shadow-md">
+            <div className="bg-white h-fit p-6 md:p-10 rounded-md shadow-md">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="flex flex-col">
                         <label htmlFor="role" className="font-medium text-sm mb-1">
@@ -218,8 +234,9 @@ const JobPosting = () => {
                             className="border border-gray-300 rounded-lg p-2"
                         >
                             <option value="">All Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            {Object.entries(GenderType).map(([key, value]) => (
+                                <option key={key} value={value}>{functionSets.capitalizeFirstLetter(value)}</option>
+                            ))}
                         </select>
                     </div>
 
@@ -231,7 +248,7 @@ const JobPosting = () => {
                             type="date"
                             id="open_date"
                             name="open_date"
-                            value={formData.open_date ? new Date(formData.open_date).toISOString().split('T')[0] : ""}
+                            value={functionSets.formatDatetoString(formData.open_date)}
                             onChange={handleChange}
                             className="border border-gray-300 rounded-lg p-2"
                             required
@@ -246,19 +263,44 @@ const JobPosting = () => {
                             type="date"
                             id="close_date"
                             name="close_date"
-                            value={formData.close_date ? new Date(formData.close_date).toISOString().split('T')[0] : ""}
+                            value={formData.close_date ? functionSets.formatDatetoString(formData.close_date) : ""}
                             onChange={handleChange}
                             className="border border-gray-300 rounded-lg p-2"
-                            required
                         />
                     </div>
-
-                    <button
-                        type="submit"
-                        className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark"
-                    >
-                        Submit Job Listing
-                    </button>
+                    <div className="flex flex-col">
+                        <label htmlFor="description" className="font-medium text-sm mb-1">
+                            Description
+                        </label>
+                        <textarea
+                            rows={5}
+                            id="description"
+                            name="description"
+                            value={formData.description || ""}
+                            onChange={handleChange}
+                            placeholder="Detail of this job..."
+                            className="border border-gray-300 rounded-lg p-2"
+                        />
+                    </div>
+                    {error_validation && <ValidationComponents errorValid={error_validation} />}
+                    <div className="flex space-x-4 gap-x-2 justify-center md:justify-end mt-4 md:mt-0 w-full">
+                        <button
+                            type='button'
+                            onClick={() => {
+                                window.history.back()
+                            }}
+                            className="bg-red-600 md:w-fit w-1/2 hover:bg-red-800 transition-colors text-white px-5 py-3 rounded"
+                        >
+                            Back
+                        </button>
+                        <button
+                            type='submit'
+                            className="bg-orange-400 md:w-fit w-1/2 hover:bg-orange-600 transition-colors text-white px-5 py-3 rounded"
+                            disabled={saving}
+                        >
+                            {saving ? "Saving..." : "Save"}
+                        </button>
+                    </div>
                 </form>
             </div>
         </DashboardLayout>

@@ -16,6 +16,7 @@ const DataRoute = {
     "Admin List Job": "/users/admin/list-job",
     "Admin Create Job": "/users/admin/create-job",
     "Admin Detail Job": "/users/admin/detail-job/",
+    "Admin List Applicant": "/users/admin/list-applicant",
     "Job Posting": "/users/employer/job-posting",
     "Job Detail Form": "/users/employer/job-detail",
     "Applier List": "/users/employer/applier-list",
@@ -44,6 +45,7 @@ const DataRouteApp = {
         "Admin List Job": "/admin/list-job",
         "Admin Create Job": "/admin/create-job",
         "Admin Detail Job": "/admin/detail-job/:id",
+        "Admin List Applicant": "/admin/list-applicant",
         "Detail User": "/detail/:id"
     }
 }
