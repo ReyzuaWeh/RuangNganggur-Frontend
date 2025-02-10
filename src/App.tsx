@@ -21,7 +21,6 @@ import About from "@pages/jobseeker/about/About";
 import { ProfileProvider } from "@provider/userProvider";
 import OurRoute from "@utils/route";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import JobCompanyPagination from "./components/specific/admin/DataJobsComponent";
 
 function App() {
   return (
@@ -70,7 +69,6 @@ function App() {
             </ProfileProvider>
           }
         />
-        <Route path="/test" element={<JobCompanyPagination />} />
         {/* 404 Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>

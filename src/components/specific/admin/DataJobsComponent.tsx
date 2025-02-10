@@ -2,6 +2,7 @@ import DownloadPembukuanComponent from "@components/DownloadPembukuanComponent";
 import JobDetail from "@components/JobDetail";
 import Pagination from "@components/Paginations"; // Pastikan path-nya sesuai dengan struktur proyek Anda
 import { DataOutJob } from "@dataType/fetch";
+import { tahun_akhir_web, tahun_awal_web } from "@utils/BaseData";
 import fetchJob from "@utils/fetch/jobs";
 import fetchPembukuan from "@utils/fetch/pembukuan";
 import functionSets from "@utils/function";
@@ -38,10 +39,9 @@ const JobCompanyPagination = () => {
     );
     /*** Opsi Tahun untuk Unduh Pembukuan ***/
     const [years, setYears] = useState<Record<number, string>>({});
-    const [selectedYear, setSelectedYear] = useState("2023/2024");
-    const yearStart = 2023
+    const [selectedYear, setSelectedYear] = useState(`${tahun_awal_web}/${tahun_awal_web + 1}`);
     const handleDownload = () => {
-        fetchPembukuan.getPembukuan(
+        fetchPembukuan.getPembukuanJob(
             Number(selectedYear.split("/")[0]),
             Number(selectedYear.split("/")[1])
         )
@@ -49,9 +49,6 @@ const JobCompanyPagination = () => {
                 // Sekarang header Content-Disposition seharusnya sudah tersedia
                 const contentDisposition = res.headers.get("Content-Disposition");
                 let filename = "download.xlsx";
-                console.log("Headers:", res.headers);
-                console.log("Content-Disposition:", contentDisposition);
-
                 if (contentDisposition) {
                     const match = contentDisposition.match(/filename="(.+?)"/);
                     if (match) {
@@ -127,10 +124,10 @@ const JobCompanyPagination = () => {
         }).catch(error => {
             console.error("Error fetching jobs:", error);
         }).finally(() => setLoading(false))
-        Array.from({ length: new Date().getFullYear() - yearStart }).forEach((_, index) => {
+        Array.from({ length: tahun_akhir_web - tahun_awal_web }).forEach((_, index) => {
             setYears(prev => ({
                 ...prev,
-                [yearStart + index]: `${yearStart + index}/${yearStart + index + 1}`
+                [tahun_awal_web + index]: `${tahun_awal_web + index}/${tahun_awal_web + index + 1}`
             }))
         })
     }, [])
@@ -186,15 +183,15 @@ const JobCompanyPagination = () => {
                                                         <p>
                                                             <strong>Type:</strong> {functionSets.capitalizeFirstLetter(job.type_job?.replace(/_/g, " ") || "")}
                                                         </p>
-                                                        <p>
-                                                            <strong>Close Date:</strong>{" "}
+                                                        <p className="w-full text-end">
+                                                            <span className="font-semibold">Close :</span>{" "}
                                                             {job.close_date
-                                                                ? functionSets.DateToString(job.close_date)
+                                                                ? functionSets.formatDatetoString(job.close_date)
                                                                 : "N/A"}
                                                         </p>
                                                         <button
                                                             onClick={() => setSelectedJob(job)}
-                                                            className="bg-blue-600 hover:bg-blue-900 transition-all self-end text-white py-1 px-3 mt-2 rounded"
+                                                            className="bg-blue-600 hover:bg-blue-900 transition-all self-end text-white py-1 px-3 mt-2 rounded w-full"
                                                         >
                                                             Detail
                                                         </button>

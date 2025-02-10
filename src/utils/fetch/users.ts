@@ -92,16 +92,22 @@ const getUser = async (id: number, find_jobseeker?: boolean | null, find_employe
     return data;
 }
 const getUsers = async (
-    { role, search, status }: {
+    { role, search, status, min_years, max_years, not_admin }: {
         role?: RoleType | null,
         search?: string | null,
         status?: boolean,
+        min_years?: number | null,
+        max_years?: number | null,
+        not_admin?: boolean
     }
 ) => {
     const paramsObject: Record<any, any> = {
         ...(role && { role }),
         ...(search && { search }),
-        ...(Boolean(status !== undefined) && { status })
+        ...(Boolean(status !== undefined) && { status }),
+        ...(min_years && { min_years: String(min_years) }),
+        ...(max_years && { max_years: String(max_years) }),
+        ...(not_admin && { not_admin })
     }
     const params = new URLSearchParams(paramsObject)
     const response = await handleRequest({
