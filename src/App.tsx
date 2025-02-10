@@ -1,6 +1,7 @@
 import Loading from "@components/Loading";
 import NotFound from "@components/NotFound";
 import Auth from "@pages/Auth";
+import CompanyListing from "@pages/Company";
 import DetailUser from "@pages/DetailUser";
 import LoginInterface from "@pages/Login";
 import Profile from "@pages/Profile";
@@ -31,9 +32,10 @@ function App() {
         <Route path={OurRoute.DataRouteApp["Login"]} element={<LoginInterface />} />
         <Route path={`${OurRoute.DataRouteApp["Register Role"]}:wanna_be`} element={<Register />} />
         <Route path={OurRoute.DataRouteApp["Success Login"]} element={<Success />} />
-        {/* Landing Job Seeker */}
+        {/* Landing Page */}
         <Route path={OurRoute.DataRouteApp["About"]} element={<About />} />
         <Route path={OurRoute.DataRouteApp["Job List"]} element={<Job />} />
+        <Route path={OurRoute.DataRouteApp["Company List"]} element={<CompanyListing />} />
         {/* Employee Dashboard */}
         <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />} />
         <Route path="/loading" element={<Loading />} />

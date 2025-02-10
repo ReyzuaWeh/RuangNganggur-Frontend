@@ -161,10 +161,10 @@ const Register = () => {
                                     <label htmlFor="password" className="flex flex-nowrap border outline-none rounded-md px-4 py-2 mt-2">
                                         <input
                                             name="password"
-                                            id={visibility ? "text" : "password"}
+                                            id="password"
                                             className="text-sm w-full"
                                             placeholder="Enter Password"
-                                            type="password"
+                                            type={visibility ? "text" : "password"}
                                             value={formData.password}
                                             onChange={(e) => handleChange(e, setFormData as useStateObjectAnyType)}
                                             required

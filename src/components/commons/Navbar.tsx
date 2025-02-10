@@ -68,7 +68,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="flex justify-end md:justify-between items-center px-8 py-7 shadow-lg bg-gray-200">
+            <div className="flex justify-end md:justify-between items-center px-8 py-3.5 shadow-lg bg-gray-200">
                 <h1 className="font-semibold text-md hidden md:block sm:text-lg md:text-2xl text-center">
                     <span className="text-accents">Ruang</span>Nganggur
                 </h1>
@@ -90,6 +90,11 @@ const Navbar = () => {
                         <li>
                             <NavLink to={OurRoute.DataRoute["Job List"]} className={({ isActive }) => getNavLinkClass(isActive)}>
                                 <span className="px-4 py-3 text-sm tracking-widest font-medium">Job Listing</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={OurRoute.DataRoute["Company List"]} className={({ isActive }) => getNavLinkClass(isActive)}>
+                                <span className="px-4 py-3 text-sm tracking-widest font-medium">Company</span>
                             </NavLink>
                         </li>
                     </ul>
@@ -164,6 +169,9 @@ const Navbar = () => {
                     <li>
                         <NavLink to={OurRoute.DataRoute["Job List"]} className={({ isActive }) => getNavLinkClass(isActive)}>
                             Job Listing
+                        </NavLink>
+                        <NavLink to={OurRoute.DataRoute["Company List"]} className={({ isActive }) => getNavLinkClass(isActive)}>
+                            Company
                         </NavLink>
                     </li>
                     {profile && (

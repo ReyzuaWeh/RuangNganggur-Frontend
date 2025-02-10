@@ -4,11 +4,11 @@ import React from "react";
 
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <>
+        <div className="min-h-screen flex flex-col">
             <Navbar />
-            <section className="w-full">{children}</section>
+            <section className="w-full flex-1">{children}</section>
             <Footer />
-        </>
+        </div>
     );
 };
 

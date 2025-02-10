@@ -92,13 +92,15 @@ const getUser = async (id: number, find_jobseeker?: boolean | null, find_employe
     return data;
 }
 const getUsers = async (
-    { role, search, status, min_years, max_years, not_admin }: {
+    { role, search, status, min_years, max_years, not_admin, location, company_name }: {
         role?: RoleType | null,
         search?: string | null,
         status?: boolean,
         min_years?: number | null,
         max_years?: number | null,
-        not_admin?: boolean
+        not_admin?: boolean,
+        location?: string | null,
+        company_name?: string | null
     }
 ) => {
     const paramsObject: Record<any, any> = {
@@ -107,7 +109,9 @@ const getUsers = async (
         ...(Boolean(status !== undefined) && { status }),
         ...(min_years && { min_years: String(min_years) }),
         ...(max_years && { max_years: String(max_years) }),
-        ...(not_admin && { not_admin })
+        ...(not_admin && { not_admin }),
+        ...(location && { location }),
+        ...(company_name && { company_name })
     }
     const params = new URLSearchParams(paramsObject)
     const response = await handleRequest({
