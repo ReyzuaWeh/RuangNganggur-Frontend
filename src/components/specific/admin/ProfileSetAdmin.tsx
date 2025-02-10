@@ -1,3 +1,4 @@
+import JobCompanyPagination from "@/components/specific/admin/DataJobsComponent"
 import { getModalProfileSets } from "@pages/Profile"
 import DataMainAdminProfile from "./DataMainAdminProfile"
 import EditDataMainAdminProfile from "./EditDataMainAdminProfile"
@@ -7,6 +8,7 @@ const ProfileSetAdmin = () => {
     return (
         <>
             <DataMainAdminProfile />
+            <JobCompanyPagination />
             {isOpenMain && <EditDataMainAdminProfile />}
         </>
     )

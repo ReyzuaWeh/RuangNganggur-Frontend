@@ -100,14 +100,16 @@ const updateJob = async (
     return data;
 }
 const getJobs = async (
-    { roleOrEmployer, roleOrLocation, gender, with_owner, type_job, employer_id, location }: {
+    { roleOrEmployer, roleOrLocation, gender, with_owner, type_job, employer_id, location, min_years, max_years }: {
         roleOrEmployer?: string | null,
         roleOrLocation?: string | null,
         gender?: GenderType | null,
         type_job?: JobType | null,
         with_owner?: boolean | null,
         employer_id?: number | null,
-        location?: string | null
+        location?: string | null,
+        min_years?: number | null,
+        max_years?: number | null
     }
 ) => {
     let tambahan = "/";
@@ -118,7 +120,9 @@ const getJobs = async (
         ...(roleOrLocation && { roleOrLocation }),
         ...(gender && { gender }),
         ...(type_job && { type_job }),
-        ...(location && { location })
+        ...(location && { location }),
+        ...(min_years && { min_years: String(min_years) }),
+        ...(max_years && { max_years: String(max_years) })
     }
     const params = new URLSearchParams(paramsObject)
     const response = await FetchFunction(

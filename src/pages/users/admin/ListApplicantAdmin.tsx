@@ -21,10 +21,10 @@ const ListAplicantAdmin = () => {
     const { profile } = useMyProfile();
     if (profile?.role !== RoleType.admin) return <NotFound is403={true} />
     const [listApplier, setListApplier] = useState<Record<number, string> | undefined>()
-    const [listJobName, setListJobName] = useState<Record<number, string> | undefined>()
+    const [listEmployerName, setListEmployerName] = useState<Record<number, string> | undefined>()
     const [filterSets, setFilterSets] = useState<{
         jobseeker_id?: number | undefined,
-        jobId?: number | undefined,
+        employer_id?: number | undefined,
         search_applier_or_job?: string | undefined,
         with_detail?: boolean
     }>({
@@ -89,27 +89,24 @@ const ListAplicantAdmin = () => {
 
     }
     useEffect(() => {
-        fetchUser.getUsers({ role: RoleType.jobseeker }).then(data => {
-            const newData = data.reduce((acc, curr) => {
+        fetchUser.getUsers({}).then(data => {
+            const newDataJobseeker = data.reduce((acc, curr) => {
                 if (curr.jobseeker?.id && curr.jobseeker?.first_name) {
                     acc[curr.jobseeker.id] = curr.jobseeker.first_name + (curr.jobseeker?.last_name && ` ${curr.jobseeker?.last_name}` || "");
                 }
                 return acc;
             }, {} as Record<number, string>);
-            setListApplier(newData);
-        }).catch(error => {
-            console.error("Error fetching users:", error);
-        })
-        fetchJob.getJobs({}).then(data => {
-            const newData = data.reduce((acc, curr) => {
-                if (curr.id && curr.role) {
-                    acc[curr.id] = curr.role;
+            const newDataEmployer = data.reduce((acc, curr) => {
+                if (curr.employer?.id && curr.employer?.company_name) {
+                    acc[curr.employer.id] = curr.employer.company_name;
                 }
                 return acc;
             }, {} as Record<number, string>);
-            setListJobName(newData);
+            console.log(newDataEmployer)
+            setListEmployerName(newDataEmployer);
+            setListApplier(newDataJobseeker);
         }).catch(error => {
-            console.error("Error fetching job:", error);
+            console.error("Error fetching users:", error);
         })
         fetchJob.getApplicant({ with_detail: true }).then(v => {
             setApplicants(v.reverse())
@@ -129,7 +126,7 @@ const ListAplicantAdmin = () => {
                 submitFilter={submitFilter}
                 titleName={"Filter Job"}
                 applierRecord={listApplier}
-                jobRecord={listJobName}
+                employerRecord={listEmployerName}
             />
             <div className="flex items-center gap-x-4 mb-5 md:mb-10">
                 <h1 className="text-lg md:text-2xl font-semibold">List Data Applicant</h1>
@@ -180,7 +177,7 @@ const ListAplicantAdmin = () => {
                                             </td>
                                             <td className="border p-2">{applicant.job?.role}</td>
                                             <td className="border p-2 w-fit">
-                                                {applicant.jobseeker?.first_name + " " + applicant.jobseeker?.last_name}
+                                                {applicant.jobseeker?.first_name + " " + (applicant.jobseeker?.last_name || "")}
                                             </td>
                                             <td className="border p-2">
                                                 {applicant.jobletter ? (

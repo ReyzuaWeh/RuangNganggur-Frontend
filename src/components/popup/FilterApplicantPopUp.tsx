@@ -2,7 +2,7 @@ import FilterPopupLayout, { FilterPopupProps } from "@components/PopUpFilter";
 
 const FilterApplicantPopup: React.FC<FilterPopupProps & {
     applierRecord?: Record<number, string> | null
-    jobRecord?: Record<number, string> | null
+    employerRecord?: Record<number, string> | null
 }> = ({
     isOpen,
     onClose,
@@ -12,7 +12,7 @@ const FilterApplicantPopup: React.FC<FilterPopupProps & {
     submitFilter,
     titleName,
     applierRecord,
-    jobRecord
+    employerRecord
 }) => {
         const handleSubmit = () => {
             submitFilter();
@@ -31,7 +31,7 @@ const FilterApplicantPopup: React.FC<FilterPopupProps & {
             >
                 {/* Content of the popup */}
                 <div className="p-4 space-y-4">
-                    <div>
+                    <div className="space-y-2">
                         <label htmlFor="jobseeker_id" className="block text-white">Applier</label>
                         <select
                             id="jobseeker_id"
@@ -46,17 +46,17 @@ const FilterApplicantPopup: React.FC<FilterPopupProps & {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <label htmlFor="jobId" className="block text-white">Job Name</label>
+                    <div className="space-y-2">
+                        <label htmlFor="employer_id" className="block text-white">Job Name</label>
                         <select
-                            id="jobId"
-                            name="jobId"
-                            value={dataFilter?.jobId || 0}
+                            id="employer_id"
+                            name="employer_id"
+                            value={dataFilter?.employer_id || 0}
                             onChange={setDataFilter}
                             className="w-full p-2 rounded bg-gray-700 ltr text-white border border-gray-600 focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
                         >
                             <option value={0}>All Job</option>
-                            {jobRecord && Object.entries(jobRecord).map(([key, value]) => (
+                            {employerRecord && Object.entries(employerRecord).map(([key, value]) => (
                                 <option key={key} value={parseInt(key)}>{value}</option>
                             ))}
                         </select>
