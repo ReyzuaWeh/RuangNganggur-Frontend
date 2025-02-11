@@ -7,6 +7,19 @@ import { getRefreshToken } from "@utils/localsave/getUser";
 import FetchFunction from "./fetch";
 import fetchUser from "./users";
 
+const getApplicantDetail = async (id: number, { with_detail }: {
+    with_detail?: boolean | null,
+}) => {
+    const tambahan = with_detail ? `/with-detail/` : `/`
+    const response = await fetchUser.handleRequest({
+        route: `${api_route.applicants_route}/applicant${tambahan}${id}`,
+        method: HttpMethod.GET,
+        token: functionSets.getToken()
+    });
+    if (!response.ok) throw response;
+    const data: DataOutApplicant = await response.json();
+    return data;
+}
 const getApplicant = async (
     { jobseeker_id, jobId, employer_id, with_detail, search_applier_or_job }: {
         jobseeker_id?: number | null,
@@ -173,6 +186,7 @@ const fetchJob = {
     updateApplicant,
     getJob,
     updateJob,
-    deleteApplicant
+    deleteApplicant,
+    getApplicantDetail
 }
 export default fetchJob

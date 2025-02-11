@@ -144,7 +144,7 @@ const ListAplicantAdmin = () => {
                 <hr />
                 <div className="flex w-full md:flex-row flex-col md:items-baseline items-end justify-between py-2 px-5 mx-auto">
                     <h2 className="text-lg font-semibold">Total: {applicants.length}</h2>
-                    <a href={OurRoute.DataRoute["Admin Create Job"]}
+                    <a href={OurRoute.DataRoute["Admin Create Applicant"]}
                         className="bg-orange-400 hover:bg-orange-600 w-fit transition-colors text-white rounded py-1 px-2"
                     >Add</a>
                 </div>
@@ -191,7 +191,7 @@ const ListAplicantAdmin = () => {
                                                 <div className="flex justify-center text-center space-x-2">
                                                     <a
                                                         className="btn-primary text-white px-5 py-1 rounded flex items-center"
-                                                        href={`${OurRoute.DataRoute["Admin Detail Job"]}${applicant.id}`}
+                                                        href={`${OurRoute.DataRoute["Admin Detail Applicant"]}${applicant.id}`}
                                                     >
                                                         Detail
                                                     </a>
