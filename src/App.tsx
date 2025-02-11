@@ -3,6 +3,7 @@ import NotFound from "@components/NotFound";
 import Auth from "@pages/Auth";
 import CompanyListing from "@pages/Company";
 import DetailUser from "@pages/DetailUser";
+import ForgetPassword from "@pages/ForgetPassword";
 import LoginInterface from "@pages/Login";
 import Profile from "@pages/Profile";
 import Register from "@pages/Register";
@@ -14,7 +15,7 @@ import ListApplicantAdmin from "@pages/admin/ListApplicantAdmin";
 import ListJobAdmin from "@pages/admin/ListJobAdmin";
 import ListUserAdmin from "@pages/admin/ListUserAdmin";
 import UserDetailAdmin from "@pages/admin/UserDetailAdmin";
-import { default as Applicant, default as EmployeeApplicant } from "@pages/employer/Applicant";
+import { default as Applicant } from "@pages/employer/Applicant";
 import EmployeeJobPosting from "@pages/employer/JobPosting";
 import MyJobList from "@pages/employer/MyJobList";
 import Applied from "@pages/jobseeker/Applied";
@@ -38,7 +39,7 @@ function App() {
         <Route path={OurRoute.DataRouteApp["Job List"]} element={<Job />} />
         <Route path={OurRoute.DataRouteApp["Company List"]} element={<CompanyListing />} />
         {/* Employee Dashboard */}
-        <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />} />
+        <Route path={OurRoute.DataRouteApp["Forget Password"]} element={<ForgetPassword />} />
         <Route path="/loading" element={<Loading />} />
         {/* Require Login */}
         <Route

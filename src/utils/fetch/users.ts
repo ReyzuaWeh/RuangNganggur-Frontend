@@ -73,6 +73,16 @@ const changepass = async (formChangePassword: ForgetPasswordForm) => {
     const data = await response.json();
     return data;
 }
+const forgetpass = async (formChangePassword: ForgetPasswordForm) => {
+    const response = await handleRequest({
+        route: `${api_route.auth_route}/forget-pass`,
+        method: HttpMethod.PUT,
+        data: formChangePassword
+    });
+    if (!response.ok) throw response;
+    const data = await response.json();
+    return data;
+}
 const getUser = async (id: number, find_jobseeker?: boolean | null, find_employer?: boolean | null) => {
     const paramsObject: Record<string, string> = {};
     if (find_jobseeker) {
@@ -90,6 +100,15 @@ const getUser = async (id: number, find_jobseeker?: boolean | null, find_employe
     if (!response.ok) throw response;
     const data: DataOutUser = await response.json();
     return data;
+}
+const deleteUser = async (id: number) => {
+    const response = await handleRequest({
+        route: `${api_route.users_route}/user/${id}`,
+        method: HttpMethod.DELETE,
+        token: getAccessToken()
+    });
+    if (!response.ok) throw response;
+    return true;
 }
 const getUsers = async (
     { role, search, status, min_years, max_years, not_admin, location, company_name }: {
@@ -197,9 +216,11 @@ export const fetchUser = {
     saveChange,
     refreshToken,
     changepass,
+    forgetpass,
     handleRequest,
     getUser,
     updateUser,
-    getUsers
+    getUsers,
+    deleteUser
 };
 export default fetchUser;

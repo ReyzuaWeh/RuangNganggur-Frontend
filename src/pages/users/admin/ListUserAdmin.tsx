@@ -1,4 +1,6 @@
 import FilterOption from "@/components/commons/FilterOption";
+import swalError from "@/utils/swal/error";
+import swalSuccess from "@/utils/swal/success";
 import DashboardLayout from "@components/DashboardLayout";
 import ListTableLayout from "@components/ListTableLayout";
 import Loading from "@components/Loading";
@@ -12,6 +14,7 @@ import fetchUser from "@utils/fetch/users";
 import functionSets from "@utils/function";
 import OurRoute from "@utils/route";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const ListUserAdmin = () => {
     const { profile } = useMyProfile()
@@ -60,6 +63,30 @@ const ListUserAdmin = () => {
             console.log(err)
         }).finally(() => setSaving(false))
     }
+    const handleDownload = (id: number) => {
+        fetchUser.deleteUser(id).then(() => {
+            swalSuccess({ title: "Deleted", message: "User has been deleted" }).finally(() => window.location.reload())
+        }).catch(err => {
+            swalError(err.status, "Cannot delete user")
+            console.error(err)
+        })
+    }
+    const confirmDownload = (id: number) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDownload(id)
+            }
+        })
+    }
+
     useEffect(() => {
         fetchUser.getUsers({}).then(res => {
             setUsers(res)
@@ -126,7 +153,9 @@ const ListUserAdmin = () => {
                                         <td colSpan={6} className="text-center">Finding....</td>
                                     </tr>
                                     : (currentUsers.map((user) => (
-                                        <tr key={user.id} className={`text-left ${user.username}`}>
+                                        <tr key={user.id} className={`text-left
+                                            ${user.id === profile.id ? "bg-[#bbff7b]" : ""}
+                                         ${user.username}`}>
                                             <td className="border p-2 w-fit">
                                                 {(currentPage - 1) * itemsPerPage + currentUsers.indexOf(user) + 1}.
                                             </td>
@@ -145,7 +174,10 @@ const ListUserAdmin = () => {
                                                     >
                                                         Detail
                                                     </a>
-                                                    <button className="btn-danger text-white px-5 py-1 rounded flex items-center">
+                                                    <button
+                                                        onClick={() => confirmDownload(user.id as number)}
+                                                        className="btn-danger text-white px-5 py-1 rounded flex items-center"
+                                                    >
                                                         Delete
                                                     </button>
                                                 </div>
