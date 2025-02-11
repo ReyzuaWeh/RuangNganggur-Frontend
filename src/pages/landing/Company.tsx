@@ -1,14 +1,16 @@
-import Pagination from "@/components/commons/Paginations";
 import LandingLayout from "@components/LandingLayout";
+import Pagination from "@components/Paginations";
 import { DataOutUser } from "@dataType/fetch";
 import { RoleType } from "@dataType/khusus";
 import fetchUser from "@utils/fetch/users";
 import functionSets from "@utils/function";
 import OurRoute from "@utils/route";
 import { useEffect, useState } from "react";
+import Is401 from "./is401";
 
 const CompanyListing = () => {
     const [dataCompany, setDataCompany] = useState<DataOutUser[]>([])
+    const [statusIs401, setIs401] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [filter, setFilter] = useState({
         company_name: "",
@@ -40,8 +42,18 @@ const CompanyListing = () => {
     useEffect(() => {
         fetchUser.getUsers({
             role: RoleType.employer
-        }).then(data => setDataCompany(data)).catch(err => console.log(err))
+        }).then(data => {
+            setDataCompany(data)
+            setIs401(false)
+        }).catch(e => {
+            console.log(e)
+            if (e.status === 401) {
+                setIs401(true)
+            }
+            console.error(e)
+        })
     }, [])
+    if (statusIs401) return <Is401 />
     return (
         <LandingLayout>
             <div className="bg-gradient-home flex flex-col text-white py-8">
@@ -86,26 +98,26 @@ const CompanyListing = () => {
             <div className="grid grid-cols-1 flex-1 lg:grid-cols-2 2xl:grid-cols-4 p-4 lg:px-14  gap-6 place-items-center">
                 {currentDataCompany.map((company, index) => (
                     <div key={index} className="bg-primary text-white p-6 w-full h-fit min-h-full shadow-md rounded-lg flex flex-col justify-between">
-                        <div className="flex-1">
+                        <div className="flex-1 overflow-x-hidden">
                             <h2 className="text-xl font-bold text-accents border-b-2 flex-1 border-[#3170ac] pb-2">{company.employer?.company_name}</h2>
-                            <div className="grid grid-cols-[auto_min-content_1fr] gap-3 mt-1">
-                                <p className="w-fit">Company Phone</p>
+                            <div className="grid grid-cols-[1fr_min-content] sm:grid-cols-[auto_min-content_1fr] gap-x-3 mt-1">
+                                <p className="w-fit font-semibold">Company Phone</p>
                                 <p className="w-fit"> : </p>
-                                <p>{company.employer?.company_phone_number || "N/A"}</p>
+                                <p className="w-fit pb-2 col-span-2 sm:col-span-1">{company.employer?.company_phone_number || "N/A"}</p>
 
-                                <p className="w-fit">Company Email</p>
+                                <p className="w-fit font-semibold">Company Email</p>
                                 <p className="w-fit"> : </p>
-                                <p>{company.email}</p>
+                                <p className="w-fit pb-2 col-span-2 sm:col-span-1">{company.email}</p>
 
-                                <p className="w-fit">Company Location</p>
+                                <p className="w-fit font-semibold">Company Location</p>
                                 <p className="w-fit"> : </p>
-                                <p>{company.employer?.company_address || "N/A"}</p>
+                                <p className="w-fit pb-2 col-span-2 sm:col-span-1">{company.employer?.company_address || "N/A"}</p>
                             </div>
                         </div>
                         <div className="pt-2">
                             <div
                                 className="h-[200px] scrollbar-modals-apply-description
-                                 text-justify bg-gray-400 text-black p-3 rounded-md w-full h-75 overflow-auto">
+                                 text-justify bg-gray-400 text-[#3d3d3d] p-3 rounded-md w-full h-75 overflow-auto">
                                 {company.employer?.company_description || "No description...."}
                             </div>
                             <div className="flex justify-end mt-2">
@@ -120,19 +132,19 @@ const CompanyListing = () => {
                     </div>
                 ))}
             </div>
-            <div className="flex items-center justify-between p-4">
+            {dataPagination.totalDataPerPages > 1 && (<div className="flex items-center justify-between p-4">
                 <div className="p-4 text-center">
                     <p className="text-sm text-gray-600">
                         Showing {currentPage} of {dataPagination.totalDataPerPages} pages
                     </p>
                 </div>
 
-                {dataPagination.totalDataPerPages > 1 && <Pagination
+                <Pagination
                     currentPage={currentPage}
                     totalPages={dataPagination.totalDataPerPages}
                     onPageChange={dataPagination.handlePageChange}
-                />}
-            </div>
+                />
+            </div>)}
         </LandingLayout>
     );
 }
