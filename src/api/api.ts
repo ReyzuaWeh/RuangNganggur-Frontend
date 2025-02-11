@@ -10,5 +10,6 @@ const api_route = {
     jobs_route: `${main_route}/jobs`,
     applicants_route: `${main_route}/applicants`,
     pembukuan_route: `${main_route}/pembukuan`,
+    logs_route: `${main_route}/logs`
 };
 export default api_route;

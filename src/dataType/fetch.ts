@@ -60,6 +60,13 @@ interface DataOutJob {
         company_name: string
     } | null;
 }
+interface DataLogsRegister {
+    id: number
+    user_id: number
+    action: string
+    timestamp: Date
+    users: DataOutUser
+}
 
 interface DataOutApplicant {
     id?: number;
@@ -108,6 +115,7 @@ interface ErrorValidation {
 }
 
 export type {
+    DataLogsRegister,
     DataOutApplicant,
     DataOutEmployer,
     DataOutJob,
