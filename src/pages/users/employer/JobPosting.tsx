@@ -47,6 +47,7 @@ const JobPosting = () => {
         setSaving(true)
         if (!id) {
             fetchJob.postJob(formData).then(() => {
+                setError_validation(undefined);
                 swalSuccess({
                     title: "Post Job Success",
                     message: "Your job posting has been successfully submitted"
@@ -57,9 +58,9 @@ const JobPosting = () => {
                         const data = await error.json()
                         swalError(error.status, "Input not valid!")
                         setError_validation(data);
-                    } else {
-                        swalError(error.status, "Can't update job")
                     }
+                } else {
+                    swalError(error.status, "Can't update job")
                 }
                 console.error("Error updating job:", error);
             }).finally(() => setSaving(false));
