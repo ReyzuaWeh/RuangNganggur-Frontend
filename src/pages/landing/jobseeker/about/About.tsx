@@ -10,10 +10,9 @@ const About = () => {
             <div className="bg-gradient-home flex flex-col min-h-[50vh] sm:min-h-[60vh]">
                 <HomeSwiper />
                 <div className="p-4 sm:p-6 md:p-10 flex flex-col justify-start items-start">
-                    <div className="bg-gray-300 p-3 sm:p-4 mb-3 sm:mb-4 rounded-lg w-fit">
-                        <h1 className="text-lg sm:text-3xl md:text-4xl text-accents font-semibold">
-                            Ruang<span className="text-primary">Nganggur.</span>
-                        </h1>
+                    <div className="bg-gray-300 w-3/4 md:w-1/4 flex justify-center p-2 mb-4 rounded-lg">
+                        {/* @ts-ignore */}
+                        <img src={images_source["../logo-horizontal.png"].default} className="w-full" />
                     </div>
                     <h1 className="text-white text-base sm:text-4xl md:text-6xl font-semibold tracking-widest">
                         #CariKerja

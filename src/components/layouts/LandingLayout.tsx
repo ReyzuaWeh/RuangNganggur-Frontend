@@ -6,7 +6,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
-            <section className="w-full flex-1">{children}</section>
+            <section className="w-full flex-1 overflow-hidden">{children}</section>
             <Footer />
         </div>
     );

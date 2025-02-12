@@ -1,3 +1,4 @@
+import images_source from "@/assets/get/images";
 import LandingLayout from "@components/LandingLayout";
 import Pagination from "@components/Paginations";
 import { DataOutUser } from "@dataType/fetch";
@@ -46,7 +47,6 @@ const CompanyListing = () => {
             setDataCompany(data)
             setIs401(false)
         }).catch(e => {
-            console.log(e)
             if (e.status === 401) {
                 setIs401(true)
             }
@@ -64,12 +64,10 @@ const CompanyListing = () => {
                         handleSearch()
                     }}
                 >
-                    <div className="bg-gray-300 p-4 mb-4 rounded-lg">
-                        <h1 className="text-4xl text-accents font-semibold">
-                            Ruang<span className="text-primary">Nganggur.</span>
-                        </h1>
+                    <div className="bg-gray-300 w-3/4 md:w-1/4 flex justify-center p-2 mb-4 rounded-lg">
+                        {/* @ts-ignore */}
+                        <img src={images_source["../logo-horizontal.png"].default} className="w-full" />
                     </div>
-
                     <div className="flex lg:flex-row flex-col mx-0 lg:mx-auto items-center gap-2 justify-center">
                         <input
                             type="text"

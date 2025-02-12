@@ -1,3 +1,4 @@
+import images_source from "@/assets/get/images";
 import AuthLayout from "@components/AuthLayout";
 import ValidationComponents from '@components/ValidationError';
 import { ErrorValidation, LoginInterface } from '@dataType/fetch';
@@ -51,10 +52,11 @@ const LoginComponent = () => {
     return (
         <AuthLayout>
             <div className="flex flex-col justify-center items-center flex-grow px-6">
-                <h1 className="font-semibold text-4xl sm:text-5xl md:text-4xl text-accent text-center">
-                    <span className="text-accents">Ruang</span>Nganggur.
-                </h1>
-                <div className="w-full sm:w-3/4 sm:flex-row gap-4 mt-10 bg-white shadow-md">
+                <div className="font-semibold text-accent text-center">
+                    {/* @ts-ignore */}
+                    <img src={images_source["../logo-horizontal.png"].default} className="w-full" />
+                </div>
+                <div className="w-full sm:w-3/4 sm:flex-row gap-4 bg-white shadow-md">
                     <div className="flex flex-col justify-center p-7">
                         <div className=" flex flex-col mx-auto text-center">
                             <h1 className="font-semibold">Welcome Back!</h1>

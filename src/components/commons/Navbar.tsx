@@ -69,12 +69,12 @@ const Navbar = () => {
     return (
         <>
             <div className="flex justify-end md:justify-between items-center px-8 py-3.5 shadow-lg bg-gray-200">
-                <h1 className="font-semibold text-md hidden md:block sm:text-lg md:text-2xl text-center">
-                    <span className="text-accents">Ruang</span>Nganggur
-                </h1>
+                <div className="max-w-52 justify-center hidden md:flex rounded-lg">
+                    {/* @ts-ignore */}
+                    <img src={images_source["../logo-horizontal.png"].default} className="w-full" />
+                </div>
                 <button
-                    className={`lg:hidden text-2xl focus:outline-none transition-all duration-100 ${isMenuOpen ? "rotate-180" : "rotate-0"
-                        }`}
+                    className={`lg:hidden text-2xl focus:outline-none transition-all duration-100 ${isMenuOpen ? "rotate-180" : "rotate-0"}`}
                     onClick={toggleMenu}
                     disabled={isMenuOpen}
                 >

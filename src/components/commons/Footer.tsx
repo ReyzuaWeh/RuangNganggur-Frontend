@@ -1,3 +1,4 @@
+import images_source from "@/assets/get/images"
 import OurRoute from "@utils/route"
 import { NavLink } from "react-router-dom"
 
@@ -6,9 +7,10 @@ const Footer = () => {
         <div className='shadow-lg bg-white relative bottom-0'>
             <div className='flex justify-between items-center px-4 py-8'>
                 <div className='p-4 hidden md:block'>
-                    <h1 className="font-semibold text-md sm:text-lg md:text-2xl">
-                        <span className="text-accents">Ruang</span>Nganggur
-                    </h1>
+                    <div className="font-semibold max-w-52  text-md sm:text-lg md:text-2xl">
+                        {/* @ts-ignore */}
+                        <img src={images_source["../logo-horizontal.png"].default} className="w-full" />
+                    </div>
                 </div>
                 <div className='flex gap-10 md:flex-row flex-col text-sm mr-6'>
                     <div>
