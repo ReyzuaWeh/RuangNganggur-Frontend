@@ -19,7 +19,10 @@ import {
 import { IoMdClose } from "react-icons/io";
 import { IoDocumentTextOutline } from "react-icons/io5";
 
-const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose: () => void, job_id?: number | null }) => {
+const JobDetail = ({ job, onClose, job_id, applicant_data }: {
+    job?: DataOutJob | null; onClose: () => void, job_id?: number | null,
+    applicant_data?: DataOutApplicant | null
+}) => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [profile, setProfile] = useState<DataOutUser | null>(null);
@@ -59,7 +62,10 @@ const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose:
             console.error("Error fetching Profile:", error);
         })
         if (job_id) {
-            fetchJob.getJob(job_id).then(e => {
+            if (applicant_data) {
+                setFormData({ ...applicant_data })
+            }
+            fetchJob.getJob(job_id, true).then(e => {
                 setJobActive(e)
                 setFormData((prev) => ({ ...prev, job_id: e.id }))
             }).catch(err => {
@@ -131,7 +137,7 @@ const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose:
                     </div>
 
                     {/* Form Apply */}
-                    <div className="bg-[#2c3b63] p-4 rounded-lg flex-1 lg:self-center lg:min-h-[300px]">
+                    <div className={`bg-[#2c3b63] p-4 rounded-lg flex-1 lg:self-center ${profile && profile.role === RoleType.jobseeker ? " h-fit" : "lg:h-[300px]"}`}>
                         <div className="flex w-full lg:flex-row flex-col h-fit justify-between">
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaHourglassStart className="text-accents" />
@@ -143,7 +149,7 @@ const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose:
                             </h2>
                         </div>
                         <div className={`flex flex-col flex-1 h-fit w-full transition-[height] 
-                            ${profile && profile.role === RoleType.jobseeker ? " h-fit" : " lg:h-[300px]"}`}>
+                            ${profile && profile.role === RoleType.jobseeker ? " h-fit" : "lg:h-[300px]"}`}>
                             <h2 className="flex items-center gap-x-2 text-lg mb-2">
                                 <IoDocumentTextOutline className="text-accents" /> Description
                             </h2>
@@ -157,26 +163,45 @@ const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose:
                                 {jobActive?.description || "No description for this job"}
                             </div>
                         </div>
-                        {profile && profile.role === RoleType.jobseeker && (
+                        {profile && profile.role === RoleType.jobseeker && applicant_data?.status == StatusAplicantType.process && (
                             <form onSubmit={e => {
                                 e.preventDefault()
                                 setLoading(true)
-                                fetchJob.applyJob({ dataApply: formData }).then(() => {
-                                    swalSuccess({
-                                        title: "Apply Success",
-                                        message: "Your application has been successfully submitted"
+                                if (!job_id) {
+                                    fetchJob.applyJob({ dataApply: formData }).then(() => {
+                                        swalSuccess({
+                                            title: "Apply Success",
+                                            message: "Your application has been successfully submitted"
+                                        })
+                                        onClose()
+                                    }).catch(async error => {
+                                        if (error.status) {
+                                            const err_massage = await error.json()
+                                            console.log(err_massage)
+                                            swalError(error.status, err_massage.detail)
+                                        }
+                                        console.error("Error fetching Profile:", error);
+                                    }).finally(() => {
+                                        setLoading(false)
                                     })
-                                    onClose()
-                                }).catch(async error => {
-                                    if (error.status) {
-                                        const err_massage = await error.json()
-                                        console.log(err_massage)
-                                        swalError(error.status, err_massage.detail)
-                                    }
-                                    console.error("Error fetching Profile:", error);
-                                }).finally(() => {
-                                    setLoading(false)
-                                })
+                                } else {
+                                    fetchJob.updateApplicant({ id: formData.id as number, dataUpdate: formData }).then(() => {
+                                        swalSuccess({
+                                            title: "Apply Success",
+                                            message: "Your application has been updated successfully submitted"
+                                        })
+                                        onClose()
+                                    }).catch(async error => {
+                                        if (error.status) {
+                                            const err_massage = await error.json()
+                                            console.log(err_massage)
+                                            swalError(error.status, err_massage.detail)
+                                        }
+                                        console.error("Error fetching Profile:", error);
+                                    }).finally(() => {
+                                        setLoading(false)
+                                    })
+                                }
                             }}>
                                 <label className="text-lg font-medium mb-2">Job Letter</label>
                                 <input
@@ -190,7 +215,7 @@ const JobDetail = ({ job, onClose, job_id }: { job?: DataOutJob | null; onClose:
                                     className="bg-yellow-500 text-black w-full py-3 rounded-lg mt-4 text-center"
                                     disabled={loading}
                                 >
-                                    Apply
+                                    {applicant_data ? "Update Apply" : "Apply"}
                                 </button>
                             </form>
                         )}

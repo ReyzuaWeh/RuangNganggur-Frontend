@@ -17,6 +17,7 @@ const Applied = () => {
     const { profile } = useMyProfile()
     if (profile?.role !== RoleType.jobseeker) return <NotFound is403={true} />
     const [applicants, setApplicants] = useState<DataOutApplicant[] | null>([]);
+    const [currentApplicant, setCurrentApplicant] = useState<DataOutApplicant | null>(null);
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -131,6 +132,7 @@ const Applied = () => {
                                     <td className="p-4 text-nowrap border-b text-sm md:text-base">
                                         <button
                                             onClick={() => {
+                                                setCurrentApplicant(applicant)
                                                 setSelectedJobId(applicant.job?.id as number)
                                             }}
                                             className="bg-primary mx-1 text-white p-1 rounded-lg hover:bg-primary-dark"
@@ -148,7 +150,7 @@ const Applied = () => {
                             ))}
                         </tbody>
                     </table>
-                    {selectedJobId && (<JobDetail job_id={selectedJobId} onClose={() => setSelectedJobId(null)} />)}
+                    {selectedJobId && (<JobDetail job_id={selectedJobId} applicant_data={currentApplicant} onClose={() => setSelectedJobId(null)} />)}
 
                 </div>
             </div>
