@@ -22,7 +22,7 @@ const DataMiddleEmployer = ({ view_only, user }: { view_only?: boolean, user?: D
             <div className="w-full py-5 px-3 border border-primary border-opacity-65 rounded-lg items-center 
                 justify-between gap-x-2">
                 <div className="justify-between flex w-full">
-                    <h1 className="font-semibold text-xl md:text-2xl px-2">Your Company</h1>
+                    <h1 className="font-semibold text-xl md:text-2xl px-2">{view_only ? (`${profile?.employer?.company_name}'s`) : "Your"} Company Profile</h1>
                     {openModals && (<button className="bg-primary text-white px-3 py-2 rounded-lg text-sm" onClick={() => openModals()}>
                         <FaRegEdit size={20} className="cursor-pointer" />
                     </button>)}

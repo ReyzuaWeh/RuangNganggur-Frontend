@@ -125,7 +125,7 @@ const ListUserAdmin = () => {
                 <hr />
                 <div className="flex w-full sm:flex-row flex-col sm:items-baseline items-end justify-between py-2 px-5 mx-auto">
                     <h2 className="text-lg font-semibold">Total: {users.length}</h2>
-                    <a href={OurRoute.DataRoute["Admin Create Job"]}
+                    <a href={OurRoute.DataRoute["Admin Create User"]}
                         className="bg-orange-400 hover:bg-orange-600 w-fit transition-colors text-white rounded py-1 px-2"
                     >Add</a>
                 </div>

@@ -29,7 +29,7 @@ const FilterJobPopup: React.FC<FilterPopupProps & { companyRecord?: Record<numbe
         >
             {/* Content of the popup */}
             <div className="p-4 space-y-4">
-                <div>
+                {companyRecord && <div>
                     <label htmlFor="employer_id" className="block text-white">Company</label>
                     <select
                         id="employer_id"
@@ -39,11 +39,11 @@ const FilterJobPopup: React.FC<FilterPopupProps & { companyRecord?: Record<numbe
                         className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
                     >
                         <option value={0}>All Company</option>
-                        {companyRecord && Object.entries(companyRecord).map(([key, value]) => (
+                        {Object.entries(companyRecord).map(([key, value]) => (
                             <option key={key} value={parseInt(key)}>{value}</option>
                         ))}
                     </select>
-                </div>
+                </div>}
                 <div>
                     <label htmlFor="gender" className="block text-white">Gender</label>
                     <select

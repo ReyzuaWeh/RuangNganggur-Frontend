@@ -202,7 +202,7 @@ const MyJobList = () => {
                                                 <div className="flex justify-center text-center space-x-2">
                                                     <a
                                                         className="btn-primary text-white px-5 py-1 rounded flex items-center"
-                                                        href={`${OurRoute.DataRoute["Admin Detail Job"]}${job.id}`}
+                                                        href={`${OurRoute.DataRoute["Job Detail Form"]}/${job.id}`}
                                                     >
                                                         Detail
                                                     </a>

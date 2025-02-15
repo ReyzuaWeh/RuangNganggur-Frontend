@@ -44,9 +44,12 @@ const Applicant = () => {
             .then((data) => {
                 setApplicants(data.reverse());
             })
-            .catch((err) => {
+            .catch(async (err) => {
                 if (err.status === 404) return swalError(err.status, "No applier yet");
-                if (err.status !== 404) return swalError(err.status, "Cannot get data applicant");
+                if (err.status !== 404) {
+                    const jsonerr = await err.json()
+                    return swalError(err.status, jsonerr.detail)
+                };
                 console.error(err);
             });
     }, [profile?.employer?.id]);

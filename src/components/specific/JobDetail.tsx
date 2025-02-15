@@ -50,7 +50,8 @@ const JobDetail = ({ job, onClose, job_id, applicant_data }: {
             [name + "_name"]: file.name,
         }));
     };
-
+    console.log(profile)
+    console.log(profile && profile.role === RoleType.jobseeker && (!applicant_data || applicant_data.status === StatusAplicantType.process))
     useEffect(() => {
         setVisible(true);
         fetchUser.getProfile().then(e => {
@@ -104,7 +105,7 @@ const JobDetail = ({ job, onClose, job_id, applicant_data }: {
                 {/* Konten Modal */}
                 <div className="flex flex-col lg:flex-row h-fit gap-3 scrollbar-modals-apply mt-3 overflow-auto">
                     {/* Detail Pekerjaan */}
-                    <div className="bg-[#2c3b63] h-fit p-4 lg:w-1/4 rounded-xl lg:self-center">
+                    <div className="bg-[#2c3b63] h-fit p-4 lg:w-1/4 lg:h-[300px] rounded-xl lg:self-center">
                         <p className="text-xl lg:text-2xl font-medium mb-2">Job Detail</p>
                         <div className="flex flex-col gap-y-2 h-full">
                             <h2 className="flex items-center gap-x-2 text-lg">
@@ -137,8 +138,8 @@ const JobDetail = ({ job, onClose, job_id, applicant_data }: {
                     </div>
 
                     {/* Form Apply */}
-                    <div className={`bg-[#2c3b63] p-4 rounded-lg flex-1 lg:self-center ${profile && profile.role === RoleType.jobseeker &&
-                        formData.status !== StatusAplicantType.process ? " h-fit" : "lg:h-[300px]"}`}>
+                    <div className={`bg-[#2c3b63] p-4 rounded-lg flex flex-col flex-1 lg:self-center 
+                        ${profile && profile.role === RoleType.jobseeker && (!applicant_data || applicant_data.status === StatusAplicantType.process) ? " h-fit" : "lg:h-[300px]"}`}>
                         <div className="flex w-full lg:flex-row flex-col h-fit justify-between">
                             <h2 className="flex items-center gap-x-2 text-lg">
                                 <FaHourglassStart className="text-accents" />
@@ -150,8 +151,7 @@ const JobDetail = ({ job, onClose, job_id, applicant_data }: {
                             </h2>
                         </div>
                         <div className={`flex flex-col flex-1 h-fit w-full transition-[height] 
-                            ${profile && profile.role === RoleType.jobseeker &&
-                                formData.status === StatusAplicantType.process ? " h-fit" : "lg:h-[300px]"}`}>
+                            ${" flex-1 "}`}>
                             <h2 className="flex items-center gap-x-2 text-lg mb-2">
                                 <IoDocumentTextOutline className="text-accents" /> Description
                             </h2>
@@ -159,13 +159,13 @@ const JobDetail = ({ job, onClose, job_id, applicant_data }: {
                             <div
                                 className={`w-full lg:flex-0 opacity-65 max-h-[300px] min-h-fit overflow-y-auto 
                                 scrollbar-modals-apply-description
-                                ${profile && profile.role === RoleType.jobseeker && formData.status === StatusAplicantType.process ? " " : " flex-1 "}
+                                ${profile && profile.role === RoleType.jobseeker && (!applicant_data || applicant_data.status === StatusAplicantType.process) ? " " : " flex-1 "}
                                 bg-[#E1ECFF] text-primary p-4 rounded-md whitespace-pre-wrap break-words`}
                             >
                                 {jobActive?.description || "No description for this job"}
                             </div>
                         </div>
-                        {profile && profile.role === RoleType.jobseeker && applicant_data?.status == StatusAplicantType.process && (
+                        {profile && profile.role === RoleType.jobseeker && (!applicant_data || applicant_data.status === StatusAplicantType.process) && (
                             <form onSubmit={e => {
                                 e.preventDefault()
                                 setLoading(true)

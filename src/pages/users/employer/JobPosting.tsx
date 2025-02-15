@@ -111,7 +111,7 @@ const JobPosting = () => {
         <DashboardLayout>
             <div className="flex items-center gap-x-4 mb-5 md:mb-10">
                 <h1 className="text-lg md:text-2xl font-semibold">
-                    Post a Job Listing
+                    {id ? "Edit Job Posted" : "Post a Job Listing"}
                 </h1>
             </div>
             {/* Job Posting Form */}
@@ -151,7 +151,7 @@ const JobPosting = () => {
 
                     <div className="flex flex-col">
                         <label htmlFor="salary" className="font-medium text-sm mb-1">
-                            Salary
+                            Salary <span className="text-xs text-red-500">*in IDR</span>
                         </label>
                         <input
                             type="text"
@@ -165,7 +165,7 @@ const JobPosting = () => {
                             inputMode="numeric"
                             required
                         />
-                        <p className="text-xs text-end text-red-500">*In Rupiah (IDR)</p>
+                        <p className="text-sm font-bold">{functionSets.formatNumbertoIDR(Number(formData.salary))}</p>
                     </div>
 
                     <div className="flex flex-col">
