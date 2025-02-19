@@ -3,8 +3,8 @@ import OurRoute from "@utils/route";
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoPersonCircleOutline, IoSettingsOutline } from "react-icons/io5";
-import { RiHome9Fill } from "react-icons/ri";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { SlClose } from "react-icons/sl";
 import { NavLink } from "react-router-dom";
 
 
@@ -49,10 +49,13 @@ const SidebarLayout = ({ child }: {
                     ${visible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}
                 `}>
                 <div className="max-w-52 p-4">
-                    <div className="bg-gray-300 flex w-full justify-center rounded-lg">
+                    <NavLink
+                        className="bg-gray-300 flex w-full justify-center rounded-lg"
+                        to={OurRoute.DataRoute["Home"]}
+                    >
                         {/* @ts-ignore */}
                         <img src={images_source["../logo-horizontal.png"].default} className="w-full" />
-                    </div>
+                    </NavLink>
                 </div>
                 <ul>
                     <li>
@@ -78,16 +81,18 @@ const SidebarLayout = ({ child }: {
                             </span>
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink
-                            to={OurRoute.DataRoute["Home"]}
-                            className={({ isActive }) => getNavLinks(isActive)}
+                    <li className="lg:hidden">
+                        <button
+                            className="gap-x-2 block w-full p-4 hover:bg-gray-400 hover:text-primary transition-all"
+                            onClick={() => {
+                                setVisible(!visible)
+                            }}
                         >
                             <span className="flex items-center gap-x-2 opacity-75 font-semibold">
-                                <RiHome9Fill size={25} />
-                                Back
+                                <SlClose size={25} />
+                                Close
                             </span>
-                        </NavLink>
+                        </button>
                     </li>
                 </ul>
             </nav>

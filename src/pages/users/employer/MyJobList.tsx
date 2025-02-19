@@ -162,8 +162,8 @@ const MyJobList = () => {
                                     <th className="border p-2 w-fit">No</th>
                                     <th className="border p-2">Job Name</th>
                                     <th className="border p-2 w-fit">Location</th>
-                                    <th className="border p-2">Status</th>
                                     <th className="border p-2">Type Job</th>
+                                    <th className="border p-2">Status</th>
                                     <th className="border p-2">Phase</th>
                                     <th className="border p-2">Result</th>
                                     <th className="border p-2">Action</th>
@@ -191,15 +191,19 @@ const MyJobList = () => {
                                             </td>
                                             <td className="border p-2 w-fit">{job.location}</td>
                                             <td className="border p-2">
+                                                {job.type_job ?
+                                                    functionSets.capitalizeFirstLetter(job.type_job.replace(/_/g, " "))
+                                                    : ""}
+                                            </td>
+                                            <td
+                                                className={`text-center text-white ${new Date() >= new Date(job.open_date) &&
+                                                    (job.close_date === null || job.close_date === undefined || new Date(job.close_date) > new Date())
+                                                    ? "bg-green-500" : "bg-red-500"}`}
+                                            >
                                                 {new Date() >= new Date(job.open_date) &&
                                                     (job.close_date === null || job.close_date === undefined || new Date(job.close_date) > new Date()) ?
                                                     "Open" : "Closed"
                                                 }
-                                            </td>
-                                            <td className="border p-2">
-                                                {job.type_job ?
-                                                    functionSets.capitalizeFirstLetter(job.type_job.replace(/_/g, " "))
-                                                    : ""}
                                             </td>
                                             <td className="border p-2">
                                                 {functionSets.capitalizeFirstLetter(String(job.job_phase).replace("_", " "))}

@@ -1,5 +1,5 @@
-import OurRoute from "@/utils/route";
 import DashboardLayout from "@components/DashboardLayout";
+import Loading from "@components/Loading";
 import NotFound from "@components/NotFound";
 import Pagination from "@components/Paginations";
 import ValidationComponents from "@components/ValidationError";
@@ -8,6 +8,7 @@ import { JobPhase, JobType, RoleType, StatusAplicantType } from "@dataType/khusu
 import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
 import functionSets from "@utils/function";
+import OurRoute from "@utils/route";
 import swalError from "@utils/swal/error";
 import swalSuccess from "@utils/swal/success";
 import { useEffect, useState } from "react";
@@ -31,6 +32,8 @@ const JobAndApplicants = () => {
         close_date: null,
         description: "",
     })
+    const [loading, setLoading] = useState(true)
+    const [is403, setIs403] = useState(false)
     const [error_validation, setError_validation] = useState<ErrorValidation | undefined>(undefined);
     const handlFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
@@ -95,7 +98,13 @@ const JobAndApplicants = () => {
         if (!isNaN(Number(id))) {
             const FetchData = async () => {
                 try {
+                    setLoading(true)
                     const job = await fetchJob.getJob(Number(id))
+                    if (job.employer_id !== profile?.employer?.id && profile?.role !== RoleType.admin) {
+                        const error = new Error("You are not authorized to access this job") as any
+                        error.status = 403
+                        throw error
+                    }
                     SetJob({
                         ...job,
                     })
@@ -104,8 +113,14 @@ const JobAndApplicants = () => {
                         ...job,
                         applicants: applicants
                     })
+                    setLoading(false)
                 } catch (err) {
+                    setLoading(false)
                     const errorAny = err as any
+                    if (errorAny.status === 403) {
+                        setIs403(true)
+                        return swalError(errorAny.status, "You are not authorized to access this job")
+                    }
                     if (errorAny.status === 404) {
                         return swalError(errorAny.status, "Data job not found or it doesn't have Applicant yet")
                     }
@@ -115,6 +130,9 @@ const JobAndApplicants = () => {
             FetchData()
         }
     }, [id])
+    if (is403) return <NotFound is403={true} />
+    if (loading) return <Loading />
+    if (!Job.id) return <NotFound />
     return (
         <DashboardLayout >
             {/* Header */}
