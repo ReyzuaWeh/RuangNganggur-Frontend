@@ -50,8 +50,6 @@ const JobDetail = ({ job, onClose, job_id, applicant_data }: {
             [name + "_name"]: file.name,
         }));
     };
-    console.log(profile)
-    console.log(profile && profile.role === RoleType.jobseeker && (!applicant_data || applicant_data.status === StatusAplicantType.process))
     useEffect(() => {
         setVisible(true);
         fetchUser.getProfile().then(e => {

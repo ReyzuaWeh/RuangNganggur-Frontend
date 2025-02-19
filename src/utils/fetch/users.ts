@@ -1,10 +1,11 @@
 import api_route from "@api/api";
 import { HttpMethod } from "@dataType/basic";
-import { DataOutToken, DataOutUser, ForgetPasswordForm, LoginInterface } from "@dataType/fetch";
+import { DataOutToken, DataOutUser, ErrorValidation, ForgetPasswordForm, LoginInterface } from "@dataType/fetch";
 import { RoleType, SetProfileType } from "@dataType/khusus";
 import { getAccessToken, getRefreshToken, setToken } from "@utils/localsave/getUser";
 import swalError from "@utils/swal/error";
 import swalSuccess from "@utils/swal/success";
+import functionSets from "../function";
 import OurRoute from "../route";
 import FetchFunction from "./fetch";
 
@@ -190,13 +191,15 @@ const updateSubProfile = (
 const saveChange = (
     updatedProfile: DataOutUser | null,
     setProfile: React.Dispatch<React.SetStateAction<DataOutUser | null>>,
-    id: number | null
+    id: number | null,
+    setError_validation: React.Dispatch<React.SetStateAction<ErrorValidation | undefined>>
 ) => {
     console.log(updatedProfile);
     if (!updatedProfile || !id) return Promise.reject(new Error("There is no data/id you send"));
     return updateUser(updatedProfile, id).then(value => {
         swalSuccess({ title: "Update Success!", message: "Your profile has been updated." })
         setProfile(value);
+        setError_validation(undefined)
     }).catch(async error => {
         console.error("Error updating profile:", error);
         const errorData = error instanceof Response && error.json ? await error.json() : error;
@@ -205,6 +208,9 @@ const saveChange = (
             swalError(error.status, `<a href="${OurRoute.DataRoute["Login"]}">Have to login. Click here!</a>`);
         }
         swalError(error.status, "Cannot update data user");
+        if (functionSets.isBadOrConflictRequest(error.status)) {
+            setError_validation(errorData)
+        }
     });
 }
 

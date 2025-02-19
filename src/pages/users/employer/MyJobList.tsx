@@ -162,9 +162,10 @@ const MyJobList = () => {
                                     <th className="border p-2 w-fit">No</th>
                                     <th className="border p-2">Job Name</th>
                                     <th className="border p-2 w-fit">Location</th>
-                                    <th className="border p-2">Salary</th>
+                                    <th className="border p-2">Status</th>
                                     <th className="border p-2">Type Job</th>
-                                    <th className="border p-2">Gender</th>
+                                    <th className="border p-2">Phase</th>
+                                    <th className="border p-2">Result</th>
                                     <th className="border p-2">Action</th>
                                 </tr>
                             </thead>
@@ -183,10 +184,17 @@ const MyJobList = () => {
                                             <td className="border p-2 w-fit">
                                                 {(currentPage - 1) * ITEMS_PER_PAGE + index + 1}.
                                             </td>
-                                            <td className="border p-2">{job.role}</td>
+                                            <td className="border p-2 text-nowrap">
+                                                <a href={`${OurRoute.DataRoute["Job and Applicants"]}${job.id}`}>
+                                                    {job.role}
+                                                </a>
+                                            </td>
                                             <td className="border p-2 w-fit">{job.location}</td>
                                             <td className="border p-2">
-                                                {functionSets.formatNumbertoIDR(job.salary)}
+                                                {new Date() >= new Date(job.open_date) &&
+                                                    (job.close_date === null || job.close_date === undefined || new Date(job.close_date) > new Date()) ?
+                                                    "Open" : "Closed"
+                                                }
                                             </td>
                                             <td className="border p-2">
                                                 {job.type_job ?
@@ -194,9 +202,21 @@ const MyJobList = () => {
                                                     : ""}
                                             </td>
                                             <td className="border p-2">
-                                                {job.gender ?
-                                                    functionSets.capitalizeFirstLetter(job.gender)
-                                                    : "All Gender"}
+                                                {functionSets.capitalizeFirstLetter(String(job.job_phase).replace("_", " "))}
+                                            </td>
+                                            <td className="border p-2 text-nowrap">
+                                                {job.result ? (
+                                                    <a
+                                                        href={job.result}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-blue-500 underline"
+                                                    >
+                                                        View Result
+                                                    </a>
+                                                ) : (
+                                                    "No result yet"
+                                                )}
                                             </td>
                                             <td className="border p-2">
                                                 <div className="flex justify-center text-center space-x-2">

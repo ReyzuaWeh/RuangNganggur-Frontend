@@ -151,7 +151,7 @@ const EditDataJobseekerModals = () => {
                                 type="file"
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
-                            <p className="mt-2 text-sm text-gray-500">
+                            <p className="text-sm text-gray-500">
                                 {profile?.jobseeker?.resume ?
                                     (
                                         <a href={profile?.jobseeker?.resume} target="_blank">
@@ -175,6 +175,15 @@ const EditDataJobseekerModals = () => {
                                 type="file"
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
+                            <p className="text-sm text-gray-500">
+                                {profile?.jobseeker?.cv ?
+                                    (
+                                        <a href={profile?.jobseeker?.cv} target="_blank">
+                                            {functionSets.truncateWord(profile?.jobseeker?.cv.split("/").pop() || "", 20)}
+                                        </a>
+                                    )
+                                    : "No file attached"}
+                            </p>
                         </div>
                         <div className="py-2 flex flex-col gap-x-2">
                             <label htmlFor="portfolio" className="font-medium">
@@ -190,6 +199,15 @@ const EditDataJobseekerModals = () => {
                                 type="file"
                                 className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md"
                             />
+                            <p className="text-sm text-gray-500">
+                                {profile?.jobseeker?.portfolio ?
+                                    (
+                                        <a href={profile?.jobseeker?.portfolio} target="_blank">
+                                            {functionSets.truncateWord(profile?.jobseeker?.portfolio.split("/").pop() || "", 20)}
+                                        </a>
+                                    )
+                                    : "No file attached"}
+                            </p>
                         </div>
                     </div>
                 </>

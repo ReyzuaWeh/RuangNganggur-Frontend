@@ -4,6 +4,7 @@ import Auth from "@pages/Auth";
 import CompanyListing from "@pages/Company";
 import DetailUser from "@pages/DetailUser";
 import ForgetPassword from "@pages/ForgetPassword";
+import JobAndApplicants from "@pages/JobandApplicants";
 import LoginInterface from "@pages/Login";
 import Profile from "@pages/Profile";
 import Register from "@pages/Register";
@@ -67,6 +68,7 @@ function App() {
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin List Applicant"]}`} element={<ListApplicantAdmin />} />
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin Create Applicant"]}`} element={<DetailFormApplicant />} />
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Admin Detail Applicant"]}`} element={<DetailFormApplicant />} />
+                <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Job and Applicants"]}`} element={<JobAndApplicants />} />
                 {/* View User Detail */}
                 <Route path={`${OurRoute.DataRouteApp["RequireAuthPath"]["Detail User"]}`} element={<DetailUser />} />
                 {/* 404 Not Found */}

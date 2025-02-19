@@ -18,6 +18,16 @@ enum GenderType {
     male = "male",
     female = "female",
 }
+enum JobPhase {
+    hiring = "hiring",
+    review = "review",
+    screening = "screening",
+    interview = "interview",
+    psycological = "psychological_test",
+    negotiation = "negotiation",
+    offering = "offering",
+    finished = "finished"
+}
 enum StatusAplicantType {
     process = "process",
     hold = "hold",
@@ -53,6 +63,7 @@ const ValidValueError = "Value error, "
 
 export {
     GenderType,
+    JobPhase,
     JobType,
     RoleType,
     StatusAplicantType,

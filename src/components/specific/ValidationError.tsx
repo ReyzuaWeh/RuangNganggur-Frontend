@@ -31,7 +31,7 @@ const ValidationComponents = ({ errorValid }: { errorValid: ErrorValidation | nu
                                 }
                             </li>
                         )) :
-                        <li>
+                        <li style={{ whiteSpace: "pre-line" }}>
                             {errorValid?.detail}
                         </li>
                 }

@@ -1,7 +1,8 @@
 import SaveComponent from "@components/profile/SaveComponent";
-import { DataOutUser } from "@dataType/fetch";
+import ValidationComponents from "@components/ValidationError";
+import { DataOutUser, ErrorValidation } from "@dataType/fetch";
 import { SaveProfileType, SetProfileType, setStateBoolean } from "@dataType/khusus";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ModalsLayout = (
     {
@@ -24,6 +25,7 @@ const ModalsLayout = (
         isLoading: boolean
     }
 ) => {
+    const [error_validation, setError_validation] = useState<ErrorValidation | undefined>(undefined);
     useEffect(() => {
         setIsVisible(true)
     }, []);
@@ -37,10 +39,11 @@ const ModalsLayout = (
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     setLoading(true)
-                    saveChange(profile, setNewProfile, profile?.id || null).finally(() => setLoading(false))
+                    saveChange(profile, setNewProfile, profile?.id || null, setError_validation).finally(() => setLoading(false))
                 }}
                 >
                     {children}
+                    {error_validation && <ValidationComponents errorValid={error_validation} />}
                     <SaveComponent
                         isLoading={isLoading}
                     />

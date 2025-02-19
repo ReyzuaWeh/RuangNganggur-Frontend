@@ -5,6 +5,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
     return (
         <div className="flex justify-center items-center gap-4">
             <button
+                type="button"
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className={`p-2 rounded ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary'} text-white`}
@@ -13,17 +14,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
             </button>
 
             <p className="text-gray-600">
-                {currentPage}
+                {currentPage} of {totalPages}
             </p>
 
             <button
+                type="button"
                 onClick={() => onPageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`p-2 rounded ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary'} text-white`}
+                disabled={currentPage >= totalPages}
+                className={`p-2 rounded ${currentPage >= totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary'} text-white`}
             >
                 <FaChevronRight />
             </button>
-        </div>
+        </div >
     );
 };
 

@@ -1,4 +1,4 @@
-import { GenderType, JobType, RoleType, StatusAplicantType } from './khusus';
+import { GenderType, JobPhase, JobType, RoleType, StatusAplicantType } from './khusus';
 interface DataOutEmployer {
     id?: number;
     company_name: string;
@@ -55,10 +55,15 @@ interface DataOutJob {
     open_date: Date;
     close_date?: Date | null;
     description?: string | null;
+    result?: string | null,
+    result_file?: string | null;
+    result_name?: string | null;
+    job_phase?: JobPhase | null,
     employer?: {
         id: number
         company_name: string
     } | null;
+    applicants?: DataOutApplicant[] | null
 }
 interface DataLogsRegister {
     id: number

@@ -104,10 +104,14 @@ const Applicant = () => {
 
                 return (
                     <div key={role} className="mb-10 bg-white border rounded p-4">
-                        <h2 className="text-xl font-bold mb-4">{role}</h2>
+                        <h2 className="text-xl font-bold mb-4">
+                            <a href={`${OurRoute.DataRoute["Job and Applicants"]}${applicantsGroup[0].job?.id}`}>
+                                {role}
+                            </a>
+                        </h2>
 
                         {/* Tampilkan data applicant dalam format grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pb-4">
                             {currentApplicants.map((applicant, index) => (
                                 <div
                                     key={applicant.id}
