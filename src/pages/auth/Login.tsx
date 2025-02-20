@@ -60,7 +60,7 @@ const LoginComponent = () => {
                     <div className="flex flex-col justify-center p-7">
                         <div className=" flex flex-col mx-auto text-center">
                             <h1 className="font-semibold">Welcome Back!</h1>
-                            <p className="text-sm">Login to continue Ruang Nganggur</p>
+                            <p className="text-sm">Login to continue Job4Student</p>
                         </div>
                         <form
                             onSubmit={handleSubmit}

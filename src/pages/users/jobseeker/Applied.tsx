@@ -2,8 +2,9 @@ import DashboardLayout from "@components/DashboardLayout";
 import JobDetail from "@components/JobDetail";
 import Loading from "@components/Loading";
 import NotFound from "@components/NotFound";
+import Pagination from "@components/Paginations";
 import { DataOutApplicant } from "@dataType/fetch";
-import { RoleType } from "@dataType/khusus";
+import { RoleType, StatusAplicantType } from "@dataType/khusus";
 import { getStatusColor } from "@pages/ApplyStatusColor";
 import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
@@ -16,10 +17,18 @@ import Swal from "sweetalert2";
 const Applied = () => {
     const { profile } = useMyProfile()
     if (profile?.role !== RoleType.jobseeker) return <NotFound is403={true} />
-    const [applicants, setApplicants] = useState<DataOutApplicant[] | null>([]);
+    const [applicants, setApplicants] = useState<DataOutApplicant[]>([]);
     const [currentApplicant, setCurrentApplicant] = useState<DataOutApplicant | null>(null);
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1)
+    const dataPagination = functionSets.setDataPagination({
+        itemsPerPage: 6,
+        currentPage,
+        setCurrentPage,
+        dataSlice: applicants
+    })
+    const currentApplicants = dataPagination.currentData as DataOutApplicant[]
 
     // Fetch data from API
     useEffect(() => {
@@ -32,14 +41,14 @@ const Applied = () => {
                     throw error
                 }
                 const getApplicants = await fetchJob.getApplicant({ jobseeker_id: profile.jobseeker?.id || null, with_detail: true })
-                setApplicants(getApplicants);
+                setApplicants(getApplicants.reverse());
                 setLoading(false)
             } catch (e) {
                 console.log(e)
                 // @ts-ignore
                 if (e.status === 404) {
                     setLoading(false)
-                    return setApplicants(null)
+                    return setApplicants([])
                 }
                 // @ts-ignore
                 swalError(e.status, "Can't get data applicant")
@@ -84,72 +93,100 @@ const Applied = () => {
                     <h1 className="text-lg md:text-2xl font-semibold">Your Job Applied</h1>
                 </div>
                 <div className="bg-white p-6 md:p-10 rounded-md shadow-md w-full overflow-x-auto">
-                    <table className="w-full border-fixed">
-                        <thead>
-                            <tr className="bg-gray-100 text-nowrap text-center text-sm md:text-base">
-                                <th className="p-4 w-fit border-b">No</th>
-                                <th className="p-4 w-1/2 border-b">Job Name</th>
-                                <th className="p-4 w-fit border-b">Job Letter</th>
-                                <th className="p-4 w-fit border-b">Applied At</th>
-                                <th className="p-4 border-b">Status</th>
-                                <th className="p-4 border-b">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {!applicants && (
-                                <tr>
-                                    <td colSpan={5} className="text-center">You don't have apply data</td>
-                                </tr>
-                            )}
-                            {applicants && applicants.map((applicant: DataOutApplicant, index) => (
-                                <tr key={applicant.id} className="hover:bg-gray-50">
-                                    <td className="p-4 text-nowrap border-b text-sm md:text-base">
-                                        {index + 1}
-                                    </td>
-                                    <td className="p-4 text-nowrap border-b text-sm md:text-base">
-                                        {applicant.job?.role}
-                                    </td>
-                                    <td className="p-4 text-nowrap border-b text-sm md:text-base">
-                                        {!applicant.jobletter ? "You don't send any letter" : (<a
-                                            href={applicant.jobletter}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-blue-500 underline"
-                                        >
-                                            View Letter
-                                        </a>)}
-                                    </td>
-                                    <td className="p-4 text-nowrap border-b text-sm md:text-base">
-                                        {functionSets.DateToString(applicant.applied_at)}
-                                    </td>
-                                    <td
-                                        className={`p-4 text-nowrap text-center border-b text-sm md:text-base ${getStatusColor(
-                                            applicant.status
-                                        )}`}
-                                    >
-                                        {functionSets.capitalizeFirstLetter(applicant.status)}
-                                    </td>
-                                    <td className="p-4 text-nowrap border-b text-sm md:text-base">
-                                        <button
-                                            onClick={() => {
-                                                setCurrentApplicant(applicant)
-                                                setSelectedJobId(applicant.job?.id as number)
-                                            }}
-                                            className="bg-primary mx-1 text-white p-1 rounded-lg hover:bg-primary-dark"
-                                        >
-                                            Detail
-                                        </button>
-                                        <button
-                                            className="btn-danger mx-1 text-white p-1 rounded-lg hover:bg-primary-dark"
-                                            onClick={() => handleDelete(applicant.id as number, applicant.job?.role as string)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {!applicants ? (
+                            <div className="text-center p-4 border rounded-lg">
+                                You don't have apply data
+                            </div>
+                        ) : (
+                            currentApplicants.map((applicant: DataOutApplicant, index) => (
+                                <div
+                                    key={applicant.id}
+                                    className="bg-white border rounded-lg shadow p-4 hover:shadow-lg"
+                                >
+                                    <div className="flex justify-between items-center mb-4">
+                                        <div className="text-xl font-semibold">
+                                            #{(currentPage - 1) * 6 + index + 1} - {applicant.job?.role}
+                                        </div>
+                                        <div className="flex space-x-2">
+                                            <button
+                                                onClick={() => {
+                                                    setCurrentApplicant(applicant)
+                                                    setSelectedJobId(applicant.job?.id as number)
+                                                }}
+                                                className="bg-primary text-white px-3 py-1 rounded hover:bg-primary-dark"
+                                            >
+                                                Detail
+                                            </button>
+                                            {applicant.status === StatusAplicantType.process && <button
+                                                className="btn-danger text-white px-3 py-1 rounded hover:bg-primary-dark"
+                                                onClick={() =>
+                                                    handleDelete(applicant.id as number, applicant.job?.role as string)
+                                                }
+                                            >
+                                                Cancel
+                                            </button>}
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div>
+                                            <span className="font-medium">Job Letter: </span>
+                                            {!applicant.jobletter ? (
+                                                "You don't send any letter"
+                                            ) : (
+                                                <a
+                                                    href={applicant.jobletter}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-500 underline ml-1"
+                                                >
+                                                    View Letter
+                                                </a>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <span className="font-medium">Job Phase: </span>
+                                            {functionSets.capitalizeFirstLetter(
+                                                applicant.job?.job_phase.replace("_", " ") as string
+                                            )}
+                                        </div>
+                                        <div>
+                                            <span className="font-medium">Apply Result: </span>
+                                            {applicant.job?.result ? (
+                                                <a
+                                                    href={applicant.job?.result}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-500 underline ml-1"
+                                                >
+                                                    View Result
+                                                </a>
+                                            ) : applicant.status === StatusAplicantType.accepted ||
+                                                applicant.status === StatusAplicantType.rejected ? (
+                                                "No Result Document"
+                                            ) : (
+                                                "No result yet"
+                                            )}
+                                        </div>
+                                        <div>
+                                            <span className="font-medium">Applied At: </span>
+                                            {functionSets.DateToString(applicant.applied_at)}
+                                        </div>
+                                        <div className={`text-center font-medium ${getStatusColor(applicant.status)}`}>
+                                            {functionSets.capitalizeFirstLetter(applicant.status)}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    {dataPagination.totalDataPerPages > 1 && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={dataPagination.totalDataPerPages}
+                            onPageChange={dataPagination.handlePageChange}
+                        />
+                    )}
                     {selectedJobId && (<JobDetail job_id={selectedJobId} applicant_data={currentApplicant} onClose={() => setSelectedJobId(null)} />)}
 
                 </div>

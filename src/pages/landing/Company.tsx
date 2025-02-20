@@ -97,7 +97,16 @@ const CompanyListing = () => {
                 {currentDataCompany.map((company, index) => (
                     <div key={index} className="bg-primary text-white p-6 w-full h-fit min-h-full shadow-md rounded-lg flex flex-col justify-between">
                         <div className="flex-1 overflow-x-hidden">
-                            <h2 className="text-xl font-bold text-accents border-b-2 flex-1 border-[#3170ac] pb-2">{company.employer?.company_name}</h2>
+                            <div className="flex items-center">
+                                {company.image && <img
+                                    src={company.image} // ganti dengan sumber gambar yang diinginkan
+                                    alt="Company Logo"
+                                    className="w-12 h-12 rounded-full border-[#3170ac] border bg-white mr-4"
+                                />}
+                                <h2 className="text-xl font-bold text-accents border-b-2 flex-1 border-[#3170ac] pb-2">
+                                    {company.employer?.company_name}
+                                </h2>
+                            </div>
                             <div className="grid grid-cols-[1fr_min-content] sm:grid-cols-[auto_min-content_1fr] gap-x-3 mt-1">
                                 <p className="w-fit font-semibold">Company Phone</p>
                                 <p className="w-fit"> : </p>

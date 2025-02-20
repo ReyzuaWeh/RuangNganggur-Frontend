@@ -7,6 +7,10 @@ interface DataOutEmployer {
     company_address?: string | null;
     company_vision?: string | null;
     company_mission?: string | null;
+    employer_name?: string | null;
+    employer_phone_number?: string | null;
+    employer_email?: string | null;
+    employer_position?: string | null;
 }
 interface DataOutJobseeker {
     id?: number;
@@ -89,6 +93,8 @@ interface DataOutApplicant {
     job?: {
         id: number
         role: string
+        job_phase: JobPhase
+        result?: string | null,
     } | null
 }
 

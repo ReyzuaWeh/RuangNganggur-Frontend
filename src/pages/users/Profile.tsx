@@ -13,6 +13,9 @@ interface ProfileModalsContext {
     isOpenMiddle: boolean;
     openEditMiddle: () => void;
     onCloseMiddle: () => void;
+    isOpenMiddle2: boolean;
+    openEditMiddle2: () => void;
+    onCloseMiddle2: () => void;
     isOpenDesc: boolean;
     openEditDesc: () => void;
     onCloseDesc: () => void;
@@ -30,6 +33,7 @@ const Profile = () => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isEditSubData, setEditSubData] = useState(false);
+    const [isEditSubData2, setEditSubData2] = useState(false);
     const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
     const openDescriptionModal = () => setIsAboutModalOpen(true);
@@ -41,6 +45,9 @@ const Profile = () => {
     const openSubDataModal = () => setEditSubData(true);
     const closeSubDataModal = () => setEditSubData(false);
 
+    const openSubDataModal2 = () => setEditSubData2(true);
+    const closeSubDataModal2 = () => setEditSubData2(false);
+
     const updateSubProfile = fetchUser.updateSubProfile
     return (
         <ProfileModalsSet.Provider value={{
@@ -50,6 +57,9 @@ const Profile = () => {
             isOpenMiddle: isEditSubData,
             openEditMiddle: openSubDataModal,
             onCloseMiddle: closeSubDataModal,
+            isOpenMiddle2: isEditSubData2,
+            openEditMiddle2: openSubDataModal2,
+            onCloseMiddle2: closeSubDataModal2,
             isOpenDesc: isAboutModalOpen,
             openEditDesc: openDescriptionModal,
             onCloseDesc: closeDescriptionModal,
