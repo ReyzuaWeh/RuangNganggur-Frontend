@@ -56,7 +56,7 @@ const DataMiddle2Employer = ({ view_only, user }: { view_only?: boolean, user?: 
                         <div
                             className="py-1 px-2 text-sm border-2 border-gray-400 rounded-md w-full overflow-auto"
                         >
-                            {profile?.employer?.employer_position || `${view_only ? "Company" : "You"} don't reveal employer email yet`}
+                            {profile?.employer?.employer_email || `${view_only ? "Company" : "You"} don't reveal employer email yet`}
                         </div>
                     </div>
 

@@ -55,7 +55,7 @@ const FilterApplicantPopup: React.FC<FilterPopupProps & {
                             onChange={setDataFilter}
                             className="w-full p-2 rounded bg-gray-700 ltr text-white border border-gray-600 focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
                         >
-                            <option value={0}>All Job</option>
+                            <option value={0}>All Company</option>
                             {employerRecord && Object.entries(employerRecord).map(([key, value]) => (
                                 <option key={key} value={parseInt(key)}>{value}</option>
                             ))}

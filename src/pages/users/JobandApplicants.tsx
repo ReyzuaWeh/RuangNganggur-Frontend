@@ -122,7 +122,7 @@ const JobAndApplicants = () => {
                         return swalError(errorAny.status, "You are not authorized to access this job")
                     }
                     if (errorAny.status === 404) {
-                        return swalError(errorAny.status, "Data job not found or it doesn't have Applicant yet")
+                        return
                     }
                     swalError(errorAny.status, "Cannot get data job");
                 }

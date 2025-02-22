@@ -58,27 +58,22 @@ const Applied = () => {
     }, []);
     const handleDelete = (id: number, applicant_name: string) => {
         Swal.fire({
-            title: `Do you want to delete applied at ${applicant_name || "this"} post?`,
+            title: `Do you want to cancel?`,
+            text: `Cancel applied at ${applicant_name || "this"} post?`,
             showDenyButton: true,
-            confirmButtonText: 'Yes, delete it',
-            denyButtonText: 'No, don\'t delete',
-            customClass: {
-                title: "text-center font-bold text-2xl",
-                actions: "w-full flex no-wrap",
-                confirmButton: "w-fit my-0 mx-2 rounded-lg p-1.5 py-3",
-                denyButton: "w-fit my-0 mx-2 rounded-lg p-1.5 py-3"
-            }
+            confirmButtonText: 'Cancel it',
+            denyButtonText: 'Don\'t cancel',
         }).then((result) => {
             if (result.isConfirmed) {
                 fetchJob.deleteApplicant(id).then(() => {
                     swalSuccess({
-                        title: "Delete Applicant Success",
-                        message: "Your applicant has been successfully deleted"
+                        title: "Cancel Applicant Success",
+                        message: "Your applicant has been successfully cancel"
                     })
                     const newApplicants = applicants?.filter(applicant => applicant.id !== id);
                     setApplicants(newApplicants as DataOutApplicant[]);
                 }).catch(err => {
-                    swalError(err.status, "Can't delete applicant")
+                    swalError(err.status, "Can't cancel applicant")
                 })
             }
         })
@@ -106,7 +101,7 @@ const Applied = () => {
                                 >
                                     <div className="flex justify-between items-center mb-4">
                                         <div className="text-xl font-semibold">
-                                            #{(currentPage - 1) * 6 + index + 1} - {applicant.job?.role}
+                                            #{applicants.length - (currentPage - 1) * 6 - index} - {applicant.job?.role}
                                         </div>
                                         <div className="flex space-x-2">
                                             <button

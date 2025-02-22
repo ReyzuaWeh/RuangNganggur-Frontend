@@ -124,7 +124,7 @@ const ListAplicantAdmin = () => {
                 setDataFilter={handleChangeFilter}
                 setDataFilterNull={setClearFilter}
                 submitFilter={submitFilter}
-                titleName={"Filter Job"}
+                titleName={"Filter Applicant"}
                 applierRecord={listApplier}
                 employerRecord={listEmployerName}
             />
