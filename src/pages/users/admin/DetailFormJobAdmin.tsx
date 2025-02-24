@@ -2,7 +2,7 @@ import DashboardLayout from "@components/DashboardLayout";
 import NotFound from "@components/NotFound";
 import ValidationComponents from "@components/ValidationError";
 import { DataOutJob, ErrorValidation } from "@dataType/fetch";
-import { GenderType, JobType, RoleType } from "@dataType/khusus";
+import { GenderType, JobPhase, JobType, RoleType } from "@dataType/khusus";
 import { useMyProfile } from "@provider/userProvider";
 import fetchJob from "@utils/fetch/jobs";
 import fetchUser from "@utils/fetch/users";
@@ -43,6 +43,20 @@ const JobForm = () => {
 		parsedValue = type === 'number' ? parseInt(value) : value;
 		setDataForm({ ...dataForm, [name as keyof DataOutJob]: parsedValue || null });
 	}
+	const handlFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files ? e.target.files[0] : null;
+		const { name } = e.target;
+		if (!file) {
+			setDataForm((prev) => ({ ...prev, [name + "_file"]: null, [name + "_name"]: null }));
+			return;
+		}
+		const base64String = await functionSets.getBase64(file);
+		setDataForm((prev) => ({
+			...prev,
+			[name + "_file"]: base64String,
+			[name + "_name"]: file.name,
+		}));
+	};
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setSaving(true)
@@ -254,9 +268,24 @@ const JobForm = () => {
 								className="border p-3 rounded bg-gray-200 text-black w-full md:w-full"
 							/>
 						</div>
+						<div className="flex items-center md:flex-row flex-col">
+							<label htmlFor="job_phase" className="block text-black mb-1 w-full md:w-32">Job Phase</label>
+							<select
+								name="job_phase"
+								id="job_phase"
+								value={dataForm?.job_phase || ""}
+								onChange={handleChange}
+								className="border p-3 rounded bg-gray-200 text-black w-full md:w-full"
+							>
+								<option value="">Select</option>
+								{Object.entries(JobPhase).map(([key, value]) => (
+									<option key={key} value={value}>{functionSets.capitalizeFirstLetter(String(value).replace("_", " "))}</option>
+								))}
+							</select>
+						</div>
 					</div>
 					<div className="mt-6">
-						<label htmlFor="" className="block text-black mb-1 w-full md:w-32">Description</label>
+						<label htmlFor="description" className="block text-black mb-1 w-full md:w-32">Description</label>
 						<textarea
 							name="description"
 							id="description"
@@ -264,6 +293,28 @@ const JobForm = () => {
 							onChange={handleChange}
 							className="border p-3 rounded w-full h-48 bg-gray-200 text-black"
 						/>
+					</div>
+					<div className="mt-6">
+						<label htmlFor="result" className="block text-black mb-1 w-full md:w-32">Upload Result</label>
+						<div className="file-input-wrapper">
+							<input
+								type="file"
+								name="result"
+								accept="application/pdf"
+								onChange={handlFileChange}
+								className="border p-3 rounded text-black hover:border-blue-300 focus:ring focus:ring-blue-300 hover:shadow-md transition-all w-full"
+							/>
+							<p className="mt-2 text-sm text-gray-500">
+								{dataForm.result ?
+									(
+										<a href={dataForm.result} target="_blank">
+											{functionSets.truncateWord(dataForm.result.split("/").pop() || "", 20)}
+										</a>
+									)
+									: "No file attached"}
+							</p>
+						</div>
+
 					</div>
 					{error_validation && <ValidationComponents errorValid={error_validation} />}
 					<div className="flex space-x-4 gap-x-2 justify-center md:justify-end mt-4 md:mt-0 w-full">

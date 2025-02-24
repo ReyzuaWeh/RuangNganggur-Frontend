@@ -3,7 +3,7 @@ import JobDetail from "@components/JobDetail";
 import Pagination from "@components/Paginations"; // Pastikan path-nya sesuai dengan struktur proyek Anda
 import { DataOutJob } from "@dataType/fetch";
 import { tahun_akhir_web, tahun_awal_web } from "@utils/BaseData";
-import fetchJob from "@utils/fetch/jobs";
+import fetchLog from "@utils/fetch/logs";
 import fetchPembukuan from "@utils/fetch/pembukuan";
 import functionSets from "@utils/function";
 import { useEffect, useState } from "react";
@@ -84,10 +84,9 @@ const JobCompanyPagination = () => {
     };
     const handlePreview = () => {
         setLoading(true)
-        fetchJob.getJobs({
-            with_owner: true,
-            min_years: Number(selectedYear.split("/")[0]),
-            max_years: Number(selectedYear.split("/")[1])
+        fetchLog.getJobsHistory(Number(selectedYear.split("/")[0]),
+            Number(selectedYear.split("/")[1]), {
+            with_owner: true
         }).then(data => {
             setDataJobs(data)
             setCompanyPage(1)
@@ -114,10 +113,9 @@ const JobCompanyPagination = () => {
     const jobsPerPage = 6;
     const [companyJobPages, setCompanyJobPages] = useState<{ [companyId: number]: number }>({});
     useEffect(() => {
-        fetchJob.getJobs({
-            with_owner: true,
-            min_years: Number(selectedYear.split("/")[0]),
-            max_years: Number(selectedYear.split("/")[1])
+        fetchLog.getJobsHistory(Number(selectedYear.split("/")[0]),
+            Number(selectedYear.split("/")[1]), {
+            with_owner: true
         }).then(data => {
             setDataJobs(data)
             setCompanyPage(1)
