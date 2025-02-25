@@ -1,6 +1,6 @@
 const DataRoute = {
     "Home": "/",
-    "About": "/",
+    "About": "/about",
     "Job List": "/job-listing",
     "Company List": "/company-listing",
     "Register": "/auth",
@@ -29,7 +29,7 @@ const DataRoute = {
 }
 const DataRouteApp = {
     "Home": "/",
-    "About": "/",
+    "About": "/about",
     "Job List": "/job-listing",
     "Company List": "/company-listing",
     "Login": "/auth/login",

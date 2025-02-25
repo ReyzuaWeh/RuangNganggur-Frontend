@@ -1,5 +1,6 @@
 import Loading from "@components/Loading";
 import NotFound from "@components/NotFound";
+import AboutUs from "@pages/AboutUs";
 import Auth from "@pages/Auth";
 import CompanyListing from "@pages/Company";
 import DetailUser from "@pages/DetailUser";
@@ -21,7 +22,7 @@ import EmployeeJobPosting from "@pages/employer/JobPosting";
 import MyJobList from "@pages/employer/MyJobList";
 import Applied from "@pages/jobseeker/Applied";
 import Job from "@pages/jobseeker/Job";
-import About from "@pages/jobseeker/about/About";
+import Home from "@pages/jobseeker/about/About";
 import { ProfileProvider } from "@provider/userProvider";
 import OurRoute from "@utils/route";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -36,7 +37,8 @@ function App() {
         <Route path={`${OurRoute.DataRouteApp["Register Role"]}:wanna_be`} element={<Register />} />
         <Route path={OurRoute.DataRouteApp["Success Login"]} element={<Success />} />
         {/* Landing Page */}
-        <Route path={OurRoute.DataRouteApp["About"]} element={<About />} />
+        <Route path={OurRoute.DataRouteApp["Home"]} element={<Home />} />
+        <Route path={OurRoute.DataRouteApp["About"]} element={<AboutUs />} />
         <Route path={OurRoute.DataRouteApp["Job List"]} element={<Job />} />
         <Route path={OurRoute.DataRouteApp["Company List"]} element={<CompanyListing />} />
         {/* Employee Dashboard */}

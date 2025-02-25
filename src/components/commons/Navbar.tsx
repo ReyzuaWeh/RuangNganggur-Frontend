@@ -84,7 +84,7 @@ const Navbar = () => {
                     <ul className="flex gap-x-8">
                         <li>
                             <NavLink to="/" className={({ isActive }) => getNavLinkClass(isActive)}>
-                                <span className="px-4 py-3 text-sm tracking-widest font-medium">About Us</span>
+                                <span className="px-4 py-3 text-sm tracking-widest font-medium">Home</span>
                             </NavLink>
                         </li>
                         <li>
@@ -95,6 +95,11 @@ const Navbar = () => {
                         <li>
                             <NavLink to={OurRoute.DataRoute["Company List"]} className={({ isActive }) => getNavLinkClass(isActive)}>
                                 <span className="px-4 py-3 text-sm tracking-widest font-medium">Company</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={OurRoute.DataRoute["About"]} className={({ isActive }) => getNavLinkClass(isActive)}>
+                                <span className="px-4 py-3 text-sm tracking-widest font-medium">About Us</span>
                             </NavLink>
                         </li>
                     </ul>
@@ -162,16 +167,23 @@ const Navbar = () => {
                         </div>
                     </li>
                     <li>
-                        <NavLink to={OurRoute.DataRoute["About"]} className={({ isActive }) => getNavLinkClass(isActive)}>
-                            About Us
+                        <NavLink to={OurRoute.DataRoute["Home"]} className={({ isActive }) => getNavLinkClass(isActive)}>
+                            Home
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to={OurRoute.DataRoute["Job List"]} className={({ isActive }) => getNavLinkClass(isActive)}>
                             Job Listing
                         </NavLink>
+                    </li>
+                    <li>
                         <NavLink to={OurRoute.DataRoute["Company List"]} className={({ isActive }) => getNavLinkClass(isActive)}>
                             Company
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={OurRoute.DataRoute["About"]} className={({ isActive }) => getNavLinkClass(isActive)}>
+                            About Us
                         </NavLink>
                     </li>
                     {profile && (
