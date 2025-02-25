@@ -1,12 +1,18 @@
+import images_source from "@/assets/get/images";
 import LandingLayout from "@components/LandingLayout";
 
 const AboutUs = () => {
     const partnerImages = [
-        "/src/assets/gabid.jpg",
-        "/src/assets/ginanjar.jpg",
-        "/src/assets/natasya1.jpg",
-        "/src/assets/rafi.jpg",
-        "/src/assets/sholihin.jpg"
+        // @ts-ignore
+        images_source["../gabid.jpg"].default,
+        // @ts-ignore
+        images_source["../ginanjar.jpg"].default,
+        // @ts-ignore
+        images_source["../natasya1.jpg"].default,
+        // @ts-ignore
+        images_source["../rafi.jpg"].default,
+        // @ts-ignore
+        images_source["../sholihin.jpg"].default
     ];
 
     return (
@@ -30,7 +36,8 @@ const AboutUs = () => {
                                 </p>
                             </div>
                             <div className="flex-shrink-0 w-48 h-48 md:w-60 md:h-60 relative">
-                                <img src="/src/assets/tangan.jpg" alt="About Us" className="rounded-lg w-full h-full object-cover" />
+                                {/* @ts-ignore */}
+                                <img src={images_source[`../tangan.jpg`].default} alt="About Us" className="rounded-lg w-full h-full object-cover" />
                             </div>
                         </div>
                     </div>
