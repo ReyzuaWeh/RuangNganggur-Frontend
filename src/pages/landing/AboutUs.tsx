@@ -1,7 +1,11 @@
 import images_source from "@/assets/get/images";
 import LandingLayout from "@components/LandingLayout";
+import { DataOutUser } from "@dataType/fetch";
+import fetchUser from "@utils/fetch/users";
+import { useEffect, useState } from "react";
 
 const AboutUs = () => {
+    const [Employers, SetEmployers] = useState<DataOutUser[]>([]);
     const partnerImages = [
         // @ts-ignore
         images_source["../gabid.jpg"].default,
@@ -14,6 +18,15 @@ const AboutUs = () => {
         // @ts-ignore
         images_source["../sholihin.jpg"].default
     ];
+    useEffect(() => {
+        fetchUser.getEmployers().then(res => {
+            SetEmployers(res)
+        }
+        ).catch(err => {
+            SetEmployers([])
+            console.error(err)
+        })
+    }, [])
 
     return (
         <LandingLayout>
@@ -42,13 +55,30 @@ const AboutUs = () => {
                         </div>
                     </div>
 
-                    {/* Our Partner Section */}
+                    {/* Our Employers Section */}
+                    {Boolean(Employers.length) && <div className="mt-10 text-center">
+                        <h2 className="text-4xl md:text-5xl text-[#1C3C77] font-bold">Our Partners</h2>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mt-8 md:mt-12 place-items-center">
+                            {Employers.map((employer, index) => (
+                                <div key={index} className="w-24 h-24 flex sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-gray-300">
+                                    {employer.image ? <img
+                                        //  @ts-ignore 
+                                        src={employer.image || images_source["../no-profile.png"].default}
+                                        alt={employer.employer?.company_name} className="w-full h-full object-cover"
+                                    /> : <h2 className="h-fit w-full justify-self-center self-center font-bold text-lg">
+                                        {employer.employer?.company_name}
+                                    </h2>}
+                                </div>
+                            ))}
+                        </div>
+                    </div>}
+                    {/* Our Developer Section */}
                     <div className="mt-10 text-center">
-                        <h2 className="text-4xl md:text-5xl text-[#1C3C77] font-bold">Our Partner</h2>
+                        <h2 className="text-4xl md:text-5xl text-[#1C3C77] font-bold">Our Developer</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mt-8 md:mt-12 place-items-center">
                             {partnerImages.map((image, index) => (
                                 <div key={index} className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-gray-300">
-                                    <img src={image} alt={`Partner ${index + 1}`} className="w-full h-full object-cover" />
+                                    <img src={image} alt={`Developer ${index + 1}`} className="w-full h-full object-cover" />
                                 </div>
                             ))}
                         </div>

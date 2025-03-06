@@ -143,6 +143,15 @@ const getUsers = async (
     const data: DataOutUser[] = await response.json();
     return data;
 }
+const getEmployers = async () => {
+    const response = await handleRequest({
+        route: `${api_route.users_route}/employers`,
+        method: HttpMethod.GET,
+    }, false);
+    if (!response.ok) throw response;
+    const data: DataOutUser[] = await response.json();
+    return data;
+}
 
 const getProfile = async (): Promise<DataOutUser> => {
     const response = await handleRequest({
@@ -227,6 +236,7 @@ export const fetchUser = {
     getUser,
     updateUser,
     getUsers,
-    deleteUser
+    deleteUser,
+    getEmployers
 };
 export default fetchUser;
