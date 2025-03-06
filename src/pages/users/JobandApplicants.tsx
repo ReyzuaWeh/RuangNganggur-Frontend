@@ -231,7 +231,7 @@ const JobAndApplicants = () => {
                             className="border border-primary rounded-lg p-4 bg-gray-50 shadow-sm"
                         >
                             <p className="font-semibold">
-                                <a href={`${OurRoute.DataRoute["Detail User"]}${applicant.id}?jobseeker=true`} target="_blank">
+                                <a href={`${OurRoute.DataRoute["Detail User"]}${applicant.jobseeker_id}?jobseeker=true`} target="_blank">
                                     {applicant.jobseeker?.first_name as string + (applicant.jobseeker?.last_name ? ` ${applicant.jobseeker?.last_name}` : "")}
                                 </a>
                             </p>
