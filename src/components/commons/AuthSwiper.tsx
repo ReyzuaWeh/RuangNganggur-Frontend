@@ -55,7 +55,7 @@ const AuthSwiper = () => {
                     <div className="absolute bottom-[80px] left-[60px] z-10 font-medium text-white">
                         <p className="text-5xl mb-4">Yuk, #CariKerja di</p>
                         <p className="text-6xl">
-                            <span className="text-primary">Job</span><span className="text-black">4</span><span className="text-accents">Student</span>
+                            <span className="text-primary">BKK </span> <span className="text-accents">SMKN 4</span>
                         </p>
                     </div>
                 </div>

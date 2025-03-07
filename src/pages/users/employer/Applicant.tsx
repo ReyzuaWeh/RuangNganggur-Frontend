@@ -104,10 +104,18 @@ const Applicant = () => {
 
                 return (
                     <div key={role} className="mb-10 bg-white border rounded p-4">
-                        <h2 className="text-xl font-bold mb-4">
-                            <a href={`${OurRoute.DataRoute["Job and Applicants"]}${applicantsGroup[0].job?.id}`}>
-                                {role}
-                            </a>
+                        <h2 className="text-xl relative font-bold mb-4">
+                            <div className="relative inline-block group p-2">
+
+                                <a
+                                    className="hover:underline"
+                                    href={`${OurRoute.DataRoute["Job and Applicants"]}${applicantsGroup[0].job?.id}`}>
+                                    {role}
+                                </a>
+                                <div className=" absolute left-1/2 -translate-x-1/2 font-light bottom-full mb-2 hidden group-hover:block bg-black text-white text-sm px-3 py-1 rounded-lg shadow-lg whitespace-nowrap">
+                                    Edit daftar pelamar
+                                </div>
+                            </div>
                         </h2>
 
                         {/* Tampilkan data applicant dalam format grid */}

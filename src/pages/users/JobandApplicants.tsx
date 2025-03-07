@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getStatusColor } from "./ApplyStatusColor";
 
+
 const JobAndApplicants = () => {
     const { id } = useParams();
     const { profile } = useMyProfile()
@@ -141,21 +142,28 @@ const JobAndApplicants = () => {
             </h1>
 
             {/* Job Name Section */}
-            <div className="bg-primary p-4 rounded-lg flex overflow-hidden flex-col md:flex-row justify-between items-center">
+            <div className="bg-primary p-4 flex rounded-lg flex-col md:flex-row justify-between items-center">
                 <span className="font-semibold text-accents text-lg">{Job?.role || "Job"}</span>
-                <select
-                    className="bg-white w-full md:w-fit text-primary p-2 rounded-md mt-2 md:mt-0"
-                    value={Job.job_phase || ""}
-                    onChange={(e) => {
-                        console.log(Job.result)
-                        SetJob({ ...Job, job_phase: e.target.value as JobPhase })
-                    }}
-                >
-                    <option value="">Job Phase</option>
-                    {Object.entries(JobPhase).map(([key, value]) => (
-                        <option key={key} value={value}>{functionSets.capitalizeFirstLetter(value.replace("_", " "))}</option>
-                    ))}
-                </select>
+                <div className="relative group">
+                    <select
+                        className="bg-white w-full md:w-fit text-primary p-2 rounded-md mt-2 md:mt-0"
+                        value={Job.job_phase || ""}
+                        onChange={(e) => {
+                            console.log(Job.result);
+                            SetJob({ ...Job, job_phase: e.target.value as JobPhase });
+                        }}
+                    >
+                        <option value="">Job Phase</option>
+                        {Object.entries(JobPhase).map(([key, value]) => (
+                            <option key={key} value={value}>
+                                {functionSets.capitalizeFirstLetter(value.replace("_", " "))}
+                            </option>
+                        ))}
+                    </select>
+                    <div className="absolute left-0 -top-7 z-50 bg-black text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Proses Seleksi
+                    </div>
+                </div>
             </div>
 
             {/* Applicant Result */}
@@ -163,7 +171,12 @@ const JobAndApplicants = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                     {/* Bagian Applicant Result */}
                     <div className="flex flex-col md:flex-row items-center gap-2">
-                        <label htmlFor="" className="font-semibold text-base">Applied Result:</label>
+                        <div className="relative flex items-center gap-2 group">
+                            <label htmlFor="" className="font-semibold text-base">Applied Result:</label>
+                            <div className="absolute left-0 bottom-full z-50 mb-1 w-max px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                Dokumen penerimaan kandidat
+                            </div>
+                        </div>
                         <div className="relative">
                             <input
                                 onChange={handlFileChange}
@@ -192,6 +205,7 @@ const JobAndApplicants = () => {
                     </div>
                 </div>
                 {/* Status Buttons */}
+                <label>Selection Process Shortcut (if too many Candidate)</label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
                     <button
                         type="button"

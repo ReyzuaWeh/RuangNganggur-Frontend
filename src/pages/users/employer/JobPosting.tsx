@@ -251,7 +251,7 @@ const JobPosting = () => {
                             name="open_date"
                             value={functionSets.formatDatetoString(formData.open_date)}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="border w-full border-gray-300 rounded-lg p-2"
                             required
                         />
                     </div>
@@ -266,7 +266,7 @@ const JobPosting = () => {
                             name="close_date"
                             value={formData.close_date ? functionSets.formatDatetoString(formData.close_date) : ""}
                             onChange={handleChange}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="border w-full border-gray-300 rounded-lg p-2"
                         />
                     </div>
                     <div className="flex flex-col">
