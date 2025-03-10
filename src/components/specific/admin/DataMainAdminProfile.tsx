@@ -21,7 +21,7 @@ const DataMainAdminProfile = () => {
                 <div className={`md:w-full`}>
                     <div className="mb-4">
                         <h1 className="font-semibold text-3xl md:text-5xl">
-                            Hi {profile?.role === RoleType.admin ? "Admin 4" : ""}, {profile?.username}!
+                            Hi {profile?.role === RoleType.admin ? "Admin BKK" : ""}, {profile?.username}!
                         </h1>
                     </div>
                     <div className="opacity-80 flex flex-col gap-y-2">

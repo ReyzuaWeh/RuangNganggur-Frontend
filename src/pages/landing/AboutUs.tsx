@@ -6,18 +6,18 @@ import { useEffect, useState } from "react";
 
 const AboutUs = () => {
     const [Employers, SetEmployers] = useState<DataOutUser[]>([]);
-    const partnerImages = [
-        // @ts-ignore
-        images_source["../gabid.jpg"].default,
-        // @ts-ignore
-        images_source["../ginanjar.jpg"].default,
-        // @ts-ignore
-        images_source["../natasya1.jpg"].default,
-        // @ts-ignore
-        images_source["../rafi.jpg"].default,
-        // @ts-ignore
-        images_source["../sholihin.jpg"].default
-    ];
+    // const partnerImages = [
+    //     // @ts-ignore
+    //     images_source["../gabid.jpg"].default,
+    //     // @ts-ignore
+    //     images_source["../ginanjar.jpg"].default,
+    //     // @ts-ignore
+    //     images_source["../natasya1.jpg"].default,
+    //     // @ts-ignore
+    //     images_source["../rafi.jpg"].default,
+    //     // @ts-ignore
+    //     images_source["../sholihin.jpg"].default
+    // ];
     useEffect(() => {
         fetchUser.getEmployers().then(res => {
             SetEmployers(res)
@@ -73,7 +73,7 @@ const AboutUs = () => {
                         </div>
                     </div>}
                     {/* Our Developer Section */}
-                    <div className="mt-10 text-center">
+                    {/* <div className="mt-10 text-center">
                         <h2 className="text-4xl md:text-5xl text-[#1C3C77] font-bold">Our Developer</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mt-8 md:mt-12 place-items-center">
                             {partnerImages.map((image, index) => (
@@ -82,7 +82,7 @@ const AboutUs = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </LandingLayout>
