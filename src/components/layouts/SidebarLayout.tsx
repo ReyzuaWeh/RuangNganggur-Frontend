@@ -3,6 +3,7 @@ import OurRoute from "@utils/route";
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoPersonCircleOutline, IoSettingsOutline } from "react-icons/io5";
+import { RiHome9Line } from "react-icons/ri";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { SlClose } from "react-icons/sl";
 import { NavLink } from "react-router-dom";
@@ -78,6 +79,17 @@ const SidebarLayout = ({ child }: {
                             <span className="flex items-center gap-x-2 opacity-75 font-semibold">
                                 <IoSettingsOutline size={25} />
                                 Settings
+                            </span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to={OurRoute.DataRoute["Home"]}
+                            className={({ isActive }) => getNavLinks(isActive)}
+                        >
+                            <span className="flex items-center gap-x-2 opacity-75 font-semibold">
+                                <RiHome9Line size={25} />
+                                Home
                             </span>
                         </NavLink>
                     </li>
