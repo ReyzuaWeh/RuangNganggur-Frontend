@@ -167,10 +167,15 @@ const ListJobbAdmin = () => {
                                             <td className="border p-2 w-fit">
                                                 {(currentPage - 1) * itemsPerPage + currentJobs.indexOf(job) + 1}.
                                             </td>
-                                            <td className="border p-2">
-                                                <a href={`${OurRoute.DataRoute["Job and Applicants"]}${job.id}`}>
-                                                    {job.role}
-                                                </a>
+                                            <td className="border p-2 text-nowrap">
+                                                <div className="relative inline-block group">
+                                                    <a href={`${OurRoute.DataRoute["Job and Applicants"]}${job.id}`} className="hover:underline">
+                                                        {job.role}
+                                                    </a>
+                                                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-black text-white text-sm px-3 py-1 rounded-lg shadow-lg whitespace-nowrap">
+                                                        edit daftar pelamar
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td className="border p-2 w-fit">{job.location}</td>
                                             <td className="border p-2">

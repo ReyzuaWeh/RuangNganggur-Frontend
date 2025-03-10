@@ -156,7 +156,7 @@ const MyJobList = () => {
                 {/* Job Table */}
                 <ListTableLayout>
                     <div className="w-full overflow-x-hidden">
-                        <table className="min-w-full border-collapse border border-gray-300">
+                        <table className="min-w-full border-collapse border border-gray-300 text-nowrap">
                             <thead>
                                 <tr className="bg-gray-200">
                                     <th className="border p-2 w-fit">No</th>
