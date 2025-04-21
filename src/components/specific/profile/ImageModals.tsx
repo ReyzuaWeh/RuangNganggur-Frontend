@@ -28,7 +28,7 @@ const CircularImageInput = ({ currentImage, setProfile }: {
 }) => {
     // @ts-ignore
     const defaultImage = images_source["../no-profile.png"].default; // Ganti dengan path default image Anda
-    const [imageInput, setImageInput] = React.useState<string | ArrayBuffer | null>(currentImage || null);
+    const [imageInput, setImageInput] = React.useState<string | ArrayBuffer | null>(null);
     const onChangeImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
         if (file) {
@@ -43,50 +43,52 @@ const CircularImageInput = ({ currentImage, setProfile }: {
         }
     };
     useEffect(() => {
-        setImageInput(currentImage || null)
+        setImageInput(imageInput || currentImage || null)
     }, [currentImage])
     return (
-        <div className="relative w-32 h-32 mx-auto mb-4 group border border-primary rounded-full">
-            <input
-                type="file"
-                accept="image/*"
-                onChange={e => {
-                    onChangeImageFile(e)
-                    handleChangeImage(e, setProfile)
-                }}
-                className="hidden"
-                id="image"
-            />
-            <label
-                htmlFor="image"
-                className="cursor-pointer block w-full h-full rounded-full overflow-hidden relative"
-            >
-                <img
-                    src={imageInput || defaultImage}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
+        <>
+            <div className="relative w-32 h-32 mx-auto mb-4 group border border-primary rounded-full">
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={e => {
+                        onChangeImageFile(e)
+                        handleChangeImage(e, setProfile)
+                    }}
+                    className="hidden"
+                    id="image"
                 />
+                <label
+                    htmlFor="image"
+                    className="cursor-pointer block w-full h-full rounded-full overflow-hidden relative"
+                >
+                    <img
+                        src={(imageInput || currentImage) || defaultImage}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                    />
 
-                <div className="absolute inset-0 bg-black bg-opacity-80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    <div className="text-white text-center">
-                        <svg
-                            className="w-8 h-8 mx-auto mb-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 4v16m8-8H4"
-                            />
-                        </svg>
-                        <span className="text-sm">Change Photo</span>
+                    <div className="absolute inset-0 bg-black bg-opacity-80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                        <div className="text-white text-center">
+                            <svg
+                                className="w-8 h-8 mx-auto mb-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M12 4v16m8-8H4"
+                                />
+                            </svg>
+                            <span className="text-sm">Change Photo</span>
+                        </div>
                     </div>
-                </div>
-            </label>
-        </div>
+                </label>
+            </div>
+        </>
     );
 };
 export { handleChangeImage };
