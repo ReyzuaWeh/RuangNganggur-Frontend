@@ -2,6 +2,10 @@ FROM node:23-alpine3.20
 
 WORKDIR /bkk-frontend
 
+ARG VITE_BACKEND_SERVER
+
+ENV VITE_BACKEND_SERVER=$VITE_BACKEND_SERVER
+
 COPY ./package.json /bkk-frontend/
 COPY ./yarn.lock /bkk-frontend/
 COPY ./tsconfig*.json /bkk-frontend/
